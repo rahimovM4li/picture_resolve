@@ -59,6 +59,16 @@ video {
   display: block;
   max-width: 100%;
 }
+.frame-photo {
+  background-image: var(--frame-preview);
+  background-position: center;
+  background-size: cover;
+}
+@media (max-width: 600px) and (orientation: portrait) {
+  .frame-photo {
+    background-image: var(--frame-portrait-preview, var(--frame-preview));
+  }
+}
 h1,
 h2,
 h3 {

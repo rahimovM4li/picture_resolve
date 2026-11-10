@@ -46,14 +46,8 @@ function touchEntrances() {
             );
           });
         } else if (target.matches(clips)) {
-          animate(
-            target,
-            [{ clipPath: "inset(100% 0 0)" }, { clipPath: "inset(0% 0 0)" }],
-            1050,
-            easeInOut,
-          );
           const image = target.querySelector("img");
-          if (image) animate(image, [{ scale: "1.24" }, { scale: "1" }], 1500);
+          if (image) animate(image, [{ scale: "1.07" }, { scale: "1" }], 780);
         } else if (target.matches(lines)) {
           animate(target, [{ scale: "0 1" }, { scale: "1 1" }], 950, easeInOut);
         } else {
@@ -68,7 +62,7 @@ function touchEntrances() {
         }
       }
     },
-    { rootMargin: "0px 0px -5%" },
+    { rootMargin: "0px 0px 64px" },
   );
   document
     .querySelectorAll(`.cine-title,${reveals},${clips},${lines}`)

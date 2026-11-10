@@ -1,7 +1,8 @@
 import { CineTitle } from "./cine-title";
 import Link from "@/components/site-link";
 import { mediaSizes } from "@/content/asset-sizes";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { preload } from "react-dom";
 
 export function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
@@ -63,7 +64,12 @@ export function Frame({
     <img
       width={image?.width}
       height={image?.height}
-      className={className}
+      className={["frame-photo", className].filter(Boolean).join(" ")}
+      style={image && {
+        "--frame-preview": `url("data:image/webp;base64,${image.preview}")`,
+        "--frame-portrait-preview": portraitCover && image.portraitPreview
+          ? `url("data:image/webp;base64,${image.portraitPreview}")` : undefined,
+      } as CSSProperties}
       src={src}
       srcSet={srcSet}
       sizes={srcSet ? sizes : undefined}
@@ -73,22 +79,29 @@ export function Frame({
       decoding="async"
     />
   );
-  if (!portraitCover || !image?.portrait) return photo;
+  if (!portraitCover || !image?.portraitAvif) return photo;
+  const media = image.portrait
+    ? "(max-width: 600px) and (orientation: portrait)"
+    : "(max-width: 600px) and (max-aspect-ratio: 3/4)";
+  const portraitSizes = image.portrait ? "max(100vw, 60svh)" : "max(100vw, 75svh)";
+  const avifSet = image.portraitAvif.map(width => `${stem}-portrait-${width}.avif ${width}w`).join(", ");
+  if (priority) {
+    preload(`${stem}-portrait-${image.portraitAvif[0]}.avif`, {
+      as: "image", type: "image/avif", media, imageSrcSet: avifSet,
+      imageSizes: portraitSizes, fetchPriority: "high",
+    });
+    preload(src, {
+      as: "image", media: `not all and ${media}`, imageSrcSet: srcSet,
+      imageSizes: sizes, fetchPriority: "high",
+    });
+  }
   return (
     <picture style={{ display: "contents" }}>
-      {image.portraitAvif && (
-        <source
-          type="image/avif"
-          media="(max-width: 600px) and (orientation: portrait)"
-          sizes="max(100vw, 60svh)"
-          srcSet={image.portraitAvif.map(width => `${stem}-portrait-${width}.avif ${width}w`).join(", ")}
-        />
+      <source type="image/avif" media={media} sizes={portraitSizes} srcSet={avifSet} />
+      {image.portrait && (
+        <source media={media} sizes={portraitSizes}
+          srcSet={image.portrait.map(width => `${stem}-portrait-${width}.webp ${width}w`).join(", ")} />
       )}
-      <source
-        media="(max-width: 600px) and (orientation: portrait)"
-        sizes="max(100vw, 60svh)"
-        srcSet={image.portrait.map(width => `${stem}-portrait-${width}.webp ${width}w`).join(", ")}
-      />
       {photo}
     </picture>
   );

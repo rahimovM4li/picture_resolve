@@ -59,6 +59,7 @@ export function Header() {
   const header = useRef<HTMLElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
+  const exitAnimation = useRef<Animation | null>(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -69,26 +70,48 @@ export function Header() {
     };
     const updateScroll = () =>
       header.current?.toggleAttribute("data-compact", window.scrollY > 40);
+    const resetOnReturn = (event: PageTransitionEvent) => {
+      if (event.persisted && panel?.open) panel.close();
+    };
+    window.addEventListener("pageshow", resetOnReturn);
     updateScroll();
     window.addEventListener("scroll", updateScroll, { passive: true });
     breakpoint.addEventListener("change", updateSize);
     return () => {
       window.removeEventListener("scroll", updateScroll);
       breakpoint.removeEventListener("change", updateSize);
+      window.removeEventListener("pageshow", resetOnReturn);
+      exitAnimation.current?.cancel();
     };
   }, []);
 
   function show() {
     const panel = dialog.current;
     if (!panel || panel.open) return;
+    exitAnimation.current?.cancel();
+    exitAnimation.current = null;
     panel.showModal();
+    panel.scrollTop = 0;
     setOpen(true);
     panel.querySelector<HTMLElement>("nav a")?.focus({ preventScroll: true });
   }
   function close() {
-    dialog.current?.close();
+    const panel = dialog.current;
+    if (!panel?.open || exitAnimation.current) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      panel.close();
+      return;
+    }
+    const fade = panel.animate([{ opacity: getComputedStyle(panel).opacity }, { opacity: 0 }], {
+      duration: 150, easing: "ease-out", fill: "forwards",
+    });
+    exitAnimation.current = fade;
+    fade.onfinish = () => panel.close();
   }
   function restoreFocus() {
+    if (dialog.current?.open) return;
+    exitAnimation.current?.cancel();
+    exitAnimation.current = null;
     setOpen(false);
     if (window.matchMedia("(min-width: 1024px)").matches) {
       header.current
@@ -179,13 +202,14 @@ export function Header() {
         aria-label="Menü"
         data-lenis-prevent
         onClose={restoreFocus}
+        onCancel={(event) => { event.preventDefault(); close(); }}
         onKeyDown={keepFocus}
       >
         <div className="pr-menu-layout">
           <div className="pr-header-inner pr-menu-top">
-            <Brand onClick={close} />
+            <Brand />
             <div className="pr-header-actions">
-              <Inquiry onClick={close} />
+              <Inquiry />
               <button
                 type="button"
                 className="pr-menu-control"
@@ -205,12 +229,13 @@ export function Header() {
                   <Link
                     href={item.href}
                     aria-current={current(item.href)}
-                    onClick={close}
                   >
-                    <span aria-hidden="true">
-                      {String(i + 1).padStart(2, "0")}
+                    <span className="pr-menu-label">
+                      <span className="pr-menu-number" aria-hidden="true">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      {item.label}
                     </span>
-                    {item.label}
                   </Link>
                 </div>
               ))}

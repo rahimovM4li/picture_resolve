@@ -1,4 +1,6 @@
 interface StaticImage {
+  preview: string;
+  portraitPreview?: string;
   width: number;
   height: number;
   widths: readonly number[];
@@ -8,25 +10,25 @@ interface StaticImage {
 
 // Each entry describes encoded, local files. Widths never exceed the source master.
 export const mediaSizes: Record<string, StaticImage | undefined> = {
-  "/assets/images/studio-fotograf-banner.webp": { width: 1920, height: 985, widths: [400, 800, 1280, 1920, 2880, 3840] },
-  "/assets/images/duesseldorf-skyline.webp": { width: 1600, height: 912, widths: [400, 800, 1200, 1600] },
-  "/assets/images/raman-kamera.webp": { width: 1920, height: 1154, widths: [400, 800, 1280, 1920, 2880, 3840], portrait: [480, 800, 1200, 1433], portraitAvif: [480, 800, 960, 1200, 1433] },
-  "/assets/images/duesseldorf-rhein.webp": { width: 1920, height: 1118, widths: [400, 800, 1280, 1920, 2048] },
-  "/assets/projects/hopp-bremse.webp": { width: 1920, height: 1267, widths: [400, 800, 1280, 1920, 2880, 3840] },
-  "/assets/projects/hopp-reifen.webp": { width: 1920, height: 1280, widths: [400, 800, 1280, 1920, 2880, 3840] },
-  "/assets/projects/hopp-werkstatt.webp": { width: 1920, height: 940, widths: [400, 800, 1280, 1920, 2880, 3840] },
-  "/assets/projects/hopp-portraet.webp": { width: 1191, height: 1430, widths: [400, 800, 1191] },
-  "/assets/projects/kamerastudie-reportage.webp": { width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
-  "/assets/projects/kamerastudie-nacht.webp": { width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
-  "/assets/projects/kamerastudie-kiosk.webp": { width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
-  "/assets/projects/kamerastudie-ufer.webp": { width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
-  "/assets/projects/kamerastudie-handgriff.webp": { width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
-  "/assets/images/interview.webp": { width: 1600, height: 912, widths: [400, 800, 1200, 1600] },
-  "/assets/images/recruiting.webp": { width: 1600, height: 912, widths: [400, 800, 1200, 1600] },
-  "/assets/images/duesseldorf-panorama.webp": { width: 1600, height: 768, widths: [400, 800, 1200, 1600] },
-  "/assets/projects/studio-gesichter.webp": { width: 1600, height: 1000, widths: [400, 800, 1280, 1600, 2320] },
-  "/assets/projects/studio-hemd.webp": { width: 1600, height: 2400, widths: [400, 800, 1280, 1600, 2320] },
-  "/assets/projects/studio-jacke.webp": { width: 1600, height: 2547, widths: [400, 800, 1280, 1600, 2320] },
-  "/assets/projects/studio-fotograf.webp": { width: 1600, height: 1211, widths: [400, 800, 1280, 1600, 2320] },
-  "/assets/projects/rhein-fassaden.webp": { width: 990, height: 720, widths: [400, 800, 990] },
+  "/assets/images/studio-fotograf-banner.webp": { portraitPreview: "UklGRpYAAABXRUJQVlA4IIoAAAAwBACdASoOABgAPuFcp0yopSOiMAgBEBwJaQAD5MoN8uAB25plmGq6dwAA/vV1yfUx/KvZ7yeShOzy2mVmvy0Y2QF9Z4+tCLfRK8OUXez9lA0VsB/zXoXvcLq+h5/H2K0fqUPACIf5Op2HG/2Dc/9oifzSg/4d3bfimkDw4Cky0H9U4DbmvmAAAAA=", portraitAvif: [400, 800, 1182], preview: "UklGRlgAAABXRUJQVlA4IEwAAABwAwCdASoUAAoAPt1kqU2opaQiMAgBEBuJaQABHus7s75AfgAA/v6HieEje32Hdsf3+YnXL5fR2qihin4iXdqF6WPbXzMoiLGdgAAA", width: 1920, height: 985, widths: [400, 800, 1280, 1920, 2880, 3840] },
+  "/assets/images/duesseldorf-skyline.webp": { portraitPreview: "UklGRmQAAABXRUJQVlA4IFgAAADQAwCdASoOABgAPuFep0yopSOiMAgBEBwJaQAAXfCEdh7tYKr9fDAA/vRTJs+bso+4cAH2Nf2J4iPWSweW5r4n2yVbEIAM2J0B4BuooWpeElTkmUIAAAAA", portraitAvif: [400, 547], preview: "UklGRlAAAABXRUJQVlA4IEQAAABQAwCdASoUAAsAPt1cpkyopSOiMAgBEBuJaV/2ADc1ul5gAAD+8QAgPg2829wApeQ57QC0FL8b2MFv8GlC9BKOsogAAA==", width: 1600, height: 912, widths: [400, 800, 1200, 1600] },
+  "/assets/images/raman-kamera.webp": { portraitPreview: "UklGRowAAABXRUJQVlA4IIAAAADQAwCdASoOABgALqlwuFwjKKioiICoS0gAHxRg4U+W0EPhll4DP4AA/vpidL87t1bTio7UXwGGrcqyXP1H7uvHxuZjrjxg454eJM1LTzkJ86PTGNq6YBWCc6Pik8PeJkzFGHTs8sGIzxtShUqJb6xqjoa8idLiXeixE49sAAAAAA==", preview: "UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASoUAAwAPt1kqU2opaQiMAgBEBuJaQAD4SIN/XZGUD7Sqm4AAP72h6x7LigOCMEcYdcIPCDwpnugVq7taDzHM+r4Md84CpSH2gAAAA==", width: 1920, height: 1154, widths: [400, 800, 1280, 1920, 2880, 3840], portrait: [480, 800, 1200, 1433], portraitAvif: [480, 800, 960, 1200, 1433] },
+  "/assets/images/duesseldorf-rhein.webp": { preview: "UklGRl4AAABXRUJQVlA4IFIAAADQAwCdASoUAAwAPt1cpkyopSOiMAgBEBuJaQAAW+t3yYYBidPf8AAA/uw+HsV8aNI1es2hTv58MNByDtw/jYgKd8XdmjXm/w8ccB9OBm4L0AAA", width: 1920, height: 1118, widths: [400, 800, 1280, 1920, 2048] },
+  "/assets/projects/hopp-bremse.webp": { preview: "UklGRngAAABXRUJQVlA4IGwAAADwAwCdASoUAA0APt1apkyopSOiMAgBEBuJaQAATGRrIrQlbI2AQi6oAP70Mse/Slauw/HHI0cvTLTwbrvoJsrnjP/K/TV8WI6Ed9IgbOCcjrPIbZms7iG1fjk1ZXHrCLTzY4K4GHzSVeZAQAA=", width: 1920, height: 1267, widths: [400, 800, 1280, 1920, 2880, 3840] },
+  "/assets/projects/hopp-reifen.webp": { preview: "UklGRlwAAABXRUJQVlA4IFAAAAAwAwCdASoUAA0APt1apkyopSOiMAgBEBuJaQAAQZIKifgAAP71eogZCwUGMFrzp2gmZzVTBKY54kohQtoM2Z5fQlKwSJuVbsatfR0CUWAAAA==", width: 1920, height: 1280, widths: [400, 800, 1280, 1920, 2880, 3840] },
+  "/assets/projects/hopp-werkstatt.webp": { preview: "UklGRkIAAABXRUJQVlA4IDYAAABQAwCdASoUAAoAPt1cpkyopSOiMAgBEBuJaQAAW4b8Mi2oAAD+9W12F8w2ksC1G7bgDUqvQAA=", width: 1920, height: 940, widths: [400, 800, 1280, 1920, 2880, 3840] },
+  "/assets/projects/hopp-portraet.webp": { preview: "UklGRpQAAABXRUJQVlA4IIgAAABwBACdASoSABYAPtFOokyoJCMiN/qoAQAaCWkAA+OSDfT59+mwYU/nUe3nAAD+83Le6obaLDFgpXso7ltNgCePkqNfm5B4OIcrO5LF/ec1ySteaezNsFr9ITQ2Gjz2oSF0JEvqjV03BlOCwZGWTVDIoyYgZ1feTLY3PM/V78QpuP9zob+UoAAA", width: 1191, height: 1430, widths: [400, 800, 1191] },
+  "/assets/projects/kamerastudie-reportage.webp": { preview: "UklGRlgAAABXRUJQVlA4IEwAAABQAwCdASoUAAsAPt1cpkyopSOiMAgBEBuJZwAAYf9/jbPeQAD+8r8XwAnfmS+kX6bYzt2CgYXJYg6c623kTCt8CGFbgAJkQA7dwAAA", width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
+  "/assets/projects/kamerastudie-nacht.webp": { preview: "UklGRk4AAABXRUJQVlA4IEIAAACwAwCdASoUAAsAPt1apkyopSOiMAgBEBuJZQDE2CHfiVpRfWvsgAD+9Cu+dUi+bT4H8PiHn8STOH5cwJQVEgZ4AAA=", width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
+  "/assets/projects/kamerastudie-kiosk.webp": { preview: "UklGRl4AAABXRUJQVlA4IFIAAACwAwCdASoUAAsAPt1cpkyopSOiMAgBEBuJZQAAXBunCoj+46vKAAD+9W+HUq/SvYAvV+8piClooProRxqJtWWgy02v5ow3OkWLpDVSH+XiAAAA", width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
+  "/assets/projects/kamerastudie-ufer.webp": { preview: "UklGRkwAAABXRUJQVlA4IEAAAAAQAwCdASoUAAsAPt1cpkyopSOiMAgBEBuJZwAAvAibhgAA/vFmx0AVc/QwTsM+1gEAUAAKmnt5Aso1F+SbVkAA", width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
+  "/assets/projects/kamerastudie-handgriff.webp": { preview: "UklGRkYAAABXRUJQVlA4IDoAAABwAwCdASoUAAsAPt1cpkyopSOoMAgBEBuJZwDG9CFP7qXNLAAA/vVv1ss7f1b1PpWrtHIgnFLOAAAA", width: 1920, height: 1080, widths: [400, 800, 1280, 1920] },
+  "/assets/images/interview.webp": { portraitPreview: "UklGRl4AAABXRUJQVlA4IFIAAADQAwCdASoOABgAPuFsqk6opqQiMAgBEBwJaQAAW+up23DDOR+cCAAA/vKo5bdvh/MJuTY9vojf3NmwuRu5y6CbcA1xPCjn3sFnACTswIITDOAA", portraitAvif: [400, 547], preview: "UklGRkQAAABXRUJQVlA4IDgAAACwAgCdASoUAAsAPt1apkyopSOiMAgBEBuJaQAAeyAA/vDIoptc57T5VgzThDieFwfdY8R9hhgAAA==", width: 1600, height: 912, widths: [400, 800, 1200, 1600] },
+  "/assets/images/recruiting.webp": { portraitPreview: "UklGRqIAAABXRUJQVlA4IJYAAABwBACdASoOABgAPuFcpkyopSOiMAgBEBwJZwAD5Vn3/xgBmufr0tgJST6YIAD+7wRHotPdHMNJeAW2JsteupSZs0WhQGZ/Of5rzT6bV2/wy7435UYapdWGU0KRsdug+EicQIU7kVx4kV61KIjdmqDlLODU/nfHc2Eh+/YW4gW4t1tku+bnH1vhqfQfC5i8q2YypQZwAAA=", portraitAvif: [400, 547], preview: "UklGRnIAAABXRUJQVlA4IGYAAADwAwCdASoUAAsAPt1cp0yopSOiMAgBEBuJaQAATvwf1QtBC6SNpw5oAP70Mr69BABfuCNlEj/y9BlCGvez43bPQhSd6PD1hq1mfA/7PGjulvjAVu8YY2Q1eA1rUl9H+4QvUzzAAAA=", width: 1600, height: 912, widths: [400, 800, 1200, 1600] },
+  "/assets/images/duesseldorf-panorama.webp": { preview: "UklGRlAAAABXRUJQVlA4IEQAAABQAwCdASoUAAoAPt1gqU2opaQiMAgBEBuJaQAAetEwxBZ0gAD+8N3Y0x0SbvpuMs1ZNE6A0xbvACrhQmJt0yo7d+pCAA==", width: 1600, height: 768, widths: [400, 800, 1200, 1600] },
+  "/assets/projects/studio-gesichter.webp": { preview: "UklGRoAAAABXRUJQVlA4IHQAAAAwBACdASoUAAwAPt1cp0yopSOiMAgBEBuJaQAD4tISD+jth9gjQIwNdgAA/vClxOV5X8W1vkGuUzPTmW4B2VOxXVgi3z9+qCPrnuzZy1B9yHm66hBDwq+xSSyQL2Jocn8ot/TY9iHGbjNJHsOFY++FYAwwAA==", width: 1600, height: 1000, widths: [400, 800, 1280, 1600, 2320] },
+  "/assets/projects/studio-hemd.webp": { preview: "UklGRooAAABXRUJQVlA4IH4AAADQAwCdASoPABYAPt1cpkyopSOiMAgBEBuJaQAAWlx0U+wBsTBh/gAA/vTebB1JH3JGx03c9B9wH7iiTUxdhOUTd5EuaxUlwWJ64pxdCr//hpfuAAX4vk/IgxE0kbmK4KU/dcphJGJrlmtKNhyXsYCQv3AiBey2EwgdunAAAAA=", width: 1600, height: 2400, widths: [400, 800, 1280, 1600, 2320] },
+  "/assets/projects/studio-jacke.webp": { preview: "UklGRogAAABXRUJQVlA4IHwAAADwAwCdASoOABYAPt1apkyopSOiMAgBEBuJaQABHuvrSXUB182+JDFgAP7+YOMPxv0w6juXK5SNglbzkea+dvsZCbj4I7X6B7IudI7M2ew8/nL66bQ1VIv6RNIqH5zhHzGCJ5lZXlu+gbtcrAK1B1WFMPiZLNThBDskAAAA", width: 1600, height: 2547, widths: [400, 800, 1280, 1600, 2320] },
+  "/assets/projects/studio-fotograf.webp": { preview: "UklGRmwAAABXRUJQVlA4IGAAAADQAwCdASoUAA8APt1cqUyopSQiMAgBEBuJaQAAW+uT0dlKylWBD+AA/vaGtspAlOeml6bX4ubLr5MXDZPOBXM3RaCs2P7SX+W9+voEAL25SS0UeQuoHU31DY2ARv8AAAA=", width: 1600, height: 1211, widths: [400, 800, 1280, 1600, 2320] },
+  "/assets/projects/rhein-fassaden.webp": { preview: "UklGRnIAAABXRUJQVlA4IGYAAADQAwCdASoUAA8APt1apkyopSOiMAgBEBuJaQAAYfB1IUcThjNf3YAA/ruscmjOgVHZahkO2WJocpBq/HpsbgNAMiZueKJVD5xAqv7VRj7ImGg8Qsmb65NJaUyDtaWQSHwEG2UQAAA=", width: 990, height: 720, widths: [400, 800, 990] },
 };

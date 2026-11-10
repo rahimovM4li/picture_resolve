@@ -142,7 +142,7 @@
   display: none;
 }
 .pr-menu::backdrop {
-  background: #080808;
+  background: transparent;
 }
 html:has(.pr-menu[open]),
 body:has(.pr-menu[open]) {
@@ -173,19 +173,25 @@ body:has(.pr-menu[open]) {
   gap: 12px;
 }
 .pr-menu-mask {
-  overflow: hidden;
+  overflow: clip;
 }
 .pr-menu-mask a {
   display: flex;
-  gap: 13px;
-  align-items: flex-start;
-  width: fit-content;
+  align-items: center;
+  min-height: 44px;
+  width: 100%;
   max-width: 100%;
   font: 700 clamp(1.75rem, calc((100vw - 70px) / 6.875), 3rem)/1 var(--display);
   line-height: clamp(1.75rem, calc((100vw - 60px) / 6.875), 3rem);
   letter-spacing: -0.035em;
 }
-.pr-menu-mask a span {
+.pr-menu-label {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  pointer-events: none;
+}
+.pr-menu-number {
   margin-top: 0.17em;
   color: var(--nav-red);
   font: 600 12px/16px var(--display);
@@ -279,21 +285,28 @@ body:has(.pr-menu[open]) {
   }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .pr-menu[open] .pr-menu-mask a {
-    animation: pr-menu-rise 1s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  .pr-menu[open] {
+    animation: pr-menu-enter 180ms ease-out;
   }
-  .pr-menu[open] .pr-menu-mask:nth-child(2) a {
-    animation-delay: 0.06s;
+  .pr-menu[open] .pr-menu-label {
+    animation: pr-menu-rise 520ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
   }
-  .pr-menu[open] .pr-menu-mask:nth-child(3) a {
-    animation-delay: 0.12s;
+  .pr-menu[open] .pr-menu-mask:nth-child(2) .pr-menu-label {
+    animation-delay: 32ms;
   }
-  .pr-menu[open] .pr-menu-mask:nth-child(4) a {
-    animation-delay: 0.18s;
+  .pr-menu[open] .pr-menu-mask:nth-child(3) .pr-menu-label {
+    animation-delay: 64ms;
   }
-  .pr-menu[open] .pr-menu-mask:nth-child(5) a {
-    animation-delay: 0.24s;
+  .pr-menu[open] .pr-menu-mask:nth-child(4) .pr-menu-label {
+    animation-delay: 96ms;
   }
+  .pr-menu[open] .pr-menu-mask:nth-child(5) .pr-menu-label {
+    animation-delay: 128ms;
+  }
+}
+@keyframes pr-menu-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 @keyframes pr-menu-rise {
   from {

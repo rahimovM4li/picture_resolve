@@ -48,6 +48,24 @@ test("fullscreen mobile menu confines keyboard focus, closes and opens the chose
   await expect(menu).toBeHidden();
 });
 
+test("a phone can tap the last menu row before its staggered title appears", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Menü öffnen" }).click();
+  const menu = page.getByRole("dialog", { name: "Menü" });
+  await menu.evaluate((dialog) => {
+    for (const effect of dialog.getAnimations({ subtree: true })) {
+      effect.pause();
+      effect.currentTime = 0;
+    }
+  });
+  // Use the row's resting position, as a visitor tapping during the reveal would.
+  const row = await menu.locator(".pr-menu-mask").last().boundingBox();
+  await page.mouse.click(row!.x + 70, row!.y + row!.height / 2);
+  await expect(page).toHaveURL(/\/kontakt\/$/);
+});
+
 test("header compacts on scroll and switches from tablet menu to desktop service links", async ({ page }) => {
   await page.setViewportSize({ width: 768, height: 1024 });
   await page.goto("/");
