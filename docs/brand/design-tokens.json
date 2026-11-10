@@ -1,0 +1,38 @@
+{
+  "color": {
+    "sourceAccent": "#b20b0b",
+    "ink": "#151514",
+    "cinema": "#0b0b0b",
+    "paper": "#f3f1eb",
+    "white": "#ffffff",
+    "mutedOnPaper": "#605f59",
+    "mutedOnCinema": "#c2c0b9",
+    "actionOnPaper": "#ab2925",
+    "accentOnCinema": "#e44b43"
+  },
+  "type": {
+    "display": "Archivo",
+    "body": "Manrope",
+    "bodyMinPx": 16,
+    "bodyLeading": 1.5,
+    "readingMeasureCh": 66,
+    "accent": "Instrument Serif Italic"
+  },
+  "grid": {
+    "gutterMobilePx": 20,
+    "gutterDesktopVw": 3.8,
+    "maxWidthPx": 1600,
+    "rulePx": 1
+  },
+  "motion": {
+    "controlMs": 180,
+    "revealMs": 650,
+    "settleMs": 900,
+    "maxParallaxPercent": 5,
+    "ease": "cubic-bezier(.22,1,.36,1)"
+  },
+  "control": {
+    "minHitAreaPx": 44,
+    "focusOffsetPx": 4
+  }
+}

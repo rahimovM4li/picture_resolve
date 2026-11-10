@@ -1,0 +1,192 @@
+.case-intro {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: 0;
+  background: #0a0a09;
+}
+.case-shot {
+  position: absolute;
+  z-index: -2;
+  inset: 5% max(2.8vw, calc((100vw - 1720px) / 2)) 9% auto;
+  width: min(75vw, 1380px);
+  overflow: hidden;
+  background: #131313;
+}
+.case-shot-photo {
+  width: 100%;
+  height: 100%;
+}
+.case-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 55% center;
+}
+.case-intro--hinter-der-kamera .case-shot img {
+  object-position: 60% 35%;
+}
+.case-intro--hopp .case-shot img {
+  object-position: 32% 45%;
+}
+.case-intro--duesseldorf-am-rhein .case-shot {
+  aspect-ratio: 2.08;
+  top: auto;
+  bottom: 16%;
+  height: auto;
+}
+.case-scrim {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      90deg,
+      #0a0a09 5%,
+      #0a0a09f7 22%,
+      #0a0a0999 43%,
+      transparent 68%
+    ),
+    linear-gradient(0deg, #0a0a09 0%, transparent 21%);
+}
+.case-intro-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-block: 1.1rem 1.25rem;
+  min-height: clamp(580px, 80svh, 1000px);
+}
+.case-intro .case-back {
+  margin: 0;
+  color: #f2efeb;
+}
+.case-intro-copy {
+  width: min(79%, 66rem);
+  padding-block: 3rem;
+  margin-block: auto;
+}
+.case-intro-copy .cine-title {
+  margin: 0.2em 0;
+  font-size: clamp(3rem, 6.8vw, 8.5rem);
+}
+.case-intro-copy .case-deck {
+  max-width: 33ch;
+  color: #e1dfd9;
+}
+.case-folio {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #ffffff42;
+  font: 650 0.7rem/1.45 var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.case-folio a {
+  padding-block: 0.45rem;
+}
+.case-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+  padding: 0.85rem 1.2rem;
+  border-radius: 99px;
+  background: #f1eee7;
+  color: #121212;
+  font: 700 0.87rem/1.2 var(--sans);
+}
+.case-play span {
+  font-weight: 500;
+  color: #494742;
+}
+.case-play svg {
+  width: 1rem;
+  height: 1rem;
+}
+.case-play:hover {
+  background: #fff;
+}
+.case-print {
+  margin: 0;
+  padding: 0;
+}
+.case-print > div {
+  overflow: hidden;
+}
+.case-print img {
+  display: block;
+  width: 100%;
+  max-height: 78svh;
+  object-fit: contain;
+  background: #0c0c0b;
+}
+.case-print figcaption {
+  font-size: 0.82rem;
+  color: #514f49;
+}
+@media (max-width: 800px) {
+  .case-intro-inner {
+    min-height: clamp(600px, 83svh, 820px);
+  }
+  .case-shot {
+    width: 100%;
+    inset: 0 0 27%;
+  }
+  .case-intro--duesseldorf-am-rhein .case-shot {
+    inset: 8% 0 auto;
+    height: auto;
+    width: 100%;
+    aspect-ratio: 2.08;
+  }
+  .case-scrim {
+    background: linear-gradient(
+      0deg,
+      #0a0a09 0%,
+      #0a0a09 22%,
+      #0a0a09dc 44%,
+      #0a0a0929 72%,
+      #0005 100%
+    );
+  }
+  .case-intro-copy {
+    width: 100%;
+    padding-block: 4rem 1.65rem;
+    margin-block: auto 0;
+  }
+  .case-intro-copy .cine-title {
+    font-size: clamp(2.35rem, 9vw, 4.5rem);
+  }
+  .case-intro-copy .case-deck {
+    max-width: 38ch;
+  }
+  .case-folio {
+    font-size: 0.6rem;
+  }
+  .case-intro--duesseldorf-am-rhein .case-scrim {
+    background: linear-gradient(0deg, #0a0a09 8%, transparent 59%, #0004);
+  }
+}
+
+
+/* The panorama and paired portraits need the full frame even on a narrow screen. */
+@media (max-width: 800px) {
+  :is(.case-intro--gesichter-des-studios, .case-intro--duesseldorf-am-rhein) {
+    display: grid;
+    grid-template-columns: var(--gutter) minmax(0, 1fr) var(--gutter);
+    padding-bottom: 1.2rem;
+    & .case-intro-inner { display: contents; }
+    & .case-back { grid-area: 1 / 2; justify-self: start; margin-block: .4rem; }
+    & .case-shot { grid-area: 2 / 1 / 3 / -1; position: relative; inset: auto; width: 100%; z-index: auto; aspect-ratio: auto; }
+    & .case-shot-photo, & .case-shot img { height: auto; width: 100%; }
+    & .case-shot img { object-fit: contain; }
+    & .case-scrim { display: none; }
+    & .case-intro-copy { grid-area: 3 / 2; margin: 0; padding: 1.6rem 0 2rem; }
+    & .case-folio { grid-area: 4 / 2; }
+  }
+}

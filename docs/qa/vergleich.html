@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="de">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  />
+  <title>Picture Resolve · Direktvergleich</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      background: #181818;
+      color: #eee;
+      font:
+        14px system-ui,
+        sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+    header,
+    section > div {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+    }
+    header {
+      flex-wrap: wrap;
+      border-bottom: 1px solid #444;
+    }
+    strong {
+      margin-right: auto;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    select {
+      font: inherit;
+      background: #252525;
+      color: white;
+      border: 1px solid #666;
+      border-radius: 4px;
+      padding: 4px 7px;
+    }
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 2px;
+      flex: 1;
+      min-height: 0;
+      background: #444;
+    }
+    section {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: #101010;
+    }
+    section > div {
+      justify-content: space-between;
+      height: 40px;
+    }
+    a {
+      color: #ddd;
+    }
+    article {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      display: grid;
+      place-items: start center;
+      background: #222;
+    }
+    iframe {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      border: 0;
+      background: #080808;
+      transform-origin: top left;
+    }
+    @media (max-width: 700px) {
+      header {
+        gap: 6px;
+        padding: 6px;
+      }
+      strong {
+        width: 100%;
+      }
+      header,
+      select,
+      section > div {
+        font-size: 12px;
+      }
+      section > div {
+        padding: 4px;
+        gap: 4px;
+      }
+    }
+  </style>
+  <header>
+    <strong>Picture Resolve · Direktvergleich</strong>
+    <label
+      >Ansicht
+      <select id="width">
+        <option value="1280">Desktop · 1280 × 800</option>
+        <option value="768">Tablet · 768 × 1024</option>
+        <option value="390">Mobil · 390 × 844</option>
+        <option value="auto">Fensterbreite</option>
+      </select></label
+    >
+    <label
+      >Seite
+      <select id="route">
+        <option value="/">Startseite</option>
+        <option value="/projekte/">Projekte</option>
+        <optgroup label="Projektkarten">
+          <option value="/projekte/kamerastudie/">Kamerastudie bei Nacht</option>
+          <option value="/projekte/hopp/">In der Werkstatt HOPP</option>
+          <option value="/projekte/hinter-der-kamera/">Hinter der Kamera</option>
+          <option value="/projekte/gesichter-des-studios/">Gesichter des Studios</option>
+          <option value="/projekte/duesseldorf-am-rhein/">Düsseldorf am Rhein</option>
+        </optgroup>
+        <option value="/leistungen/imagefilme/">Imagefilme</option>
+        <option value="/leistungen/recruitingfilme/">Recruitingfilme</option>
+        <option value="/ueber-uns/">Über uns</option>
+        <option value="/standorte/duesseldorf/">Düsseldorf</option>
+        <option value="/kontakt/">Kontakt</option>
+      </select></label
+    >
+  </header>
+  <main>
+    <section>
+      <div>
+        <span id="ref-label">Lovable-Entwurf</span><a
+          id="reference-url"
+          target="_blank"
+          rel="noopener"
+          href="http://127.0.0.1:4181/lovable/"
+          >Separat öffnen ↗</a
+        >
+      </div>
+      <article>
+        <iframe
+          title="Lovable-Entwurf aus den Projektdateien" id="reference"
+          src="http://127.0.0.1:4181/lovable/"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </article>
+    </section>
+    <section>
+      <div>
+        Lokale Website<a
+          id="local-url"
+          target="_blank"
+          rel="noopener"
+          href="http://localhost:3000/"
+          >Separat öffnen ↗</a
+        >
+      </div>
+      <article>
+        <iframe
+          title="Lokale Umsetzung"
+          id="local"
+          src="http://localhost:3000/"
+        ></iframe>
+      </article>
+    </section>
+  </main>
+  <script>
+    const widthSelect = document.getElementById("width");
+    const routeSelect = document.getElementById("route");
+    function layout() {
+      const host = document.querySelector("article");
+      const width =
+        widthSelect.value === "auto"
+          ? host.clientWidth
+          : Number(widthSelect.value);
+      const height = {1280: 800, 768: 1024, 390: 844}[widthSelect.value] || host.clientHeight;
+      const scale = Math.min(1, host.clientWidth / width, host.clientHeight / height);
+      for (const frame of document.querySelectorAll("iframe")) {
+        frame.style.width = width + "px";
+        frame.style.height = height + "px";
+        frame.style.transform = "scale(" + scale + ") translateX(-50%)";
+      }
+    }
+    new ResizeObserver(layout).observe(document.querySelector("article"));
+    widthSelect.addEventListener("change", layout);
+    function switchPage() {
+      const url = new URL(routeSelect.value, "http://localhost:3000/");
+      document.getElementById("local").src = url.href;
+      document.getElementById("local-url").href = url.href;
+      const samePage = !url.pathname.startsWith("/standorte/") && !/^\/projekte\/.+/.test(url.pathname);
+      const referencePath = samePage ? url.pathname.replace("/leistungen/", "/") : url.pathname.startsWith("/projekte/") ? "/projekte/" : "/ueber-uns/";
+      const reference = new URL("/lovable" + referencePath, "http://127.0.0.1:4181");
+      document.getElementById("reference").src = reference.href;
+      document.getElementById("reference-url").href = reference.href;
+      document.getElementById("ref-label").textContent = samePage ? "Lovable-Entwurf" : referencePath === "/projekte/" ? "Lovable · Projektübersicht" : "Lovable · Studio";
+      const link = new URL(location.href);
+      link.searchParams.set("seite", routeSelect.value);
+      history.replaceState(null, "", link);
+    }
+    routeSelect.addEventListener("change", switchPage);
+    const selected = new URL(location.href).searchParams.get("seite");
+    if ([...routeSelect.options].some(option => option.value === selected)) {
+      routeSelect.value = selected;
+      switchPage();
+    }
+  </script>
+</html>

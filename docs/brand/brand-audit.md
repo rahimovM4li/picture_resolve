@@ -1,0 +1,5 @@
+# Brand audit
+
+Picture Resolve already has a recognizable authorial mark. Its long handwritten signature appears in white over dark photography, in black over lighter backgrounds, and in round variants. The original asset keeps its irregular strokes and a broad horizontal silhouette. Monochrome workshop pictures, a tightly lit filmmaker portrait and the camera study carry more specific studio character than equipment catalog images.
+
+Source CSS and browser-computed values include black (#000000), near-white (#f7f7f7), white (#ffffff), gray (#8b8b8b) and accent red (#b20b0b). Poppins appears in headings and navigation, Oregano in the old tagline, and bold Arial in compact marketing paragraphs. Repeated uppercase passages and multiple script styles compete with the original signature. Reserve handwriting for the mark. The camera study introduces understated green shadows, warm tungsten and muted reds; preserve this grading. [Source](https://pictureresolve.com/) · [Computed audit and screenshots](../research/current-site-audit.md)

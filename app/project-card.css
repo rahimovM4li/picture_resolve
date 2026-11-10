@@ -1,0 +1,118 @@
+.archive-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  outline-offset: 6px;
+}
+.archive-card-frame {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  isolation: isolate;
+  background: #242422;
+}
+.archive-card-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.archive-card-number {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  min-width: 2.15rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  background: #080808ab;
+  color: #fff;
+  font: 550 0.68rem/1 var(--sans);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.07em;
+}
+.archive-card-open {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #b62a28;
+  color: white;
+  box-shadow: 0 5px 24px #0002;
+}
+.archive-card-caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 18px;
+}
+.archive-card .archive-card-caption :is(h2, h3) {
+  margin: 0;
+  color: var(--paper, #f4f2ef);
+  font: 720 clamp(22px, 2.25vw, 42px)/1.12 var(--display);
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.archive-card-format {
+  text-align: right;
+  flex: none;
+  font: 620 clamp(9px, 0.7vw, 12px)/1.45 var(--sans);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #bab8b3;
+}
+.archive-card-credit {
+  margin: 6px 0 0;
+  color: #b8b6b2;
+  font: 480 clamp(13px, 0.95vw, 17px)/1.5 var(--sans);
+}
+@media (hover: hover) and (pointer: fine) {
+  .archive-card-open {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  .archive-card:is(:hover, :focus-visible) .archive-card-open {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .archive-card-open {
+    transition:
+      transform 0.48s cubic-bezier(0.19, 1, 0.22, 1),
+      opacity 0.3s;
+  }
+}
+@media (max-width: 700px) {
+  .archive-card-caption {
+    display: block;
+    margin-top: 13px;
+  }
+  .archive-card .archive-card-caption :is(h2, h3) {
+    font-size: clamp(23px, 6vw, 34px);
+  }
+  .archive-card-format {
+    display: block;
+    text-align: left;
+    margin-top: 0.48rem;
+  }
+  .archive-card-credit {
+    margin-top: 2px;
+  }
+  .archive-card-open {
+    width: 36px;
+    height: 36px;
+    right: 12px;
+    top: 12px;
+  }
+  .archive-card-number {
+    left: 12px;
+    top: 12px;
+  }
+}

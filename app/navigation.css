@@ -1,0 +1,314 @@
+.pr-header,
+.pr-menu {
+  --nav-surface: #080808;
+  --nav-text: #f4f2ee;
+  --nav-red: #ef5950;
+  color: var(--nav-text);
+  font-family: var(--sans);
+}
+.pr-header {
+  position: fixed;
+  z-index: 50;
+  inset: 0 0 auto;
+  background: var(--nav-surface);
+  box-shadow: inset 0 -1px transparent;
+  transition:
+    background-color 0.7s ease,
+    box-shadow 0.7s ease,
+    backdrop-filter 0.7s ease;
+}
+.pr-header[data-overlay] {
+  background: transparent;
+}
+.pr-header[data-overlay="photo"]:not([data-compact]) {
+  background: linear-gradient(180deg, #0007, transparent);
+}
+.pr-header[data-compact] {
+  background: rgb(8 8 8 / 0.78);
+  box-shadow: inset 0 -1px #ffffff24;
+  backdrop-filter: blur(24px);
+}
+.pr-header-inner {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 24px 40px;
+  transition: padding-block 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.pr-header[data-compact] .pr-header-inner,
+.pr-header[data-compact] + .pr-menu .pr-menu-top {
+  padding-block: 12px;
+}
+.pr-brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  flex: none;
+}
+.pr-brand img {
+  display: block;
+  height: 44px;
+  width: auto;
+}
+.pr-header-space {
+  height: 92px;
+  background: #080808;
+}
+.pr-links,
+.pr-header-actions {
+  display: flex;
+  align-items: center;
+}
+.pr-links {
+  gap: 40px;
+}
+.pr-links a,
+.pr-header-inquiry {
+  font: 400 14px/20px var(--sans);
+}
+.pr-links a {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  min-height: 44px;
+  color: #f4f2eec2;
+  transition: color 0.25s ease;
+}
+.pr-links a::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 9px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.pr-links a:is(:hover, :focus-visible, [aria-current]) {
+  color: #fff;
+}
+.pr-links a:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.pr-header-actions {
+  gap: 16px;
+}
+.pr-header-inquiry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  min-height: 42px;
+  border: 1px solid #ffffff4a;
+  border-radius: 100px;
+  transition:
+    background 0.5s,
+    border-color 0.5s;
+}
+.pr-header-inquiry:is(:hover, :focus-visible) {
+  background: #b4332f;
+  border-color: #b4332f;
+}
+.pr-header-inquiry svg {
+  width: 16px;
+  height: 16px;
+}
+.pr-menu-control,
+.pr-nav-fallback {
+  display: none;
+}
+.pr-menu {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  border: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--nav-surface);
+}
+.pr-menu:not([open]) {
+  display: none;
+}
+.pr-menu::backdrop {
+  background: #080808;
+}
+html:has(.pr-menu[open]),
+body:has(.pr-menu[open]) {
+  overflow: hidden;
+}
+.pr-menu-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.pr-menu-top {
+  flex: none;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--nav-surface);
+}
+.pr-menu-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 1;
+  padding: 24px max(24px, env(safe-area-inset-right))
+    max(48px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+}
+.pr-menu-links {
+  display: grid;
+  gap: 12px;
+}
+.pr-menu-mask {
+  overflow: hidden;
+}
+.pr-menu-mask a {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  width: fit-content;
+  max-width: 100%;
+  font: 700 clamp(1.75rem, calc((100vw - 70px) / 6.875), 3rem)/1 var(--display);
+  line-height: clamp(1.75rem, calc((100vw - 60px) / 6.875), 3rem);
+  letter-spacing: -0.035em;
+}
+.pr-menu-mask a span {
+  margin-top: 0.17em;
+  color: var(--nav-red);
+  font: 600 12px/16px var(--display);
+  letter-spacing: -0.08em;
+}
+.pr-menu-mask a:focus-visible {
+  outline: 2px solid var(--nav-red);
+  outline-offset: -2px;
+}
+.pr-menu-mask a:hover {
+  color: white;
+}
+.pr-menu-locality {
+  margin: 48px 0 0;
+  font: 450 14px/20px var(--sans);
+  color: #a8a5a0;
+}
+@media (max-width: 1023px) {
+  .pr-links {
+    display: none;
+  }
+  .pr-menu-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    color: var(--nav-text);
+  }
+  .pr-menu-control span {
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+  }
+  .pr-menu-control[aria-expanded="true"] span:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+  .pr-menu-control[aria-expanded="true"] span:last-child {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+  .pr-nav-fallback {
+    display: block;
+    font-size: 0.9rem;
+  }
+  .pr-nav-fallback summary {
+    cursor: pointer;
+    padding: 0.75rem 0;
+  }
+  .pr-nav-fallback nav {
+    position: absolute;
+    inset: 100% 0 auto;
+    background: var(--nav-surface);
+    padding: 0.5rem 1.5rem 1.5rem;
+  }
+  .pr-nav-fallback a {
+    display: block;
+    padding: 0.7rem 0;
+  }
+}
+@media (max-width: 767px) {
+  .pr-header-inner {
+    padding-inline: 24px;
+  }
+  .pr-brand img {
+    height: 36px;
+  }
+  .pr-brand {
+    min-height: 40px;
+  }
+  .pr-menu-control {
+    width: 40px;
+    height: 40px;
+  }
+  .pr-header-space {
+    height: 88px;
+  }
+  .pr-header-inquiry {
+    display: none;
+  }
+}
+@media (max-height: 520px) {
+  .pr-menu-body {
+    padding-block: 12px 22px;
+  }
+  .pr-menu-locality {
+    margin-top: 24px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pr-menu[open] .pr-menu-mask a {
+    animation: pr-menu-rise 1s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+  .pr-menu[open] .pr-menu-mask:nth-child(2) a {
+    animation-delay: 0.06s;
+  }
+  .pr-menu[open] .pr-menu-mask:nth-child(3) a {
+    animation-delay: 0.12s;
+  }
+  .pr-menu[open] .pr-menu-mask:nth-child(4) a {
+    animation-delay: 0.18s;
+  }
+  .pr-menu[open] .pr-menu-mask:nth-child(5) a {
+    animation-delay: 0.24s;
+  }
+}
+@keyframes pr-menu-rise {
+  from {
+    transform: translateY(120%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pr-header,
+  .pr-header-inner,
+  .pr-header-inquiry,
+  .pr-links a,
+  .pr-links a::after {
+    transition: none;
+  }
+}

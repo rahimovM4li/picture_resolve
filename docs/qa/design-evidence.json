@@ -1,0 +1,65 @@
+{
+  "contract": "docs/architecture/design-contract.md",
+  "targetViewports": [
+    "360px",
+    "390px",
+    "768px",
+    "1440px"
+  ],
+  "accessibility": {
+    "status": "pass",
+    "evidence": "Fourteen route-level axe scans and independent scans inside the open mobile menu and film dialog. The film retains native playback and loop control, captions, keyboard focus restoration and stable reduced-motion chrome. Tested keyboard focus containment, forward and reverse tabbing, Escape and focus restoration when crossing the desktop breakpoint."
+  },
+  "responsive": {
+    "status": "pass",
+    "evidence": "All fourteen routes at four widths. Five portfolio cards are reachable across desktop, phone and reduced-motion views. Mobile diptych and panorama retain the entire image. The exact hero crop, multiline typography and menu were compared at matching reference viewports."
+  },
+  "contentStates": {
+    "loading": {
+      "status": "pass",
+      "evidence": "The case-film dialog loads the selected MP4 after activation; the cover photograph appears in its place on the case page before activation. Navigation and editorial content remain visible before motion setup."
+    },
+    "empty": {
+      "status": "not-applicable",
+      "reason": "The static archive contains five film or photographic works. No runtime search or empty query state applies."
+    },
+    "error": {
+      "status": "pass",
+      "evidence": "Invalid form input receives field feedback and focus. Unknown project routes have an HTTP 404."
+    },
+    "partial": {
+      "status": "pass",
+      "evidence": "Four photographic entries show image galleries or an image detail without a film player. Their titles, cover photographs and credits distinguish them from the studio film."
+    },
+    "success": {
+      "status": "pass",
+      "evidence": "A valid inquiry renders an editable local preview and produces no outbound submission."
+    },
+    "permission": {
+      "status": "not-applicable",
+      "reason": "The marketing site and local inquiry preview require no account or permission dialog."
+    }
+  },
+  "renderedEvidence": [
+    {
+      "viewport": "360px",
+      "artifact": "screenshots/home-360.png",
+      "observation": "At 360 px each line of the large title fits the viewport. The signature, menu, portrait and film action remain visible."
+    },
+    {
+      "viewport": "390px",
+      "artifact": "screenshots/home-390.png",
+      "observation": "At 390 px the hero uses a portrait crop and an independent red italic final line. All five archive cards appear in reading order; paired portraits and panorama are uncropped on the detail pages."
+    },
+    {
+      "viewport": "768px",
+      "artifact": "screenshots/home-768.png",
+      "observation": "The 768 px header keeps the inquiry action and dialog toggle. Four title lines overlay the camera portrait, and the film action remains visible."
+    },
+    {
+      "viewport": "1440px",
+      "artifact": "screenshots/home-1440.png",
+      "observation": "The 1440 px hero matches the reference line breaks and upper typography position. Five separate photographs travel horizontally with five individual links; Tab and Shift+Tab bring each focused card fully into view."
+    }
+  ]
+}

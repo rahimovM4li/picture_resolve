@@ -1,0 +1,12 @@
+source_path,proposed_destination,proposed_action,editorial_reason,activation
+/,/,retain,Same homepage with new studio positioning,planning only
+/film,/leistungen/imagefilme,301 after review,Historical film offering introduces business filmmaking and equipment,planning only
+/leistungen,/#leistungen,301 after anchor verification,Homepage presents the two supported primary services,planning only
+/ueberuns,/ueber-uns,301 after review,Studio and process information,planning only
+/hopp,/projekte/hopp,301 after review,Same Düsseldorf workshop reference,planning only
+/demovideo,/projekte/kamerastudie,301 after review,Same historical camera film,planning only
+/kunden,/projekte,301 after editorial review,Public project proof supersedes old client list if visitor intent is covered,planning only
+/impressum,/impressum,retain,Preserve destination and obtain fresh operator sign-off,planning only
+/foto,,review 404 or 410,Standalone photography has no equivalent offering,planning only
+/sound,,review 404 or 410,Standalone audio has no equivalent offering,planning only
+/agentur,/ueber-uns,301 after editorial review,Studio approach and production-planning sections have a relevant successor,planning only
