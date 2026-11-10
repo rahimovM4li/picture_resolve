@@ -154,9 +154,6 @@
   .story-text {
     position: static;
   }
-  .footer-cols {
-    grid-template-columns: 1fr 1fr;
-  }
   .contact-inside {
     align-items: flex-start;
     flex-direction: column;
@@ -166,12 +163,6 @@
     font-size: 12px;
     gap: 6px;
     white-space: nowrap;
-  }
-  .footer-cols > div {
-    min-width: 0;
-  }
-  .footer-cols a {
-    overflow-wrap: anywhere;
   }
 }
 @media (max-width: 540px) {
@@ -276,19 +267,6 @@
   }
   .steps h3 {
     font-size: 31px;
-  }
-  .footer {
-    padding-top: 43px;
-  }
-  .footer-cols {
-    gap: 26px 18px;
-  }
-  .footer-id {
-    grid-column: 1/-1;
-  }
-  .footer-base {
-    gap: 15px;
-    font-size: 11px;
   }
   .plain-intro h1,
   .project-intro h1 {

@@ -1,50 +1,54 @@
 import Image from "next/image";
 import Link from "@/components/site-link";
 import { site } from "@/content/site";
+
 export function Footer() {
   return (
-    <footer className="footer">
-      <div className="wrap footer-cols">
+    <footer id="footer" className="footer">
+      <div className="footer-cols">
         <div className="footer-id">
           <Link href="/" aria-label="Picture Resolve – Startseite">
             <Image
               unoptimized
               alt="Picture Resolve"
-              src="/assets/brand/signatur-weiss.webp"
-              width="720"
-              height="247"
+              src="/assets/brand/signatur-navigation.webp"
+              width={500}
+              height={209}
             />
           </Link>
           <p>
-            Filmproduktion für Unternehmen
-            <br />
-            in Düsseldorf und NRW.
+            Filmproduktion aus Düsseldorf. Imagefilme und Recruitingfilme, die Vertrauen schaffen.
           </p>
         </div>
         <div>
-          <strong>Leistungen</strong>
-          {site.services.map((s) => (
-            <Link key={s.slug} href={"/leistungen/" + s.slug + "/"}>
-              {s.title}
-            </Link>
-          ))}
+          <p className="footer-label">Leistungen</p>
+          <ul>
+            {site.services.map((service) => (
+              <li key={service.slug}>
+                <Link href={"/leistungen/" + service.slug + "/"}>{service.title}</Link>
+              </li>
+            ))}
+            <li><Link href="/projekte/">Projekte</Link></li>
+          </ul>
         </div>
         <div>
-          <strong>Studio</strong>
-          <Link href="/projekte/">Projekte</Link>
-          <Link href="/ueber-uns/">Über uns</Link>
-          <Link href="/standorte/duesseldorf/">Düsseldorf</Link>
+          <p className="footer-label">Studio</p>
+          <ul>
+            <li><Link href="/ueber-uns/">Über uns</Link></li>
+            <li><Link href="/kontakt/">Kontakt</Link></li>
+            <li><Link href="/impressum/">Impressum</Link></li>
+          </ul>
         </div>
         <div>
-          <strong>Kontakt</strong>
-          <a href={"mailto:" + site.email}>{site.email}</a>
-          <Link href="/kontakt/">Projekt anfragen ↗</Link>
+          <p className="footer-label">Standort</p>
+          <p><Link href="/standorte/duesseldorf/">Düsseldorf</Link><br />Deutschland</p>
         </div>
       </div>
-      <div className="wrap footer-base">
-        <span>© Picture Resolve</span>
-        <Link href="/impressum/">Impressum</Link>
+      <p className="footer-wordmark" inert aria-hidden="true">PICTURE RESOLVE</p>
+      <div className="footer-base">
+        <span>© {new Date().getFullYear()} Picture Resolve</span>
         <Link href="/datenschutz/">Datenschutz</Link>
+        <span>Gedreht in Düsseldorf</span>
       </div>
     </footer>
   );

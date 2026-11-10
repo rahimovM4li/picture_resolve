@@ -270,12 +270,6 @@ html.lenis.lenis-smooth {
   color: var(--ink);
   flex-shrink: 0;
 }
-.footer {
-  background: #090909;
-}
-.footer-base {
-  border-color: #ffffff26;
-}
 .skip {
   z-index: 80;
 }
