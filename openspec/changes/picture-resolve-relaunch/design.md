@@ -16,6 +16,10 @@ Das öffentliche Frontend bleibt als statisch ausgelieferte Next.js-Seite planba
 
 Der Build liest eine zusammengehörige veröffentlichte Datenversion. Ein authentifiziertes Veröffentlichungssignal startet den Neuaufbau. Neue und entfernte Slugs, Sitemap und Verweise werden gemeinsam aktualisiert. Nur ein erfolgreicher aktueller Build ersetzt den öffentlichen Stand. Ein älterer parallel beendeter Build darf neuere Inhalte nicht überschreiben. Bei Fehler bleibt der letzte funktionierende Stand erreichbar. Die Redaktion sieht Status, Fehler und Wiederholungsmöglichkeit. Entwürfe sieht sie auf einem geschützten Vorschauzugang.
 
+### Entscheidung für den implementierten Teststand am 17. November 2026
+
+Der Pilot bestätigte den vollständigen Redaktionsweg mit einem integrierten CMS. Der Teststand veröffentlicht atomar in SQLite auf einem persistenten Node-Host. Jede Seitenanfrage liest den gültigen Datenstand. Eine Revision verhindert das Überschreiben durch eine veraltete Publikation. Dieses Verfahren ersetzt für die Testversion den ursprünglich vorgeschlagenen Neubau je Inhaltsänderung. Die endgültige Wahl des Kundenhosts und die laufenden Kosten gehören zur Betriebsvereinbarung. [Betriebsentscheidung](../../../docs/architecture/hosting.md) · [Ergebnis des Piloten](../../../docs/qa/redaktion.md)
+
 ## Redaktionelle Felder
 
 | Eintrag | Pflichtinhalt oder Beziehung |

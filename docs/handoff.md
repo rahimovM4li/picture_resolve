@@ -1,45 +1,39 @@
-# Picture Resolve · Übergabe zur lokalen Abnahme
+# Übergabe zur Kundenkorrektur
 
-**Reviewstand:** MVP 0.1, 10. November 2026. Der statische Export ist lokal unter [localhost:3000](http://localhost:3000) bereitgestellt. Wiedergabe, Formular und Vorschau benötigen keine Zugänge.
+## Auf diesem Rechner öffnen
 
-## Empfohlener Abnahmerundgang
+| Aufgabe | Zugang |
+| --- | --- |
+| Als Besucher durch die Website gehen | [Laufende Vorschau](http://127.0.0.1:4281/) |
+| Kampagne direkt prüfen | [Imagefilm](http://127.0.0.1:4281/leistungen/imagefilme/) · [Recruitingfilm](http://127.0.0.1:4281/leistungen/recruitingfilme/) |
+| Inhalte ändern | [Redaktion](http://127.0.0.1:4281/redaktion/) |
+| Zustellung einer Testanfrage nachsehen | [Mailpit](http://127.0.0.1:8025/) |
+| Zugriffsschutz und TLS testen | [Geschützte lokale Abnahme](https://localhost:4443/) |
 
-1. Auf der Startseite den Film öffnen, Untertitel einschalten, mit Escape schließen und den Übergang zum Manifest beim Scrollen prüfen.
-2. Im Abschnitt „Ausgewählte Projekte“ der Startseite vor- und zurückscrollen. Auf dem Desktop fährt die Projektspur horizontal. Danach die vier Produktionsphasen und die drei Originaleinstellungen der Kamerastudie in beiden Richtungen durchlaufen. Am Smartphone oder bei reduzierter Bewegung stehen die Bilder bei ihren Bildunterschriften.
-3. Die fünf Karten auf der Startseite oder im [Portfolio](http://localhost:3000/projekte/) öffnen. Jede führt zu einer eigenen Detailseite. Auf die Kamerastudie und die Werkstattreportage HOPP folgen Kameraporträts, die beiden Studioporträts und die Düsseldorfer Panoramaaufnahme. „Nächstes Projekt“ führt der Reihe nach durch das Archiv.
-4. Auf den beiden Leistungsseiten eine FAQ öffnen und eine Projektanfrage beginnen. Die Auswahl wird übernommen. Fehler korrigieren, lokale Vorschau öffnen, Eingaben bearbeiten. Angaben bleiben im aktuellen Tab.
-5. Ortsbezug, Bildsprache, Quellen und Betreiberangaben mit dem Studio prüfen.
+Die lokalen CMS-Zugangsdokumente liegen unter `.local/picture-resolve/zugang-studio-admin.txt` und `.local/picture-resolve/zugang-redaktion.txt`. Für den vorgelagerten HTTPS-Test liegen Benutzername und Passwort in `.local/caddy/testzugang.txt`. Die geprüfte Übergabesicherung des CMS und des Zustellprotokolls liegt in `.local/uebergabe-sicherung-20261117/`. Der Datenordner, die Sicherung und die Zugangsdokumente sind vom Git-Repository ausgeschlossen. Der HTTPS-Test verwendet ein lokales Zertifikat. Die Bereitstellung auf einer von außen erreichbaren Kundendomain benötigt einen Kundenhost mit DNS-Zugang.
 
-## Direktvergleich
+## Redaktionsrundgang
 
-[Lovable und lokale Umsetzung nebeneinander öffnen](http://127.0.0.1:4179/vergleich.html?seite=/leistungen/imagefilme/). Für Imagefilme, Recruitingfilme, Projekte, Über uns und Kontakt wechselt die Auswahl beide Ansichten gemeinsam. Links laufen die heruntergeladenen Lovable-Routen, rechts der lokale Website-Export. Beide Ansichten lassen sich unabhängig scrollen und auf dieselbe Smartphone-Breite stellen. Bei Projekt- und Standortdetails zeigt der Vergleich die übergeordnete Referenzseite an.
+1. Mit dem Redaktionskonto anmelden. Unter **Projekte** ein neues Projekt anlegen. Titel, URL-Namen, Beschreibung, Leistungszuordnung, SEO-Angaben und Titelmotiv eintragen. Bei einem eigenen Konzept die Kennzeichnung aktivieren.
+2. In der Medienverwaltung eine Aufnahme mit Bildbeschreibung, Rechtevermerk und Fokuspunkt hochladen. In der Galerie wählen, eine Bildunterschrift schreiben und die Reihenfolge mit den Richtungstasten ändern. Für ein Filmprojekt die Filmdatei bzw. den HTTPS-Link und das Poster ergänzen.
+3. Entwurf speichern und die Vorschau öffnen. Öffentliche URL in einem separaten Browserprofil prüfen. Erst nach **Veröffentlichen** sehen Besucher die neue Fassung. Bei einem Fehler die genannte Angabe korrigieren, speichern und erneut veröffentlichen.
+4. Unter **Standorte** eine Stadt mit eigener Überschrift, lokalem Text, Bild, Kontaktziel und SEO anlegen. Nach der Veröffentlichung die neue URL und [Sitemap](http://127.0.0.1:4281/sitemap.xml) prüfen. Bei der Entfernung verschwinden Standort und Eintrag aus der Sitemap.
+5. In **Seiten** Titel, Text, SEO oder Medien ändern. Unter **Einstellungen** lassen sich Signatur, Kontaktadresse, Navigation und Website-Buttons bearbeiten. Die Startseite blendet Kundenstimmen erst nach Freigabe ein.
+6. Zum Entfernen eines Mediums erst alle Verweise in Entwürfen und veröffentlichten Einträgen ersetzen. Gegen versehentliche Überschreibungen prüft die Redaktion die gespeicherte Revision.
+7. Unter **Benutzer** kann die Administration Redaktionskonten anlegen, Passwörter ersetzen und Konten sperren. Ein Admin kann einen verlorenen Zugang am Server mit `node --env-file=.env.local scripts/cms-account.mjs admin studio-admin` neu setzen. Dabei werden bisherige Sitzungen des Kontos beendet.
 
-[Fünf Ansichten als Bild vergleichen](qa/screenshots/lovable-unterseiten-vergleich.jpg)
+## Besucherrundgang
 
-So startet der Vergleich nach einem Neustart.
+Von jeder Anzeigenzielseite das Filmbeispiel starten, pausieren und schließen. Den Anfragebutton im Einstieg, nach dem Beispiel oder im Footer wählen. Im Formular die vorausgewählte Leistung prüfen und nur fiktive Angaben absenden. Den Eingang mit Betreff, Leistung und Antwortadresse in Mailpit vergleichen. Die beiden Konzeptfilme sind kurze animierte Storyboards. Das dritte Konzept zeigt eine Bildfolge. [Herkunft und Einzelmotive](brand/konzeptmedien.md).
 
-1. Im Websiteprojekt mit `npm run build` und `npm start` den Export auf Port 3000 bereitstellen.
-2. Das Archiv „Picture Resolve - Lovable Designquellen.zip“ entpacken. Im entpackten Verzeichnis `python -m http.server 4181 --bind 127.0.0.1 --directory vorschau` starten.
-3. In einem weiteren Terminal im Websiteprojekt `python -m http.server 4179 --bind 127.0.0.1 --directory docs/qa` starten und den Direktvergleich öffnen.
+[Betrieb, Sicherung und Rückweg](architecture/hosting.md) · [Versandprüfung und Fehlerfälle](qa/anfrageversand.md) · [Prüfergebnisse](qa/relaunch.md) · [Offene und erledigte Aufgaben](../openspec/changes/picture-resolve-relaunch/tasks.md).
 
-## Material für die nächste Entscheidung
+## Kundenlieferung und Abnahme
 
-| Thema | Was vorliegt | Was das Studio klären muss |
+| Benötigt | Zweck und Verantwortliche | Termin / Status |
 | --- | --- | --- |
-| Portfolio | Eine 142,38 Sekunden lange Kamerastudie, die HOPP-Werkstattreferenz, zwei Studio-Bildstrecken und eine Stadtfotografie | Freigabe für neue Verwendung, Musik, abgebildete Personen, Marken, Projektbeschreibung und Kundenstimme; weitere freigegebene Imagefilm- und Recruitingfilm-Beispiele |
-| Audio | Deutsche Geräusch-/Musikuntertitel aus maschinengestützter Prüfung und ein beschreibender Bilderrundgang | Inhalt, Timing und Vollständigkeit beim Anhören prüfen |
-| Standort | Düsseldorf als bedientes Gebiet, HOPP als lokale Referenz; unterschiedliche Adressen im alten Auftritt | Gültige Betreiberanschrift und ggf. öffentlicher Studio-/Besuchsort |
-| Anfrage | Lokale, validierte Vorschau und direkte E-Mail-Verknüpfung | Zustellweg, Verantwortlicher, Datenschutzhinweise und Aufbewahrung für späteren Echtbetrieb |
-| Sichtbarkeit | Vorgerenderte deutsche Seiten, Metadaten, Social-Vorschauen, Sitemap, Entwurf für URL-Migration | Endgültige Domain, alte URLs mit tatsächlicher Nutzung abgleichen und Produktionsfreigabe |
-| Abnahme | Lokale Browser-, Tastatur-, Layout-, Accessibility- und Leistungstests | Sichtprüfung auf realen Zielgeräten und mit assistiver Technik |
-
-## Arbeitsunterlagen
-
-- [Websiteaudit](research/current-site-audit.md), [URL-Inventar](research/current-url-inventory.csv), [Asset-Herkunft](brand/asset-sources.csv)
-- [Brandbook](brand/brandbook.md), [Tokens](brand/design-tokens.json), [Bewegung](brand/motion-guidelines.md)
-- [Sechs Wettbewerber](research/competitor-analysis.md), [Vergleichsmatrix](research/competitor-matrix.md), [Apple und Leica](research/design-inspiration.md)
-- [Suchstrategie](strategy/seo-strategy.md), [Suchintention](strategy/keyword-map.md), [Conversion](strategy/conversion-strategy.md), [Inhaltskarte](strategy/content-map.md), [Redirect-Entwurf](strategy/redirect-plan.csv)
-- [OpenSpec-Änderung und 16 Fähigkeiten](../openspec/changes/picture-resolve-mvp/proposal.md), [Hosting](architecture/hosting.md), [spätere CMS-Anbindung](architecture/content-architecture.md)
-- [Browser- und Accessibility-Tests](qa/test-report.md), [Labormessungen](qa/performance-report.md), [Entwicklungsprotokoll](progress.md)
-
-Nach der Freigabe kann ein geprüfter Zustelladapter ergänzt werden. Der statische Export bleibt für das heutige Inhaltsmodell ausreichend. Der bestehende Webauftritt wurde ausschließlich gelesen.
+| Anzahl, Titel und Reihenfolge der echten Projekte, Anzahl und Namen der initialen Städte | Kunde und Projektleitung zeichnen den Erstumfang schriftlich ab. Düsseldorf, fünf Demo-Arbeiten und drei gesondert gezählte Konzepte stehen zur Erprobung bereit. | Offen |
+| Showreel, freigegebene Motive, Nutzungsrechte, Zuordnung von Referenzen, Teamangaben und belegte Zitate; Entscheidung über jedes Konzept | Studio liefert bzw. bestätigt die öffentlichen Inhalte. | Offen |
+| Endtexte, lokale SEO-Inhalte, Kontaktdaten, gültige Anschrift, Impressum und Datenschutztext für den gewählten Betrieb | Kunde bzw. zuständige Rechtsberatung gibt die Fassungen frei. | Offen |
+| Kundenhost, DNS-/Altseitenzugang, SMTP-Absender und Empfänger, Search-Console-Property, Betriebskontoinhaber und Budget | Technische Leitung richtet die externe Testadresse ein, sichert den Altauftritt, probt den Rückweg und bestätigt die reale Zustellung mit dem Kunden. | Offen |
+| Zwei Termine für gebündelte Korrekturen, reale Zielgeräte, Leistungsbudget und abschließende schriftliche Freigabe des konkreten Stands | Studio und Projektleitung prüfen die Testversion, vereinbaren das Umschaltfenster und bestätigen die Übergabe der Konten. | Offen |

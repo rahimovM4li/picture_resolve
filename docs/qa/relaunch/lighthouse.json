@@ -1,0 +1,158 @@
+[
+  {
+    "stand": "demo",
+    "pfad": "/",
+    "lighthouse": "13.4.1",
+    "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "profil": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "netz": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "score": 0.94,
+    "lcpMs": 3019.943,
+    "cls": 0,
+    "transferBytes": 343518,
+    "tbtMs": 13.5
+  },
+  {
+    "stand": "demo",
+    "pfad": "/leistungen/imagefilme/",
+    "lighthouse": "13.4.1",
+    "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "profil": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "netz": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "score": 0.96,
+    "lcpMs": 2744.9262,
+    "cls": 0,
+    "transferBytes": 343972,
+    "tbtMs": 26
+  },
+  {
+    "stand": "demo",
+    "pfad": "/projekte/kamerastudie/",
+    "lighthouse": "13.4.1",
+    "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "profil": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "netz": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "score": 0.94,
+    "lcpMs": 3105.10315,
+    "cls": 0,
+    "transferBytes": 372330,
+    "tbtMs": 20.5
+  },
+  {
+    "stand": "relaunch",
+    "pfad": "/",
+    "lighthouse": "13.4.1",
+    "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "profil": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "netz": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "score": 0.95,
+    "lcpMs": 2945.9480000000003,
+    "cls": 0,
+    "transferBytes": 347063,
+    "tbtMs": 28
+  },
+  {
+    "stand": "relaunch",
+    "pfad": "/leistungen/imagefilme/",
+    "lighthouse": "13.4.1",
+    "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "profil": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "netz": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "score": 0.96,
+    "lcpMs": 2797.5602,
+    "cls": 0,
+    "transferBytes": 362792,
+    "tbtMs": 19.5
+  },
+  {
+    "stand": "relaunch",
+    "pfad": "/projekte/kamerastudie/",
+    "lighthouse": "13.4.1",
+    "chrome": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "profil": {
+      "mobile": true,
+      "width": 412,
+      "height": 823,
+      "deviceScaleFactor": 1.75,
+      "disabled": false
+    },
+    "netz": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "score": 0.94,
+    "lcpMs": 3106.859,
+    "cls": 0,
+    "transferBytes": 398063,
+    "tbtMs": 25.5
+  }
+]

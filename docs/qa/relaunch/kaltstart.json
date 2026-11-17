@@ -1,0 +1,162 @@
+[
+  {
+    "width": 360,
+    "height": 844,
+    "path": "/",
+    "image": "/assets/images/raman-kamera-portrait-1200.avif",
+    "bildBytes": 74087,
+    "prioritaet": "high",
+    "breite": 360,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 360,
+    "height": 844,
+    "path": "/leistungen/imagefilme/",
+    "image": "/assets/images/interview-portrait-547.avif",
+    "bildBytes": 9881,
+    "prioritaet": "high",
+    "breite": 360,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 360,
+    "height": 844,
+    "path": "/leistungen/recruitingfilme/",
+    "image": "/assets/images/recruiting-portrait-547.avif",
+    "bildBytes": 20805,
+    "prioritaet": "high",
+    "breite": 360,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 360,
+    "height": 844,
+    "path": "/projekte/vom-entwurf-zum-einzelstueck/",
+    "image": "/assets/konzepte/entwurf-720.webp",
+    "bildBytes": 45474,
+    "prioritaet": "high",
+    "breite": 360,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "path": "/",
+    "image": "/assets/images/raman-kamera-portrait-1200.avif",
+    "bildBytes": 74087,
+    "prioritaet": "high",
+    "breite": 390,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "path": "/leistungen/imagefilme/",
+    "image": "/assets/images/interview-portrait-547.avif",
+    "bildBytes": 9881,
+    "prioritaet": "high",
+    "breite": 390,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "path": "/leistungen/recruitingfilme/",
+    "image": "/assets/images/recruiting-portrait-547.avif",
+    "bildBytes": 20805,
+    "prioritaet": "high",
+    "breite": 390,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "path": "/projekte/vom-entwurf-zum-einzelstueck/",
+    "image": "/assets/konzepte/entwurf.webp",
+    "bildBytes": 72132,
+    "prioritaet": "high",
+    "breite": 390,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "path": "/",
+    "image": "/assets/images/raman-kamera.webp",
+    "bildBytes": 57036,
+    "prioritaet": "high",
+    "breite": 768,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "path": "/leistungen/imagefilme/",
+    "image": "/assets/images/interview.webp",
+    "bildBytes": 35060,
+    "prioritaet": "high",
+    "breite": 768,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "path": "/leistungen/recruitingfilme/",
+    "image": "/assets/images/recruiting.webp",
+    "bildBytes": 106572,
+    "prioritaet": "high",
+    "breite": 768,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "path": "/projekte/vom-entwurf-zum-einzelstueck/",
+    "image": "/assets/konzepte/entwurf.webp",
+    "bildBytes": 72132,
+    "prioritaet": "high",
+    "breite": 768,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "path": "/",
+    "image": "/assets/images/raman-kamera.webp",
+    "bildBytes": 57036,
+    "prioritaet": "high",
+    "breite": 1440,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "path": "/leistungen/imagefilme/",
+    "image": "/assets/images/interview.webp",
+    "bildBytes": 35060,
+    "prioritaet": "high",
+    "breite": 1440,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "path": "/leistungen/recruitingfilme/",
+    "image": "/assets/images/recruiting.webp",
+    "bildBytes": 106572,
+    "prioritaet": "high",
+    "breite": 1440,
+    "videosVorKlick": 0
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "path": "/projekte/vom-entwurf-zum-einzelstueck/",
+    "image": "/assets/konzepte/entwurf.webp",
+    "bildBytes": 72132,
+    "prioritaet": "high",
+    "breite": 1440,
+    "videosVorKlick": 0
+  }
+]
