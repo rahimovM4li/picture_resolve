@@ -46,11 +46,21 @@ Die Redaktion entwirft bereits für die Testseite verwendbare Überschriften, ku
 
 | Stelle | Textentwurf | Nächster Schritt |
 | --- | --- | --- |
-| Imagefilme | „Was macht Ihre Arbeit besonders? Zeigen Sie Ihren Kunden die Menschen, Entscheidungen und Handgriffe hinter Ihrem Produkt.“ | Imagefilm besprechen |
-| Recruitingfilme | „Wie fühlt sich ein Arbeitstag in Ihrem Team an? Lassen Sie die Menschen antworten, die den Job kennen. So können Bewerber einschätzen, ob die Stelle zu ihnen passt.“ | Recruitingfilm planen |
+| Imagefilme | „Zeigen Sie Ihren Kunden, warum sie sich für Ihr Unternehmen entscheiden sollten.“ Der Einstieg führt zu einem Filmbeispiel, das eine konkrete Stärke des Unternehmens sichtbar macht. | Angebot für Imagefilm anfragen |
+| Recruitingfilme | „Zeigen Sie Bewerbern, wie es sich anfühlt, bei Ihnen zu arbeiten.“ Ein Beispiel aus dem Arbeitsalltag führt zur Frage, welche Stelle der Betrieb besetzen möchte. | Angebot für Recruitingfilm anfragen |
 | Projektkarte zum Werkstattkonzept | „Vom ersten Bleistiftstrich bis zur letzten Fräsbahn. Die Filmidee folgt einem Bauteil durch die Werkstatt und macht Präzision sichtbar.“ | Konzept ansehen |
 
 Startseite und Leistungsseiten führen von einer konkreten Kundenfrage über ein passendes Beispiel zur Anfrage. Projekttexte beschreiben Aufgabe, filmische Idee und vorgesehenen Einsatz. Für Standorte verwendet die Redaktion belegbare lokale Details. Im Formular erklärt der Einstieg, welche Angaben dem Studio helfen. Kundenstimmen, Auftraggeber, Zahlen oder erzielte Ergebnisse werden nur mit einem Beleg genannt.
+
+## Leistungsseiten als Ziel für Anzeigen
+
+Imagefilm-Anzeigen verlinken direkt auf `/leistungen/imagefilme/`, Recruiting-Anzeigen auf `/leistungen/recruitingfilme/`. Für jede Kampagne stimmen Redaktion und Kunde Anzeigenbotschaft, Zielgruppe, Einstiegsüberschrift und erstes Filmbeispiel aufeinander ab. Wer eine Produktion sucht, erkennt im ersten Bildschirm die angebotene Leistung, ihren Nutzen und den nächsten Schritt.
+
+Nach dem Einstieg folgen ein passendes Filmbeispiel, eine knappe Erläuterung des Produktionsablaufs und Antworten auf typische Fragen zu Aufwand, Lieferumfang und Angebot. Nach dem Beispiel und am Seitenende stehen kontextuelle Anfragebuttons. Ein Filmstart hat eine eigene, nachgeordnete Beschriftung. Der primäre Button führt direkt zum bestehenden Formular mit vorausgewählter Leistung.
+
+Auf Desktop bleibt der leistungsbezogene Anfragebutton rechts im fixierten Header sichtbar. Auf dem Smartphone steht er vom ersten Bildschirm bis zum Footer am unteren Bildschirmrand, mit Platz für die Systemleiste. Er ist auch beim Rückwärtsscrollen und während der Bildanimationen erreichbar. Im geöffneten Menü gibt es denselben Anfrageweg. Während der Filmwiedergabe gehören die Bedienelemente dem Player. Beim Schließen ist der Anfragebutton wieder an seiner Position. Kurze Beschriftungen für wenig Platz sind „Imagefilm anfragen“ und „Recruitingfilm anfragen“. Texte, Beispielauswahl und Buttonbeschriftung sind je Leistung im CMS pflegbar.
+
+Für die Erfolgskontrolle gilt eine erfolgreich vom Maildienst angenommene Anfrage als Conversion. Buttonklick und Formularstart sind vorgelagerte Schritte. Sofern eine Kampagnenmessung vereinbart ist, diese Ereignisse je Leistung getrennt prüfen. Eine fehlerhafte Übermittlung zählt nicht als Anfrage.
 
 ## Schriftlich vor Erstbefüllung vereinbaren
 

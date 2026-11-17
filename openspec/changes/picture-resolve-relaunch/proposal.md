@@ -6,6 +6,8 @@ Die abgenommene Demo ist die gestalterische Grundlage für pictureresolve.com. B
 
 ## What Changes
 
+- Imagefilme und Recruitingfilme erhalten eigene Anzeigenziele mit zielgruppengerechter Verkaufsbotschaft, passendem Filmbeispiel und durchgehend sichtbarem, leistungsbezogenem Anfragebutton.
+
 - Die bestehenden Seiten und Komponenten erhalten veröffentlichte CMS-Inhalte, freigegebene Medien und die gelieferten Rechtstexte.
 - Zusätzliche Beispielprojekte mit eigenen Bildmotiven und abspielbaren Videoplatzhaltern machen die geplanten Filmangebote erlebbar. Die Redaktion verfasst Verkaufstexte für die Testseite und überarbeitet sie für den Echtbetrieb anhand des Kundenbriefings. Freigegebene eigene Konzepte dürfen als solche auch öffentlich gezeigt werden.
 - Redaktion und Administration erhalten geschützte Zugänge. Projekte und Städte werden aus Vorlagen veröffentlicht.

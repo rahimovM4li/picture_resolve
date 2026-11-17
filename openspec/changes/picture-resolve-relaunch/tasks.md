@@ -30,6 +30,8 @@ Alle Checkboxen beziehen sich auf den Produktionsrelaunch. Die vorhandene Demo d
 - [ ] 3.7 Die zusätzlichen Konzeptprojekte aus dem [Inhaltsplan](design.md) für die Testseite anlegen. Je Projekt eigene Karte, Titelbild, Galerie und Beschreibung erstellen, mindestens einen abspielbaren Videoplatzhalter mit Poster einbinden. Motive auf Desktop und Smartphone ansehen und Clipstart prüfen.
 - [ ] 3.8 Redaktion schreibt die erste verkaufsorientierte Textfassung für Startseite, beide Leistungen, Projektkarten und Details, Standortvorlage und Kontakt. Beim Durchlesen je Leistung Anlass, konkreten Nutzen, passendes Beispiel und nächsten Schritt markieren. Anfragebuttons vom jeweiligen Einstieg bis zum Formular testen.
 
+- [ ] 3.9 Beide Leistungsseiten als Anzeigenziele umsetzen. Je Leistung Anzeigenbotschaft und Einstiegsüberschrift abgleichen, ein passendes Filmbeispiel zuordnen und offene Kaufentscheidungen im Ablauf und in den FAQ beantworten. Den leistungsbezogenen Anfragebutton im fixierten Desktop-Header, am mobilen Bildschirmrand, im Menü und nach dem Beispiel mit demselben vorausgewählten Formular verbinden.
+
 ## 4. Anfrageversand
 
 - [ ] 4.1 Nach Festlegung des Mailwegs die Formularvorschau durch den produktiven Absendeablauf ersetzen. Name, E-Mail, Leistung, Beschreibung und Einwilligung serverseitig prüfen. Unternehmen und Budget leer zulassen. Datenschutzhinweis mit gelieferter Fassung verknüpfen.
@@ -52,6 +54,8 @@ Alle Checkboxen beziehen sich auf den Produktionsrelaunch. Die vorhandene Demo d
 
 - [ ] 6.5 In den beiden vereinbarten Korrekturrunden Text und Medien mit dem Kunden abgleichen. Vor Schlussfreigabe je Beispiel den öffentlichen Status, Rechte und Kennzeichnung prüfen. Einen Bild- und Cliptausch im CMS bis zur sichtbaren Seite testen.
 
+- [ ] 6.6 Beide Anzeigenziele direkt aufrufen. Auf Telefon, Tablet und Desktop den CTA beim Einstieg, am Beispiel, in den FAQ und am Footer sowie nach Menü- und Playernutzung prüfen. Je Leistung eine Testanfrage bis ins Testpostfach verfolgen. Bei vereinbarter Kampagnenmessung Klick, Formularstart und erfolgreiche Anfrage getrennt kontrollieren, einschließlich Fehlversuch und Doppeltipp.
+
 ## 7. Domainwechsel und Übergabe
 
 - [ ] 7.1 Vor Eingriffen in den Altauftritt Dateien, Datenbank soweit vorhanden, Medien und DNS-/Hostingkonfiguration sichern. Wiederherstellung isoliert erproben. Umschaltfenster, Zuständigkeit und Rückkehr zum geprüften Altstand festhalten.
@@ -64,7 +68,7 @@ Alle Checkboxen beziehen sich auf den Produktionsrelaunch. Die vorhandene Demo d
 
 | Kundenanforderung | Tasks | Abnahmenachweis |
 | --- | --- | --- |
-| 1 Seitenstruktur | 3.1–3.4, 3.7–3.8, 4.1, 6.5 | Seiteninventar, Beispielprojekte mit Medien, freigegebene Verkaufstexte und funktionierende Besucherwege |
+| 1 Seitenstruktur | 3.1–3.4, 3.7–3.9, 4.1, 6.5–6.6 | Seiteninventar, Beispielprojekte, freigegebene Verkaufstexte und geprüfter Weg vom Anzeigenziel bis zur Anfrage |
 | 2 Standortseiten | 1.1–1.2, 3.5, 5.3, 6.2 | Schriftlicher Umfang und veröffentlichte Teststadt |
 | 3 CMS | 2.1–2.6, 6.2 | Redaktionsdurchlauf und Berechtigungstest |
 | 4 Design und Animationen | 1.3, 3.6, 6.1 | Visueller Vergleich und bedienbarer Rundgang |

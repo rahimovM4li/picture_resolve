@@ -32,6 +32,20 @@ Die Website MUSS die abgenommene Gestaltung für die Geschäftsziele von Picture
 - **WHEN** die Startseite mit freigegebenen Inhalten aufgerufen wird
 - **THEN** sind Showreel, beide Leistungen, Referenzen, freigegebene Bewertungen und Kontaktbuttons erreichbar. Imagefilme und Recruitingfilme haben jeweils eine eigene URL, Kunden-SEO-Texte, passende Beispiele und einen Kontaktweg mit der passenden Leistung als Vorauswahl.
 
+### Requirement: Leistungsbezogene Anzeigenziele und dauerhafter Anfragebutton
+
+Die Seiten für Imagefilme und Recruitingfilme MÜSSEN vom Anzeigenklick bis zur Anfrage dieselbe Leistung adressieren. Ihr primärer Anfragebutton MUSS im ersten Bildschirm sowie beim Scrollen sichtbar und ohne Öffnen des Menüs bedienbar sein. (MUST)
+
+#### Scenario: Direkt aus einer Anzeige anfragen
+
+- **WHEN** ein Besucher das Anzeigenziel der jeweiligen Leistung direkt aufruft
+- **THEN** erkennt er Leistung und Kundennutzen im ersten Bildschirm und gelangt mit einem Klick ins Formular mit korrekter Vorauswahl. Ein anschließender Testversand übermittelt diese Leistung und wird im vereinbarten Postfach geprüft.
+
+#### Scenario: Während des Lesens entscheiden
+
+- **WHEN** ein Besucher auf Telefon, Tablet oder Desktop vom Einstieg über das Filmbeispiel und die FAQ bis zum Footer und wieder zurück scrollt
+- **THEN** bleibt ein leistungsbezogener Anfragebutton an jeder Scrollposition sichtbar, antippbar und per Tastatur erreichbar. Inhalte und Links lassen sich vollständig ins Sichtfeld scrollen. Ein geöffnetes Menü enthält denselben Anfrageweg. Nach dem Schließen des Players ist der Button wieder bedienbar.
+
 ### Requirement: Projektarchiv und Detailseiten
 
 Die Übersicht MUSS veröffentlichte Arbeiten über eine gemeinsame Detailvorlage erschließen. (MUST)
