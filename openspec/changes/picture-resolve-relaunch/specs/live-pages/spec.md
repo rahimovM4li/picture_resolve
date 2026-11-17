@@ -1,5 +1,28 @@
 ## ADDED Requirements
 
+### Requirement: Zusätzliche Beispielprojekte und austauschbare Medien
+
+Die Website MUSS zusätzliche, eigenständige Konzeptprojekte mit Bild- und Videoplatzhaltern über die regulären Projektvorlagen präsentieren. (MUST)
+
+#### Scenario: Vom Beispiel bis zur Wiedergabe
+
+- **WHEN** ein Besucher auf der Testseite ein zusätzliches Konzeptprojekt öffnet
+- **THEN** führen Karte und passendes Leistungsbeispiel zur Detailseite. Titelmotiv, Galerie und Beschreibung passen zur Filmidee. Bei einem Video startet der abspielbare Platzhalter nach Betätigung des Players. Bei einer reinen Bildstrecke bleibt die Galerie vollständig nutzbar.
+
+#### Scenario: Redaktion ersetzt Material oder gibt ein Konzept frei
+
+- **WHEN** die Redaktion ein Beispielbild oder einen Clip ersetzt und die Veröffentlichung prüft
+- **THEN** erscheint die neue Fassung ohne Templateänderung auf den zugeordneten Seiten. Öffentlich sichtbare Konzeptprojekte sind auf Karte und Detail als solche gekennzeichnet. Die Darstellung als Kundenreferenz setzt einen belegten Auftrag und freigegebenes Material voraus.
+
+### Requirement: Verkaufsorientierte Ersttexte
+
+Die Testseite MUSS bereits ausformulierte, zielgruppengerechte Texte für Startseite, Leistungen, Projekte, Standorte und Kontakt enthalten. (MUST)
+
+#### Scenario: Von der Kaufentscheidung zur Anfrage
+
+- **WHEN** Marketingverantwortliche einen Imagefilm oder Personalverantwortliche einen Recruitingfilm prüfen
+- **THEN** benennt die jeweilige Seite einen konkreten Anlass, erklärt den Nutzen anhand einer Filmidee und führt über einen verständlichen Button zur passenden Anfrage. Das Redaktionsteam kann Auftraggeber, Zitate und Ergebnisbehauptungen der Endfassung anhand der freigegebenen Quellen prüfen.
+
 ### Requirement: Startseite und Leistungen
 
 Die Website MUSS die abgenommene Gestaltung für die Geschäftsziele von Picture Resolve nutzen. (MUST)

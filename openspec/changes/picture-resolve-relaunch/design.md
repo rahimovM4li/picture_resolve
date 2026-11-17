@@ -28,6 +28,30 @@ Der Build liest eine zusammengehörige veröffentlichte Datenversion. Ein authen
 | Medien | Originaldatei oder validierter Videolink, Alternativtext für informative Bilder, Maße, Bildausschnitt, Rechtevermerk und abgeleitete Formate. |
 | SEO und Veröffentlichung | Pro indexierbarer Seite eindeutiger Pfad, Titel und Meta-Beschreibung. Entwurf und veröffentlichte Fassung getrennt halten. |
 
+## Beispielprojekte und Bildauswahl
+
+Als Arbeitsvorschlag ergänzen drei Konzeptprojekte die fünf vorhandenen Demo-Arbeiten. Die Zahl der später einzupflegenden Kundenreferenzen bleibt separat vereinbar. Jedes Konzept bekommt eine eigene Karte, ein eigenes Titelmotiv, eine kurze Bilderfolge und eine Detailseite. Das Archiv zeigt alle Beispiele, Startseite und Leistungsseiten zeigen eine passende Auswahl.
+
+| Beispielprojekt | Bildfolge und Filmidee | Passende Anfrage |
+| --- | --- | --- |
+| **Vom Entwurf zum Einzelstück** · Imagefilm | Eine Zeichnung auf der Werkbank, Hände beim Fräsen, das fertige Bauteil im Einsatz. Ein kurzer Clip zeigt denselben Arbeitsschritt in Bewegung. | Imagefilm besprechen |
+| **Deine erste Schicht** · Recruitingfilm | Eine Auszubildende kommt an, richtet mit ihrer Ausbilderin eine Maschine ein und übernimmt ihren ersten Handgriff. | Recruitingfilm planen |
+| **Ein Produkt, drei Einstellungen** · Produktfilm | Totale, Detail und Anwendung desselben Gegenstands zeigen, was sich in einem Produktfilm erklären lässt. | Produktfilm anfragen |
+
+Für die Testseite vorhandenes freigegebenes Material, passend lizenziertes Beispielmaterial oder eigens erstellte Platzhalter einsetzen. Mindestens ein kurzer abspielbarer Beispielclip mit Poster demonstriert den Player. Ein Projekt mit ausschließlich Standbildern zeigt eine Galerie. Die Redaktion kann jedes Motiv und jeden Clip einzeln im CMS ersetzen. Dafür werden Verwendungsrecht, Status und mobiler Bildausschnitt am Medium gepflegt. Vor dem Livegang wird jedes Beispiel als eigenes Konzept freigegeben, durch einen belegten Kundenauftrag ersetzt oder aus der öffentlichen Auswahl genommen. Bei einem öffentlichen Konzept steht „Konzeptprojekt“ auf Karte und Detailseite.
+
+## Verkaufstexte für die erste Befüllung
+
+Die Redaktion entwirft bereits für die Testseite verwendbare Überschriften, kurze Einstiege, Projektbeschreibungen und Kontaktbuttons. Maßstab für die Freigabe ist, ob ein Besucher erkennt, für wen der Film gedacht ist, was er zeigen kann und wie er das Vorhaben bespricht. Die beiden Leistungen sprechen unterschiedliche Kaufmotive an. Kunden-SEO-Texte und freigegebene Fakten liefern die Grundlage für die Endfassung.
+
+| Stelle | Textentwurf | Nächster Schritt |
+| --- | --- | --- |
+| Imagefilme | „Was macht Ihre Arbeit besonders? Zeigen Sie Ihren Kunden die Menschen, Entscheidungen und Handgriffe hinter Ihrem Produkt.“ | Imagefilm besprechen |
+| Recruitingfilme | „Wie fühlt sich ein Arbeitstag in Ihrem Team an? Lassen Sie die Menschen antworten, die den Job kennen. So können Bewerber einschätzen, ob die Stelle zu ihnen passt.“ | Recruitingfilm planen |
+| Projektkarte zum Werkstattkonzept | „Vom ersten Bleistiftstrich bis zur letzten Fräsbahn. Die Filmidee folgt einem Bauteil durch die Werkstatt und macht Präzision sichtbar.“ | Konzept ansehen |
+
+Startseite und Leistungsseiten führen von einer konkreten Kundenfrage über ein passendes Beispiel zur Anfrage. Projekttexte beschreiben Aufgabe, filmische Idee und vorgesehenen Einsatz. Für Standorte verwendet die Redaktion belegbare lokale Details. Im Formular erklärt der Einstieg, welche Angaben dem Studio helfen. Kundenstimmen, Auftraggeber, Zahlen oder erzielte Ergebnisse werden nur mit einem Beleg genannt.
+
 ## Schriftlich vor Erstbefüllung vereinbaren
 
 | Entscheidung | Einzutragendes Ergebnis | Verantwortlich |

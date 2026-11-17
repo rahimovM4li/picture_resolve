@@ -27,6 +27,9 @@ Alle Checkboxen beziehen sich auf den Produktionsrelaunch. Die vorhandene Demo d
 - [ ] 3.5 Standortvorlage und CMS-Publikation verbinden. Nach schriftlicher Mengenfreigabe jede vereinbarte Stadt mit eigenem Text, Bild, H1, SEO und Anfrageziel befüllen. Redaktion legt zusätzlich eine Teststadt an, veröffentlicht sie auf Staging und entfernt sie vor dem Launch.
 - [ ] 3.6 Demo und Echtinhalte nebeneinander prüfen. Vereinbarte Übergänge, Scrollsequenzen, Karten, Signatur, Schrift und mobile Zuschnitte umsetzen bzw. angleichen. Schnellen Menütipp, Zurücknavigation, Tastatur, Touch und reduzierte Bewegung auf den zentralen Wegen testen.
 
+- [ ] 3.7 Die zusätzlichen Konzeptprojekte aus dem [Inhaltsplan](design.md) für die Testseite anlegen. Je Projekt eigene Karte, Titelbild, Galerie und Beschreibung erstellen, mindestens einen abspielbaren Videoplatzhalter mit Poster einbinden. Motive auf Desktop und Smartphone ansehen und Clipstart prüfen.
+- [ ] 3.8 Redaktion schreibt die erste verkaufsorientierte Textfassung für Startseite, beide Leistungen, Projektkarten und Details, Standortvorlage und Kontakt. Beim Durchlesen je Leistung Anlass, konkreten Nutzen, passendes Beispiel und nächsten Schritt markieren. Anfragebuttons vom jeweiligen Einstieg bis zum Formular testen.
+
 ## 4. Anfrageversand
 
 - [ ] 4.1 Nach Festlegung des Mailwegs die Formularvorschau durch den produktiven Absendeablauf ersetzen. Name, E-Mail, Leistung, Beschreibung und Einwilligung serverseitig prüfen. Unternehmen und Budget leer zulassen. Datenschutzhinweis mit gelieferter Fassung verknüpfen.
@@ -47,6 +50,8 @@ Alle Checkboxen beziehen sich auf den Produktionsrelaunch. Die vorhandene Demo d
 - [ ] 6.3 Erste Korrekturrunde mit dem vollständigen Stand durchführen. Gebündeltes Kundenfeedback zuordnen, vereinbarte Punkte umsetzen und eine prüfbare neue Version bereitstellen.
 - [ ] 6.4 Zweite Korrekturrunde durchführen, Befunde beheben und zentrale Bedienwege erneut prüfen. Abschließende schriftliche Freigabe des konkreten Stands durch den Kunden einholen.
 
+- [ ] 6.5 In den beiden vereinbarten Korrekturrunden Text und Medien mit dem Kunden abgleichen. Vor Schlussfreigabe je Beispiel den öffentlichen Status, Rechte und Kennzeichnung prüfen. Einen Bild- und Cliptausch im CMS bis zur sichtbaren Seite testen.
+
 ## 7. Domainwechsel und Übergabe
 
 - [ ] 7.1 Vor Eingriffen in den Altauftritt Dateien, Datenbank soweit vorhanden, Medien und DNS-/Hostingkonfiguration sichern. Wiederherstellung isoliert erproben. Umschaltfenster, Zuständigkeit und Rückkehr zum geprüften Altstand festhalten.
@@ -59,7 +64,7 @@ Alle Checkboxen beziehen sich auf den Produktionsrelaunch. Die vorhandene Demo d
 
 | Kundenanforderung | Tasks | Abnahmenachweis |
 | --- | --- | --- |
-| 1 Seitenstruktur | 3.1–3.4, 4.1 | Seiteninventar, Kundentexte und funktionierende Besucherwege |
+| 1 Seitenstruktur | 3.1–3.4, 3.7–3.8, 4.1, 6.5 | Seiteninventar, Beispielprojekte mit Medien, freigegebene Verkaufstexte und funktionierende Besucherwege |
 | 2 Standortseiten | 1.1–1.2, 3.5, 5.3, 6.2 | Schriftlicher Umfang und veröffentlichte Teststadt |
 | 3 CMS | 2.1–2.6, 6.2 | Redaktionsdurchlauf und Berechtigungstest |
 | 4 Design und Animationen | 1.3, 3.6, 6.1 | Visueller Vergleich und bedienbarer Rundgang |
