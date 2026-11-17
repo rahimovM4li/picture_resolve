@@ -70,7 +70,7 @@ export const locations: LocationStory[] = [
 ];
 
 export type LegalSlug = "impressum" | "datenschutz";
-interface LegalPageContent {
+export interface LegalPageContent {
   reviewStatus: "needs-legal-review";
   title: string;
   status: string;
@@ -105,7 +105,7 @@ export const legalPages: Record<LegalSlug, LegalPageContent> = {
     groups: [
       [
         "Lokale Projektanfrage",
-        "Das Formular prüft Ihre Angaben im Browser und erzeugt dort eine Vorschau. Es übermittelt die eingegebenen Daten in dieser Version nicht an Picture Resolve. Beim Verlassen der Vorschau können die Angaben verloren gehen.",
+        "Wenn Sie eine Anfrage absenden, prüft der Server Ihre Angaben und übergibt die Nachricht an den konfigurierten Maildienst. In dieser Testversion wird sie in einem lokalen Testpostfach gespeichert. Bitte verwenden Sie für die Erprobung ausschließlich Beispieldaten.",
       ],
       [
         "Kontakt per E-Mail",

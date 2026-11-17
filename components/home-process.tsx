@@ -1,25 +1,15 @@
-import { processSteps } from "@/content/site";
-import { homeEditorial } from "@/content/home-editorial";
+import type { homePage } from "@/content/editorial";
 import { Frame } from "@/components/ui";
 
-export function HomeProcess() {
-  const stages = [
-    processSteps[0],
-    processSteps[1],
-    processSteps[2],
-    [
-      "Postproduktion",
-      "Schnitt, Farbe und Ton geben dem Film seine endgültige Form. Sie erhalten die vereinbarten Fassungen für Ihre Kanäle.",
-    ],
-  ];
+export function HomeProcess({ stages }: { stages: typeof homePage.steps }) {
   return (
     <>
       <div className="home-process-progress" aria-hidden="true">
         <span />
       </div>
       <ol className="home-process-list" role="list">
-        {stages.map(([name, description], index) => {
-          const still = homeEditorial.process.images[index];
+        {stages.map((still, index) => {
+          const { title: name, text: description } = still;
           return (
             <li key={name}>
               <div className="home-stage-copy">

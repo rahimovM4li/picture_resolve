@@ -1,7 +1,7 @@
 import { Frame, Arrow } from "./ui";
 import { CineTitle } from "./cine-title";
 import Link from "./site-link";
-import { site } from "@/content/site";
+
 import "@/app/ref-page.css";
 
 type HeroProps = {
@@ -53,9 +53,13 @@ export function ReferenceHero({
 export function ReferenceCta({
   title = "Wann dürfen wir\nIhre Geschichte erzählen?",
   href = "/kontakt/",
+  label = "Projekt starten",
+  email,
 }: {
   title?: string;
   href?: string;
+  label?: string;
+  email?: string;
 }) {
   return (
     <section className="ref-cta">
@@ -68,15 +72,15 @@ export function ReferenceCta({
         <div className="ref-cta-actions" data-reveal>
           <Link className="ref-cta-link" href={href} data-cine-magnetic>
             <span>
-              Projekt
-              <br />
-              starten
+              {label}
               <Arrow diagonal />
             </span>
           </Link>
-          <address>
-            <a href={"mailto:" + site.email}>{site.email}</a>
-          </address>
+          {email && (
+            <address>
+              <a href={"mailto:" + email}>{email}</a>
+            </address>
+          )}
         </div>
       </div>
     </section>

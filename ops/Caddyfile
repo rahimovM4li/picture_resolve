@@ -1,0 +1,15 @@
+{
+  admin off
+}
+{$PREVIEW_HOST} {
+  basic_auth {
+    {$PREVIEW_USER} {$PREVIEW_PASSWORD_HASH}
+  }
+  header X-Robots-Tag "noindex, nofollow, noarchive"
+  request_body {
+    max_size 66MB
+  }
+  reverse_proxy 127.0.0.1:4281 {
+    header_up X-Real-IP {remote_host}
+  }
+}

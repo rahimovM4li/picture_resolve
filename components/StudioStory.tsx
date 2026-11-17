@@ -1,22 +1,19 @@
 import Link from "@/components/site-link";
 import { SceneBook } from "@/components/scene-book";
-import { projects } from "@/content/projects";
+import type { Project } from "@/content/projects";
 import { Arrow } from "@/components/ui";
 import { StoryCover } from "@/components/StoryCover";
 import { CineTitle } from "@/components/cine-title";
-import type { StudioStory as StudioContent } from "@/content/studio";
+import type { CityPage } from "@/content/editorial";
 import "@/app/secondary.css";
 
 export function StudioStory({
   story,
-  regional = false,
+  project,
 }: {
-  story: StudioContent;
-  regional?: boolean;
+  story: CityPage;
+  project?: Project;
 }) {
-  const project = projects.find(
-    (item) => item.slug === (regional ? "hopp" : "kamerastudie"),
-  )!;
   return (
     <article className="sub-page">
       <StoryCover
@@ -26,11 +23,11 @@ export function StudioStory({
         image={story.image}
         alt={story.alt}
         caption={story.caption}
-        subject={regional ? "region" : "studio"}
-        chapter={regional ? "Vor Ort" : "Arbeitsweise"}
+        subject="region"
+        chapter="Vor Ort"
       >
-        <Link className="sub-button" href="/kontakt/">
-          Projekt besprechen <Arrow diagonal />
+        <Link className="sub-button" href={story.contact.href}>
+          {story.contact.label} <Arrow diagonal />
         </Link>
       </StoryCover>
       <section className="sub-light" id="einblick">
@@ -38,7 +35,7 @@ export function StudioStory({
           <div className="sub-studio-intro">
             <p className="sub-label">
               <i aria-hidden="true" />
-              {regional ? "Düsseldorf · Vor Ort" : "Studio · Arbeitsweise"}
+              {story.city} · Vor Ort
             </p>
             <h2 className="sub-heading" data-cine-reveal>
               {story.chapter}
@@ -48,12 +45,16 @@ export function StudioStory({
             <SceneBook
               scenes={[
                 {
-                  title: regional ? "In der Werkstatt" : "Der erste Blick",
+                  title: project?.title || story.city,
                   copy: story.paragraphs[0],
-                  image: regional ? project.cover : project.stills[0],
+                  image: project?.cover ?? {
+                    src: story.image,
+                    alt: story.alt,
+                    caption: story.caption,
+                  },
                 },
                 {
-                  title: regional ? "Der Dreh vor Ort" : "Im Schnitt",
+                  title: "Der Dreh vor Ort",
                   copy: story.paragraphs[1],
                   image: {
                     src: story.detail.image,
@@ -63,13 +64,17 @@ export function StudioStory({
                 },
               ]}
             />
-            <Link
-              className="sub-text-link"
-              href={regional ? "/projekte/hopp/" : "/projekte/"}
-            >
-              {regional ? "HOPP im Portfolio" : "Projekte ansehen"}{" "}
-              <Arrow diagonal />
-            </Link>
+            {story.paragraphs.slice(2).map((text, i) => (
+              <p key={i}>{text}</p>
+            ))}
+            {project && (
+              <Link
+                className="sub-text-link"
+                href={`/projekte/${project.slug}/`}
+              >
+                {project.title} ansehen <Arrow diagonal />
+              </Link>
+            )}
           </div>
         </div>
       </section>
@@ -77,8 +82,8 @@ export function StudioStory({
         <div className="wrap sub-section sub-editorial">
           <CineTitle
             as="h2"
-            lead={regional ? "Ihr Dreh" : "Was möchten"}
-            accent={regional ? "in der Region?" : "Sie zeigen?"}
+            lead="Ihr Dreh"
+            accent="in der Region?"
             className="sub-chapter-title"
           />
           <nav aria-label="Filmleistungen">

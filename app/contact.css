@@ -239,8 +239,7 @@
   margin: 2px 0 0;
   accent-color: var(--contact-red);
 }
-.inquiry-privacy label,
-.inquiry-demo {
+.inquiry-privacy label {
   font-size: 0.875rem;
   color: var(--contact-muted);
 }
@@ -278,10 +277,6 @@
 .inquiry-submit:disabled {
   cursor: progress;
 }
-.inquiry-demo {
-  margin-top: 1rem;
-  max-width: 54ch;
-}
 .inquiry-preview {
   min-height: 500px;
   padding: clamp(1.5rem, 3.5vw, 3rem);
@@ -302,22 +297,8 @@
   margin: 2rem 0 1rem;
   font: 700 clamp(2rem, 4vw, 3rem)/1 var(--display);
 }
-.inquiry-preview > p,
-.inquiry-preview dt {
+.inquiry-preview > p {
   color: var(--contact-muted);
-}
-.inquiry-preview dl {
-  margin: 2rem 0;
-}
-.inquiry-preview dt {
-  padding-top: 0.65rem;
-  border-top: 1px solid var(--contact-rule);
-  font-size: 0.8rem;
-}
-.inquiry-preview dd {
-  margin: 0.15rem 0 0.8rem;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
 }
 .inquiry-sr {
   position: absolute;

@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 
-/** Resolve local pages directly against their exported directory indexes. */
+/** Keep local page links on their canonical trailing-slash URLs. */
 export default function SiteLink({ href, ...props }: ComponentProps<"a">) {
   if (href?.startsWith("/") && !href.startsWith("//")) {
     const parts = href.match(/^([^?#]*)(.*)$/);

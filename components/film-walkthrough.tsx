@@ -3,13 +3,17 @@
 import { useEffect, useRef } from "react";
 import SiteLink from "@/components/site-link";
 import { Arrow, Frame } from "@/components/ui";
-import { filmWalkthrough } from "@/content/film-walkthrough";
+import type { homePage } from "@/content/editorial";
 import "@/app/walkthrough.css";
 
 const desktopMotion =
   "(min-width: 900px) and (min-height: 540px) and (prefers-reduced-motion: no-preference)";
 
-export function FilmWalkthrough() {
+export function FilmWalkthrough({
+  filmWalkthrough,
+}: {
+  filmWalkthrough: typeof homePage.walkthrough;
+}) {
   const sequenceRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -129,7 +133,7 @@ export function FilmWalkthrough() {
               {filmWalkthrough.title}
             </p>
             <h2 id="walk-title">
-              Eine Nacht in <em>drei Einstellungen.</em>
+              {filmWalkthrough.heading} <em>{filmWalkthrough.accent}</em>
             </h2>
           </div>
           <SiteLink className="line-link" href={filmWalkthrough.href}>

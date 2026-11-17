@@ -2,6 +2,8 @@ import Link from "@/components/site-link";
 import { CineTitle } from "@/components/cine-title";
 import { ReferenceCta, ReferenceHero } from "@/components/ref-page-hero";
 import { Arrow, Frame } from "@/components/ui";
+import { CaseFilm } from "./case-film";
+import type { Project } from "@/content/projects";
 import type { ServicePageContent } from "@/content/services";
 import "@/app/service-reference.css";
 
@@ -26,7 +28,16 @@ function SectionHead({
   );
 }
 
-export function ServiceStory({ service }: { service: ServicePageContent }) {
+export function ServiceStory({
+  service,
+  project,
+  email,
+}: {
+  service: ServicePageContent;
+  project?: Project;
+  email: string;
+}) {
+  const inquiry = `/kontakt/?leistung=${service.slug}`;
   return (
     <article className="service-reference">
       <ReferenceHero
@@ -36,12 +47,54 @@ export function ServiceStory({ service }: { service: ServicePageContent }) {
         image={service.image}
         alt={service.alt}
       />
+      {project && (
+        <section className="service-feature" aria-label="Filmbeispiel">
+          <div className="service-feature-visual" data-cine-clip>
+            <div className="service-feature-plane" data-cine-parallax="15">
+              <Frame
+                src={project.cover.src}
+                alt={project.cover.alt}
+                sizes="(max-width: 767px) max(100vw, 100svh), 100vw"
+              />
+            </div>
+          </div>
+          <div className="service-feature-shade" />
+          <div className="service-wrap">
+            <p className="service-caption">
+              {project.concept ? "Konzeptprojekt" : project.kind} ·{" "}
+              {project.title}
+            </p>
+            <h2 data-cine-reveal>{service.feature.title}</h2>
+            <p
+              className="service-feature-copy"
+              data-cine-reveal
+              data-delay=".2"
+            >
+              {service.feature.text}
+            </p>
+            <div className="service-example-links">
+              {project.video && (
+                <CaseFilm project={project} onProjectPage={false} />
+              )}
+              <Link
+                className="service-proof-link"
+                href={`/projekte/${project.slug}/`}
+              >
+                Projekt ansehen <Arrow diagonal />
+              </Link>
+            </div>
+            <Link className="service-inquiry-link" href={inquiry}>
+              {service.inquiryLabel} <Arrow diagonal />
+            </Link>
+          </div>
+        </section>
+      )}
       <section className="service-block">
         <div className="service-wrap">
           <SectionHead
             index="01"
-            eyebrow="Wirkung"
-            title={"Warum es\nfunktioniert."}
+            eyebrow="Ablauf"
+            title={"So entsteht\nIhr Film."}
           />
           <div className="service-benefits">
             {service.why.map(([title, description], i) => (
@@ -59,27 +112,6 @@ export function ServiceStory({ service }: { service: ServicePageContent }) {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-      <section className="service-feature">
-        <div className="service-feature-visual" data-cine-clip>
-          <div className="service-feature-plane" data-cine-parallax="15">
-            <Frame
-              src={service.feature.image}
-              alt={service.feature.alt}
-              sizes="(max-width: 767px) max(100vw, 100svh), 100vw"
-            />
-          </div>
-        </div>
-        <div className="service-feature-shade" />
-        <div className="service-wrap">
-          <h2 data-cine-reveal>{service.feature.title}</h2>
-          <p className="service-feature-copy" data-cine-reveal data-delay=".2">
-            {service.feature.text}
-          </p>
-          <Link className="service-proof-link" href="/projekte/hopp/">
-            Werkstattreportage HOPP ansehen <Arrow diagonal />
-          </Link>
         </div>
       </section>
       <section className="service-block service-format-section">
@@ -124,7 +156,9 @@ export function ServiceStory({ service }: { service: ServicePageContent }) {
       </section>
       <ReferenceCta
         title={service.cta}
-        href={`/kontakt/?leistung=${service.slug}`}
+        href={inquiry}
+        label={service.inquiryLabel}
+        email={email}
       />
     </article>
   );

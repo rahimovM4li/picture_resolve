@@ -4,6 +4,7 @@ import AxeBuilder from "@axe-core/playwright";
 const projectPaths = [
   "/projekte/kamerastudie", "/projekte/hopp", "/projekte/hinter-der-kamera",
   "/projekte/gesichter-des-studios", "/projekte/duesseldorf-am-rhein",
+  "/projekte/vom-entwurf-zum-einzelstueck", "/projekte/deine-erste-schicht", "/projekte/ein-produkt-drei-einstellungen",
 ];
 
 const routes = [
@@ -13,33 +14,34 @@ const routes = [
   "/impressum", "/datenschutz",
 ];
 
-test("home and project index show the same five distinct linked works in order", async ({ page }) => {
-  const presentations = [];
+test("curated home selection and complete archive link to published projects", async ({ page }) => {
+  const presentations: { path:string;title:string | undefined;image:string | null }[][] = [];
   for (const route of ["/", "/projekte/"]) {
     await page.goto(route);
     const cards = page.locator("main a.archive-card");
-    await expect(cards).toHaveCount(projectPaths.length);
+    const expected = route === "/" ? [0,5,6,1,7].map(i => projectPaths[i]) : projectPaths;
+    await expect(cards).toHaveCount(expected.length);
     const entries = await cards.evaluateAll((links) => links.map((link) => ({
       path: new URL((link as HTMLAnchorElement).href).pathname.replace(/\/$/, ""),
       title: link.querySelector("h2,h3")!.textContent?.trim(),
       image: link.querySelector("img")!.getAttribute("src"),
     })));
-    expect(entries.map((entry) => entry.path)).toEqual(projectPaths);
-    expect(new Set(entries.map((entry) => entry.image)).size).toBe(projectPaths.length);
+    expect(entries.map((entry) => entry.path)).toEqual(expected);
+    expect(new Set(entries.map((entry) => entry.image)).size).toBe(expected.length);
     for (const [index, entry] of entries.entries()) {
       await expect(cards.nth(index)).toHaveAccessibleName(new RegExp(entry.title!));
     }
     presentations.push(entries);
   }
-  expect(presentations[1]).toEqual(presentations[0]);
+  expect(presentations[0].every(entry => presentations[1].some(archived => archived.path === entry.path && archived.title === entry.title))).toBe(true);
   await page.locator(".archive-card").first().click();
   for (const [index, path] of projectPaths.entries()) {
     await expect(page).toHaveURL(new RegExp(path + "/?$"));
-    await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(presentations[0][index].title + ".");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(presentations[1][index].title + ".");
     const next = page.locator(".case-next a");
     await expect(next).toHaveAttribute("href", projectPaths[(index + 1) % projectPaths.length] + "/");
     await expect(page.locator(".case-back")).toHaveAttribute("href", "/projekte/");
-    if (index > 0) await expect(page.getByRole("button", { name: /Film abspielen/ })).toHaveCount(0);
+    if (![0,5,6].includes(index)) await expect(page.getByRole("button", { name: /Film abspielen/ })).toHaveCount(0);
     await next.click();
   }
   await expect(page).toHaveURL(/\/projekte\/kamerastudie\/?$/);

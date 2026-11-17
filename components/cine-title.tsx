@@ -7,7 +7,7 @@ function Words({ text }: { text: string }) {
     .map((word, i) => (
       <Fragment key={i}>
         {i > 0 && " "}
-        <span className="cine-word">
+        <span className="cine-word" data-long={word.length > 14 || undefined}>
           <span className="cine-glyph">{word}</span>
         </span>
       </Fragment>

@@ -3,7 +3,8 @@ import Link from "@/components/site-link";
 import { SceneBook } from "@/components/scene-book";
 import { ShotStage } from "@/components/shot-stage";
 import { CaseFilm } from "@/components/case-film";
-import { projects } from "@/content/projects";
+import { getProjects, getServices, getSettings } from "@/lib/public-content";
+import { JsonLd } from "@/components/json-ld";
 import { Arrow, ContactBand, Frame } from "@/components/ui";
 import { CineTitle } from "@/components/cine-title";
 import { pageMeta } from "@/lib/seo";
@@ -11,29 +12,47 @@ import "../portfolio.css";
 import "./case.css";
 
 type Props = { params: Promise<{ slug: string }> };
-export const dynamicParams = false;
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.slug }));
-}
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const p = projects.find((item) => item.slug === slug);
+  const p = (await getProjects()).find((item) => item.slug === slug);
   return p
-    ? pageMeta("/projekte/" + slug, p.title, p.summary, p.cover.src)
+    ? pageMeta(
+        "/projekte/" + slug,
+        p.seoTitle || p.title,
+        p.seoDescription || p.summary,
+        p.cover.src,
+      )
     : {};
 }
 
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
+  const [projects, services, settings] = await Promise.all([
+    getProjects(),
+    getServices(),
+    getSettings(),
+  ]);
   const index = projects.findIndex((item) => item.slug === slug);
   if (index === -1) notFound();
   const p = projects[index];
   const related = projects[(index + 1) % projects.length];
-  const accent = p.titleAccent ?? p.title.split(" ").at(-1)!;
+  const accent =
+    p.titleAccent && p.title.endsWith(p.titleAccent)
+      ? p.titleAccent
+      : p.title.trim().split(/\s+/).at(-1)!;
+  const relatedServices = services.filter((s) => p.services?.includes(s.slug));
   const single = p.stills.length === 1;
+  const hasGallery = p.stills.length > 0;
 
   return (
     <>
+      <JsonLd
+        type="CreativeWork"
+        name={p.title}
+        description={p.summary}
+        path={`/projekte/${slug}/`}
+        image={p.cover.src}
+      />
       <ShotStage
         className={`case-cover case-intro case-intro--${slug}`}
         as="section"
@@ -44,6 +63,7 @@ export default async function ProjectPage({ params }: Props) {
               src={p.cover.src}
               alt={p.cover.alt}
               priority
+              portraitCover={p.cover.src.startsWith("/medien/")}
               sizes="(max-width: 800px) 100vw, 73vw"
             />
           </div>
@@ -56,12 +76,14 @@ export default async function ProjectPage({ params }: Props) {
           <header className="case-intro-copy">
             <p className="eyebrow">
               <i />
-              {p.kind} · {p.meta}
+              {p.concept && "Konzeptprojekt · "}
+              {p.kind}
+              {p.meta && ` · ${p.meta}`}
             </p>
             <div data-shot-title>
               <CineTitle
                 lead={p.title.slice(0, -accent.length).trim()}
-                accent={accent + "."}
+                accent={/[.!?…]$/.test(accent) ? accent : accent + "."}
               />
             </div>
             <p className="case-deck">{p.summary}</p>
@@ -70,7 +92,7 @@ export default async function ProjectPage({ params }: Props) {
           <div className="case-folio">
             <span>{p.attribution}</span>
             <a href="#bildfolge">
-              {single ? "Zum Bilddetail" : "Zur Bildfolge"} ↓
+              {!hasGallery ? "Zur Projektidee" : single ? "Zum Bilddetail" : "Zur Bildfolge"} ↓
             </a>
           </div>
         </div>
@@ -79,18 +101,27 @@ export default async function ProjectPage({ params }: Props) {
         <header>
           <p className="eyebrow">
             <i />
-            {p.type === "film"
-              ? "Aus dem Film"
-              : slug === "hopp"
-                ? "Aus der Werkstatt"
-                : "Aus dem Archiv"}
+            {p.concept
+              ? "Zur Filmidee"
+              : p.type === "film"
+                ? "Aus dem Film"
+                : slug === "hopp"
+                  ? "Aus der Werkstatt"
+                  : "Aus dem Archiv"}
           </p>
           <CineTitle
             as="h2"
             lead={single ? "Im" : "Die"}
-            accent={single ? "Detail." : "Bildfolge."}
+            accent={!hasGallery ? "Projektidee." : single ? "Detail." : "Bildfolge."}
           />
           <p className="case-deck">{p.description}</p>
+          {relatedServices.map((s) => (
+            <p key={s.slug}>
+              <Link className="line-link" href={`/leistungen/${s.slug}/`}>
+                {s.name} <Arrow diagonal />
+              </Link>
+            </p>
+          ))}
         </header>
         {single ? (
           <figure className="case-print">
@@ -103,7 +134,7 @@ export default async function ProjectPage({ params }: Props) {
             </div>
             <figcaption>{p.stills[0].caption}</figcaption>
           </figure>
-        ) : (
+        ) : hasGallery && (
           <SceneBook
             scenes={p.stills.map((still) => ({
               title: still.caption,
@@ -122,7 +153,18 @@ export default async function ProjectPage({ params }: Props) {
           </Link>
         </aside>
       )}
-      <ContactBand />
+      <ContactBand
+        lead="Welchen Film"
+        accent="planen Sie?"
+        contact={
+          relatedServices.length === 1
+            ? {
+                href: `/kontakt/?leistung=${relatedServices[0].slug}`,
+                label: relatedServices[0].inquiryLabel,
+              }
+            : settings.contact
+        }
+      />
     </>
   );
 }

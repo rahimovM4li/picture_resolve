@@ -1,9 +1,9 @@
 import { Frame } from "@/components/ui";
 import Link from "@/components/site-link";
 import { PortfolioFilters } from "@/components/portfolio-filters";
-import { projects } from "@/content/projects";
+import type { Project } from "@/content/projects";
 
-export function PortfolioGallery() {
+export function PortfolioGallery({ projects }: { projects: Project[] }) {
   return (
     <section className="reference-gallery" aria-label="Projektarchiv">
       <div className="reference-gallery-inner">
@@ -30,7 +30,11 @@ export function PortfolioGallery() {
                     <h2>{project.title}</h2>
                     <p>{project.attribution}</p>
                   </div>
-                  <span>{project.kind}</span>
+                  <span>
+                    {project.concept
+                      ? `Konzeptprojekt · ${project.kind}`
+                      : project.kind}
+                  </span>
                 </div>
               </Link>
             </article>

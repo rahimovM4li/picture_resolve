@@ -1,16 +1,16 @@
 import { notFound } from "next/navigation";
 import { ServiceStory } from "@/components/ServiceStory";
-import { services } from "@/content/services";
+import { getProjects, getServices, getSettings } from "@/lib/public-content";
+import { JsonLd } from "@/components/json-ld";
 import { pageMeta } from "@/lib/seo";
 
 type Params = { params: Promise<{ slug: string }> };
-export const dynamicParams = false;
-export const generateStaticParams = () =>
-  services.map(({ slug }) => ({ slug }));
 
 async function findService(params: Params["params"]) {
   const { slug } = await params;
-  return services.find((entry) => entry.slug === slug) ?? notFound();
+  return (
+    (await getServices()).find((entry) => entry.slug === slug) ?? notFound()
+  );
 }
 
 export async function generateMetadata({ params }: Params) {
@@ -24,5 +24,25 @@ export async function generateMetadata({ params }: Params) {
 }
 
 export default async function ServicePage({ params }: Params) {
-  return <ServiceStory service={await findService(params)} />;
+  const [service, projects, settings] = await Promise.all([
+    findService(params),
+    getProjects(),
+    getSettings(),
+  ]);
+  return (
+    <>
+      <JsonLd
+        type="Service"
+        name={service.name}
+        description={service.intro}
+        path={`/leistungen/${service.slug}/`}
+        image={service.image}
+      />
+      <ServiceStory
+        service={service}
+        project={projects.find((p) => p.slug === service.feature.projectSlug)}
+        email={settings.email}
+      />
+    </>
+  );
 }

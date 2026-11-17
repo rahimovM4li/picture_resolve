@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "./site-link";
 import { Arrow } from "./ui";
-import { projects, type Project } from "@/content/projects";
+import type { Project } from "@/content/projects";
 import "@/app/film-player.css";
 
 type Playback = "waiting" | "playing" | "paused" | "ended" | "error";
@@ -35,6 +35,12 @@ function Reel() {
   );
 }
 
+function videoType(src: string) {
+  const path = src.split(/[?#]/, 1)[0].toLowerCase();
+  if (path.endsWith(".webm")) return "video/webm";
+  if (path.endsWith(".mp4")) return "video/mp4";
+}
+
 function timecode(seconds: number) {
   const whole = Math.floor(Math.max(0, seconds));
   return [Math.floor(whole / 60), whole % 60]
@@ -43,11 +49,11 @@ function timecode(seconds: number) {
 }
 
 export function FilmDialog({
-  project = projects[0],
+  project,
   onClose,
   onProjectPage = false,
 }: {
-  project?: Project;
+  project: Project;
   onClose: () => void;
   onProjectPage?: boolean;
 }) {
@@ -99,7 +105,8 @@ export function FilmDialog({
           <div className="film-ident">
             <Reel />
             <span>
-              Picture Resolve<small>Studiofilm</small>
+              Picture Resolve
+              <small>{project.concept ? "Konzeptprojekt" : "Studiofilm"}</small>
             </span>
           </div>
           <div className="film-time" aria-hidden="true">
@@ -179,7 +186,7 @@ export function FilmDialog({
                 preload="none"
                 autoPlay
                 loop={repeat}
-                poster={project.cover.src}
+                poster={video.poster || project.cover.src}
                 aria-label={project.title}
                 onPlaying={() => {
                   setStarted(true);
@@ -207,12 +214,12 @@ export function FilmDialog({
                   <source
                     media="(max-width: 700px)"
                     src={video.compactSrc}
-                    type="video/mp4"
+                    type={videoType(video.compactSrc)}
                   />
                 )}
                 <source
                   src={video.src}
-                  type="video/mp4"
+                  type={videoType(video.src)}
                   onError={() => setPlayback("error")}
                 />
                 {video.captions && (
@@ -229,7 +236,9 @@ export function FilmDialog({
               <div
                 aria-hidden="true"
                 className="film-leader"
-                style={{ backgroundImage: `url("${project.cover.src}")` }}
+                style={{
+                  backgroundImage: `url("${video.poster || project.cover.src}")`,
+                }}
               />
             </>
           )}

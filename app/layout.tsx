@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ScrollMotion } from "@/components/motion";
+import { getServices, getSettings } from "@/lib/public-content";
+import { MediaRegistry } from "@/components/media-registry";
+import { previewSelection } from "@/lib/cms/read";
+import { PreviewNotice } from "@/lib/cms/preview-notice";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { indexable, origin } from "@/lib/seo";
@@ -39,16 +43,24 @@ const sans = localFont({
   variable: "--font-text",
   display: "swap",
 });
-export const metadata: Metadata = {
-  metadataBase: origin,
-  robots: { index: indexable, follow: indexable },
-  icons: { icon: "/assets/brand/signet-rot.webp" },
-};
-export default function RootLayout({
+export async function generateMetadata(): Promise<Metadata> {
+  const allow = indexable && !(await previewSelection());
+  return {
+    metadataBase: origin,
+    robots: { index: allow, follow: allow },
+    icons: { icon: "/assets/brand/signet-rot.webp" },
+  };
+}
+export const dynamic = "force-dynamic";
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [settings, services] = await Promise.all([
+    getSettings(),
+    getServices(),
+  ]);
   return (
     <html
       data-scroll-behavior="smooth"
@@ -82,12 +94,24 @@ export default function RootLayout({
         <a href="#inhalt" className="skip">
           Zum Inhalt
         </a>
-        <Header />
-        <main id="inhalt" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
-        <ScrollMotion />
+        <MediaRegistry>
+          <PreviewNotice />
+          <Header
+            settings={settings}
+            services={services.map(
+              ({ slug, inquiryLabel, inquiryShortLabel }) => ({
+                slug,
+                inquiryLabel,
+                inquiryShortLabel,
+              }),
+            )}
+          />
+          <main id="inhalt" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer />
+          <ScrollMotion />
+        </MediaRegistry>
       </body>
     </html>
   );

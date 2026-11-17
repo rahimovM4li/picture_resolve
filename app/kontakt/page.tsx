@@ -1,16 +1,20 @@
 import { CineTitle } from "@/components/cine-title";
 import { InquiryForm } from "@/components/inquiry-form";
-import { inquiryCopy } from "@/content/inquiry";
+import type { contactPage } from "@/content/inquiry";
+import { getPage, getSettings } from "@/lib/public-content";
 import { pageMeta } from "@/lib/seo";
 import "../contact.css";
 
-export const metadata = pageMeta(
-  "/kontakt",
-  "Filmprojekt anfragen",
-  "Besprechen Sie Ihren Imagefilm oder Recruitingfilm mit Picture Resolve. Kontakt per E-Mail und lokale Vorschau für Ihr Filmbriefing.",
-);
+export async function generateMetadata() {
+  const page = await getPage<typeof contactPage>("contact");
+  return pageMeta("/kontakt", page.seoTitle, page.seoDescription);
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const [page, settings] = await Promise.all([
+    getPage<typeof contactPage>("contact"),
+    getSettings(),
+  ]);
   return (
     <section className="inquiry-page" aria-labelledby="contact-title">
       <div className="inquiry-layout">
@@ -20,34 +24,34 @@ export default function ContactPage() {
           </p>
           <div id="contact-title">
             <CineTitle
-              lead={"Erzählen Sie\nuns Ihre"}
-              accent="Geschichte."
+              lead={page.title}
+              accent={page.accent}
               className="inquiry-title"
             />
           </div>
           <div className="inquiry-direct">
             <div>
               <p className="inquiry-caption">E-Mail</p>
-              <a className="inquiry-email" href={`mailto:${inquiryCopy.email}`}>
-                {inquiryCopy.email}
+              <a className="inquiry-email" href={`mailto:${settings.email}`}>
+                {settings.email}
               </a>
             </div>
             <div>
-              <p className="inquiry-caption">Studio</p>
-              <p className="inquiry-address">Düsseldorf, Deutschland</p>
+              <p className="inquiry-caption">{page.regionLabel}</p>
+              <p className="inquiry-address">{page.region}</p>
             </div>
-            <p className="inquiry-lead">
-              Erzählen Sie uns von Ihrem Unternehmen, Ihrer Zielgruppe und Ihrem
-              Filmvorhaben.
-            </p>
+            <p className="inquiry-lead">{page.intro}</p>
           </div>
         </div>
         <div className="inquiry-panel">
-          <InquiryForm />
+          <InquiryForm
+            submitLabel={page.submitLabel}
+            privacyText={page.privacyText}
+          />
           <noscript>
             <p>
-              Die lokale Vorschau benötigt JavaScript. Sie erreichen uns per{" "}
-              <a href={`mailto:${inquiryCopy.email}`}>E-Mail</a>.
+              Das Formular benötigt JavaScript. Sie erreichen uns per{" "}
+              <a href={`mailto:${settings.email}`}>E-Mail</a>.
             </p>
           </noscript>
         </div>

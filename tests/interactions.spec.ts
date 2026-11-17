@@ -91,15 +91,15 @@ test("portfolio filters expose matching project links and restore the full archi
   await page.goto("/projekte/");
   const gallery = page.getByRole("region", { name: "Projektarchiv" });
   const visibleProjects = gallery.locator("article:visible a");
-  await expect(visibleProjects).toHaveCount(5);
+  await expect(visibleProjects).toHaveCount(8);
   await gallery.getByText("Film", { exact: true }).first().click();
   await expect(gallery.getByRole("radio", { name: "Film", exact: true })).toBeChecked();
-  await expect(visibleProjects).toHaveCount(1);
-  await expect(visibleProjects).toHaveAttribute("href", "/projekte/kamerastudie/");
+  await expect(visibleProjects).toHaveCount(3);
+  await expect(visibleProjects.first()).toHaveAttribute("href", "/projekte/kamerastudie/");
   await gallery.locator("label").filter({ hasText: "Fotografie" }).click();
-  await expect(visibleProjects).toHaveCount(4);
-  await gallery.locator("label").filter({ hasText: "Alle" }).click();
   await expect(visibleProjects).toHaveCount(5);
+  await gallery.locator("label").filter({ hasText: "Alle" }).click();
+  await expect(visibleProjects).toHaveCount(8);
 });
 
 test("camera study exposes a playable local film and HOPP is a still-image project", async ({ page }) => {
@@ -246,17 +246,12 @@ test("scroll changes the desktop crop and reduced motion restores a static frame
   await expect(page.locator("main a[href='/projekte/']").first()).toBeVisible();
 });
 
-test("service inquiry validates fields, previews locally and preserves edits", async ({ page }) => {
+test("contact form marks invalid fields and keeps correctable inputs", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/leistungen/recruitingfilme/");
-  const destination = page.locator('main a[href*="leistung=recruitingfilme"]').first();
-  await destination.click();
-  await expect(page).toHaveURL(/kontakt.*leistung=recruitingfilme/);
-  await expect(page.getByText(/Demo-Modus/)).toBeVisible();
-  const form = page.getByRole("form", { name: "Projektanfrage vorbereiten" });
-  const service = form.getByRole("radio", { name: "Recruitingfilm", exact: true });
-  await expect(service).toBeChecked();
-  const submit = form.getByRole("button", { name: "Anfrage als Vorschau öffnen" });
+  await page.goto("/kontakt/?leistung=recruitingfilme");
+  const form = page.getByRole("form", { name: "Projektanfrage" });
+  await expect(form.getByRole("radio", { name: "Recruitingfilm", exact: true })).toBeChecked();
+  const submit = form.getByRole("button", { name: "Anfrage senden" });
   await submit.click();
   const name = form.getByRole("textbox", { name: "Name", exact: true });
   const email = form.getByRole("textbox", { name: "E-Mail", exact: true });
@@ -267,26 +262,7 @@ test("service inquiry validates fields, previews locally and preserves edits", a
   await submit.click();
   await expect(email).toBeFocused();
   await expect(email).toHaveAttribute("aria-invalid", "true");
-
-  await email.fill("qa@example.test");
-  await form.getByRole("textbox", { name: /Unternehmen/ }).fill("Beispiel GmbH");
-  await form.getByRole("textbox", { name: "Projektbeschreibung" }).fill("Wir möchten unsere Ausbildungswerkstatt für Bewerbende zeigen.");
-  await form.getByRole("checkbox").check();
-  const posts: string[] = [];
-  page.on("request", (request) => {
-    if (!["GET", "HEAD"].includes(request.method()) || request.url().includes("qa%40example")) {
-      posts.push(request.url());
-    }
-  });
-  await submit.click();
-  const preview = page.getByRole("heading", { name: "Ihre Anfrage im Überblick" });
-  await expect(preview).toBeFocused();
-  await expect(page.getByText(/Es wurde keine Anfrage versendet/)).toBeVisible();
-  await expect(page.getByText("qa@example.test", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: /Angaben bearbeiten/ }).click();
-  await expect(name).toBeFocused();
-  await expect(email).toHaveValue("qa@example.test");
-  expect(posts).toEqual([]);
+  await expect(name).toHaveValue("QA Muster");
 });
 
 test("three studio frames advance and reverse with desktop scroll", async ({ page }) => {

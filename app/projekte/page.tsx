@@ -1,38 +1,53 @@
 import Image from "next/image";
+import type { archivePage, homePage } from "@/content/editorial";
+import { getPage, getProjects, getSettings } from "@/lib/public-content";
 import { PortfolioGallery } from "@/components/portfolio-gallery";
 import { ReferenceCta, ReferenceHero } from "@/components/ref-page-hero";
 import { pageMeta } from "@/lib/seo";
 import "./index.css";
 
-const skyline = "/assets/images/duesseldorf-skyline.webp";
-export const metadata = pageMeta(
-  "/projekte",
-  "Projekte & Referenzen",
-  "Studiofilm, Werkstattreportage, Porträts und Stadtfotografie. Ausgewählte Arbeiten von Picture Resolve aus Düsseldorf.",
-  skyline,
-);
-export default function Projects() {
+export async function generateMetadata() {
+  const entry = await getPage<typeof archivePage>("archive");
+  return pageMeta(
+    "/projekte",
+    entry.seoTitle,
+    entry.seoDescription,
+    entry.image,
+  );
+}
+export default async function Projects() {
+  const [entry, projects, settings, home] = await Promise.all([
+    getPage<typeof archivePage>("archive"),
+    getProjects(),
+    getSettings(),
+    getPage<typeof homePage>("home"),
+  ]);
   return (
     <>
       <ReferenceHero
-        eyebrow="Referenzen"
-        title="Projekte."
-        intro="Eine Auswahl unserer Arbeiten – jede davon eine eigene Geschichte."
-        image={skyline}
-        alt="Düsseldorfer Skyline bei Nacht mit Rheinturm und Lichtern am Ufer."
+        eyebrow={entry.eyebrow}
+        title={entry.title}
+        intro={entry.intro}
+        image={entry.image}
+        alt={entry.alt}
       />
-      <PortfolioGallery />
+      <PortfolioGallery projects={projects} />
       <aside className="reference-gallery-clients" aria-label="Zusammenarbeit">
         <Image
-          src="/assets/brand/zusammenarbeit.webp"
+          src={home.partnersImage}
           width={2295}
           height={122}
-          alt="Deutscher Sparkassenverlag, Mercedes-Benz, Bosch, Xotic Moves, HOPP, Carglass und Zahnimpuls"
+          alt={home.partnersAlt}
           unoptimized
           data-cine-reveal
         />
       </aside>
-      <ReferenceCta title={"Ihr Projekt\nals Nächstes?"} />
+      <ReferenceCta
+        title={entry.contactTitle}
+        href={settings.contact.href}
+        label={settings.contact.label}
+        email={settings.email}
+      />
     </>
   );
 }

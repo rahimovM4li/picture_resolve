@@ -1,10 +1,16 @@
 import { CineTitle } from "./cine-title";
 import { ReelTrigger } from "./reel-trigger";
 import { Frame } from "./ui";
-import { homeCopy } from "@/content/home";
-import { projects } from "@/content/projects";
+import type { homePage } from "@/content/editorial";
+import type { Project } from "@/content/projects";
 
-export function Hero() {
+export function Hero({
+  home,
+  project,
+}: {
+  home: typeof homePage;
+  project?: Project;
+}) {
   return (
     <section className="hero premiere" aria-label="Filmproduktion Düsseldorf">
       <div className="premiere-frame" data-hero-parallax>
@@ -15,8 +21,8 @@ export function Hero() {
         />
         <div className="premiere-plate">
           <Frame
-            src="/assets/images/raman-kamera.webp"
-            alt="Raman Seddik am Set mit seiner Filmkamera."
+            src={home.image}
+            alt={home.alt}
             portraitCover
             priority
             sizes="max(100vw, 166svh)"
@@ -28,18 +34,18 @@ export function Hero() {
         <div className="premiere-copy">
           <p className="eyebrow">
             <i />
-            Filmproduktion · Düsseldorf
+            {home.eyebrow}
           </p>
           <CineTitle
-            lead={homeCopy.headline[0]}
-            accent={homeCopy.headline[1]}
+            lead={home.headline[0]}
+            accent={home.headline[1]}
             className="premiere-title"
           />
           <div className="premiere-foot">
             <p className="premiere-intro" data-reveal data-delay="0.8">
-              {homeCopy.proposition.join(" ")}
+              {home.intro}
             </p>
-            <ReelTrigger duration={projects[0].video?.duration} />
+            {project && <ReelTrigger project={project} />}
           </div>
         </div>
       </div>

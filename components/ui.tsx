@@ -2,6 +2,7 @@ import { CineTitle } from "./cine-title";
 import Link from "@/components/site-link";
 import { mediaSizes } from "@/content/asset-sizes";
 import type { CSSProperties, ReactNode } from "react";
+import { UploadedImage } from "./uploaded-image";
 import { preload } from "react-dom";
 
 export function Arrow({ diagonal = false }: { diagonal?: boolean }) {
@@ -53,23 +54,37 @@ export function Frame({
   priority?: boolean;
   portraitCover?: boolean;
 }) {
+  if (src.startsWith("/medien/"))
+    return (
+      <UploadedImage
+        {...{ src, alt, sizes, priority, className }}
+        portrait={portraitCover}
+      />
+    );
   const image = mediaSizes[src];
   const stem = src.replace(/\.webp$/, "");
-  const srcSet = image?.widths.map(width => {
-    const url = width === image.width ? src : `${stem}-${width}.webp`;
-    return `${url} ${width}w`;
-  }).join(", ");
+  const srcSet = image?.widths
+    .map((width) => {
+      const url = width === image.width ? src : `${stem}-${width}.webp`;
+      return `${url} ${width}w`;
+    })
+    .join(", ");
   const photo = (
     // eslint-disable-next-line @next/next/no-img-element -- Native sources are pre-encoded for static hosting.
     <img
       width={image?.width}
       height={image?.height}
       className={["frame-photo", className].filter(Boolean).join(" ")}
-      style={image && {
-        "--frame-preview": `url("data:image/webp;base64,${image.preview}")`,
-        "--frame-portrait-preview": portraitCover && image.portraitPreview
-          ? `url("data:image/webp;base64,${image.portraitPreview}")` : undefined,
-      } as CSSProperties}
+      style={
+        image &&
+        ({
+          "--frame-preview": `url("data:image/webp;base64,${image.preview}")`,
+          "--frame-portrait-preview":
+            portraitCover && image.portraitPreview
+              ? `url("data:image/webp;base64,${image.portraitPreview}")`
+              : undefined,
+        } as CSSProperties)
+      }
       src={src}
       srcSet={srcSet}
       sizes={srcSet ? sizes : undefined}
@@ -83,24 +98,45 @@ export function Frame({
   const media = image.portrait
     ? "(max-width: 600px) and (orientation: portrait)"
     : "(max-width: 600px) and (max-aspect-ratio: 3/4)";
-  const portraitSizes = image.portrait ? "max(100vw, 60svh)" : "max(100vw, 75svh)";
-  const avifSet = image.portraitAvif.map(width => `${stem}-portrait-${width}.avif ${width}w`).join(", ");
+  const portraitSizes = image.portrait
+    ? "max(100vw, 60svh)"
+    : "max(100vw, 75svh)";
+  const avifSet = image.portraitAvif
+    .map((width) => `${stem}-portrait-${width}.avif ${width}w`)
+    .join(", ");
   if (priority) {
     preload(`${stem}-portrait-${image.portraitAvif[0]}.avif`, {
-      as: "image", type: "image/avif", media, imageSrcSet: avifSet,
-      imageSizes: portraitSizes, fetchPriority: "high",
+      as: "image",
+      type: "image/avif",
+      media,
+      imageSrcSet: avifSet,
+      imageSizes: portraitSizes,
+      fetchPriority: "high",
     });
     preload(src, {
-      as: "image", media: `not all and ${media}`, imageSrcSet: srcSet,
-      imageSizes: sizes, fetchPriority: "high",
+      as: "image",
+      media: `not all and ${media}`,
+      imageSrcSet: srcSet,
+      imageSizes: sizes,
+      fetchPriority: "high",
     });
   }
   return (
     <picture style={{ display: "contents" }}>
-      <source type="image/avif" media={media} sizes={portraitSizes} srcSet={avifSet} />
+      <source
+        type="image/avif"
+        media={media}
+        sizes={portraitSizes}
+        srcSet={avifSet}
+      />
       {image.portrait && (
-        <source media={media} sizes={portraitSizes}
-          srcSet={image.portrait.map(width => `${stem}-portrait-${width}.webp ${width}w`).join(", ")} />
+        <source
+          media={media}
+          sizes={portraitSizes}
+          srcSet={image.portrait
+            .map((width) => `${stem}-portrait-${width}.webp ${width}w`)
+            .join(", ")}
+        />
       )}
       {photo}
     </picture>
@@ -108,17 +144,27 @@ export function Frame({
 }
 export function InquiryLink({
   children = "Projekt anfragen",
+  href = "/kontakt/",
 }: {
   children?: ReactNode;
+  href?: string;
 }) {
   return (
-    <Link className="button solid" href="/kontakt/" data-cine-magnetic>
+    <Link className="button solid" href={href} data-cine-magnetic>
       {children}
       <Arrow diagonal />
     </Link>
   );
 }
-export function ContactBand() {
+export function ContactBand({
+  contact,
+  lead,
+  accent,
+}: {
+  contact: { href: string; label: string };
+  lead: string;
+  accent: string;
+}) {
   return (
     <section className="contact-band">
       <div className="wrap contact-inside">
@@ -127,15 +173,10 @@ export function ContactBand() {
             <i />
             Kontakt
           </p>
-          <CineTitle
-            as="h2"
-            lead="Wann dürfen wir Ihre Geschichte"
-            accent="erzählen?"
-          />
+          <CineTitle as="h2" lead={lead} accent={accent} />
         </div>
-        <InquiryLink />
+        <InquiryLink href={contact.href}>{contact.label}</InquiryLink>
       </div>
     </section>
   );
 }
-

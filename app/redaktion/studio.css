@@ -1,0 +1,240 @@
+.cms-studio {
+  color: #f4f0e9;
+  background: #131313;
+  min-height: 85vh;
+  padding: clamp(7rem, 11vw, 11rem) max(5vw, 1rem) 5rem;
+  font:
+    400 1rem/1.5 var(--font-text),
+    sans-serif;
+  color-scheme: dark;
+}
+.cms-studio > section {
+  max-width: 68rem;
+  margin: auto;
+}
+.cms-studio *,
+.cms-studio *::before {
+  box-sizing: border-box;
+}
+.cms-studio h1,
+.cms-studio h2,
+.cms-studio h3 {
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  margin: 0 0 0.6em;
+}
+.cms-studio h1 {
+  font-size: clamp(2.75rem, 7vw, 6rem);
+}
+.cms-studio h2 {
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+}
+.cms-studio h3 {
+  font-size: 1.4rem;
+}
+.cms-kicker,
+.cms-help,
+.cms-doc-title > span,
+.cms-entries span,
+.cms-top > div > span {
+  color: #c7c1b9;
+}
+.cms-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+}
+.cms-login {
+  max-width: 31rem !important;
+}
+.cms-studio label {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0.65rem 0;
+  color: #e4ddd5;
+  font-size: 0.95rem;
+}
+.cms-studio button,
+.cms-studio input,
+.cms-studio select,
+.cms-studio textarea {
+  font: inherit;
+  line-height: 1.4;
+}
+.cms-studio input,
+.cms-studio textarea,
+.cms-studio select {
+  min-width: 0;
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  color: #fff;
+  background: #222;
+  border: 1px solid #777;
+  border-radius: 0.25rem;
+}
+.cms-studio button {
+  padding: 0.6rem 0.9rem;
+  min-height: 44px;
+  background: #292929;
+  color: #fff;
+  border: 1px solid #757575;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+.cms-studio :is(button, input, textarea, select):focus-visible {
+  outline: 3px solid #ffd2a4;
+  outline-offset: 2px;
+}
+.cms-studio button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.cms-studio .cms-primary {
+  background: #efe6d9;
+  color: #171513;
+  border-color: transparent;
+}
+.cms-studio button:hover:not(:disabled) {
+  border-color: #f8d6af;
+}
+.cms-top,
+.cms-list-head,
+.cms-nav,
+.cms-entries li,
+.cms-media-list li,
+.cms-array-actions,
+.cms-save {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.cms-top > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.cms-nav {
+  justify-content: flex-start;
+  padding: 1.2rem 0;
+  border-block: 1px solid #57524b;
+}
+.cms-nav button[aria-current] {
+  background: #eae1d6;
+  color: #161514;
+}
+.cms-message {
+  min-height: 1.4em;
+  color: #c6eccb;
+}
+.cms-alert {
+  padding: 0.8rem;
+  color: #ffcec8;
+  background: #491e19;
+}
+.cms-entries,
+.cms-media-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+.cms-entries li,
+.cms-media-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid #514e47;
+}
+.cms-entries button:first-child {
+  text-align: left;
+  font-weight: 650;
+}
+.cms-doc-title {
+  margin: 1.4rem 0;
+}
+.cms-panel,
+.cms-fields {
+  max-width: 58rem;
+}
+.cms-studio fieldset {
+  min-width: 0;
+  margin: 1.2rem 0;
+  padding: 0.95rem 1rem;
+  border: 1px solid #55514c;
+  border-radius: 0.3rem;
+}
+.cms-studio legend {
+  padding: 0 0.4rem;
+  font-weight: 650;
+}
+.cms-studio .cms-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.cms-toggle input {
+  width: auto;
+}
+.cms-studio .cms-array-actions {
+  justify-content: flex-end;
+}
+.cms-array-item + .cms-array-item {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #393733;
+}
+.cms-media-select {
+  max-width: 38rem;
+}
+.cms-media-list img {
+  object-fit: cover;
+}
+.cms-media-list code {
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+.cms-save {
+  position: sticky;
+  bottom: 0;
+  justify-content: flex-start;
+  padding: 1rem 0;
+  background: #131313;
+  border-top: 1px solid #635d56;
+}
+.cms-delete {
+  margin-top: 2rem;
+}
+.cms-studio textarea {
+  resize: vertical;
+}
+.cms-fields > fieldset,
+.cms-panel {
+  background: #191919;
+}
+.cms-panel {
+  padding: 1rem;
+}
+.cms-doc-title,
+.cms-entries button {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  .cms-studio {
+    padding-inline: 1rem;
+  }
+  .cms-studio fieldset {
+    padding: 0.7rem;
+  }
+  .cms-save {
+    position: static;
+  }
+  .cms-nav {
+    gap: 0.35rem;
+  }
+  .cms-media-list li > div {
+    min-width: 0;
+  }
+  .cms-studio button {
+    min-height: 44px;
+  }
+}

@@ -67,7 +67,7 @@ export function SceneBook({ scenes }: { scenes: Scene[] }) {
     >
       {scenes.map((scene, index) => (
         <figure
-          key={scene.title}
+          key={`${index}-${scene.title}`}
           style={{ "--scene-row": index + 1 } as CSSProperties}
         >
           <div className="scene-frame">

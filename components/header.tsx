@@ -3,37 +3,34 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { site } from "@/content/site";
+import type { ServicePageContent } from "@/content/services";
 import Link from "@/components/site-link";
 import { Arrow } from "@/components/ui";
 import "@/app/navigation.css";
 
-const menuItems = [...site.navigation, { href: "/kontakt/", label: "Kontakt" }];
+type MenuLink = { label: string; href: string };
+type HeaderSettings = {
+  logo: string;
+  navigation: MenuLink[];
+  contact: MenuLink;
+};
 
-function Brand({ onClick }: { onClick?: () => void }) {
+function Brand({ logo }: { logo: string }) {
   return (
     <Link
       className="pr-brand"
       href="/"
       aria-label="Picture Resolve – Startseite"
-      onClick={onClick}
     >
-      <Image
-        src="/assets/brand/signatur-navigation.webp"
-        width={500}
-        height={209}
-        alt=""
-        unoptimized
-        priority
-      />
+      <Image src={logo} width={500} height={209} alt="" unoptimized priority />
     </Link>
   );
 }
 
-function Inquiry({ onClick }: { onClick?: () => void }) {
+function Inquiry({ link }: { link: MenuLink }) {
   return (
-    <Link href="/kontakt/" className="pr-header-inquiry" onClick={onClick}>
-      Projekt anfragen <Arrow diagonal />
+    <Link href={link.href} className="pr-header-inquiry">
+      {link.label} <Arrow diagonal />
     </Link>
   );
 }
@@ -47,13 +44,33 @@ function IconLines() {
   );
 }
 
-export function Header() {
+export function Header({
+  settings,
+  services,
+}: {
+  settings: HeaderSettings;
+  services: Pick<
+    ServicePageContent,
+    "slug" | "inquiryLabel" | "inquiryShortLabel"
+  >[];
+}) {
   const path = usePathname().replace(/\/$/, "") || "/";
+  const service = services.find((s) => path === "/leistungen/" + s.slug);
+  const contact = service
+    ? {
+        href: "/kontakt/?leistung=" + service.slug,
+        label: service.inquiryLabel,
+      }
+    : settings.contact;
+  const menuItems = [
+    ...settings.navigation,
+    service ? contact : { href: "/kontakt/", label: "Kontakt" },
+  ];
   const photoHero =
     path === "/" ||
     path === "/ueber-uns" ||
-      path === "/projekte" ||
-      path === "/kontakt" ||
+    path === "/projekte" ||
+    path === "/kontakt" ||
     path.startsWith("/leistungen/") ||
     path.startsWith("/standorte/");
   const header = useRef<HTMLElement>(null);
@@ -102,9 +119,14 @@ export function Header() {
       panel.close();
       return;
     }
-    const fade = panel.animate([{ opacity: getComputedStyle(panel).opacity }, { opacity: 0 }], {
-      duration: 150, easing: "ease-out", fill: "forwards",
-    });
+    const fade = panel.animate(
+      [{ opacity: getComputedStyle(panel).opacity }, { opacity: 0 }],
+      {
+        duration: 150,
+        easing: "ease-out",
+        fill: "forwards",
+      },
+    );
     exitAnimation.current = fade;
     fade.onfinish = () => panel.close();
   }
@@ -153,9 +175,9 @@ export function Header() {
         aria-hidden={open || undefined}
       >
         <div className="pr-header-inner">
-          <Brand />
+          <Brand logo={settings.logo} />
           <nav className="pr-links" aria-label="Hauptnavigation">
-            {site.navigation.map((item) => (
+            {settings.navigation.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -166,7 +188,7 @@ export function Header() {
             ))}
           </nav>
           <div className="pr-header-actions">
-            <Inquiry />
+            <Inquiry link={contact} />
             <button
               ref={opener}
               type="button"
@@ -195,6 +217,13 @@ export function Header() {
           </div>
         </div>
       </header>
+      {service && !open && (
+        <div className="pr-campaign-bar">
+          <Link href={contact.href} aria-label={contact.label}>
+            {service.inquiryShortLabel} <Arrow diagonal />
+          </Link>
+        </div>
+      )}
       <dialog
         ref={dialog}
         id="pr-menu"
@@ -202,14 +231,17 @@ export function Header() {
         aria-label="Menü"
         data-lenis-prevent
         onClose={restoreFocus}
-        onCancel={(event) => { event.preventDefault(); close(); }}
+        onCancel={(event) => {
+          event.preventDefault();
+          close();
+        }}
         onKeyDown={keepFocus}
       >
         <div className="pr-menu-layout">
           <div className="pr-header-inner pr-menu-top">
-            <Brand />
+            <Brand logo={settings.logo} />
             <div className="pr-header-actions">
-              <Inquiry />
+              {!service && <Inquiry link={contact} />}
               <button
                 type="button"
                 className="pr-menu-control"
@@ -226,10 +258,7 @@ export function Header() {
             <nav className="pr-menu-links" aria-label="Hauptnavigation">
               {menuItems.map((item, i) => (
                 <div className="pr-menu-mask" key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={current(item.href)}
-                  >
+                  <Link href={item.href} aria-current={current(item.href)}>
                     <span className="pr-menu-label">
                       <span className="pr-menu-number" aria-hidden="true">
                         {String(i + 1).padStart(2, "0")}

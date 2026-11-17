@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
-export const origin = new URL(process.env.SITE_URL || "http://localhost:3000");
+export const origin = new URL(process.env.SITE_URL || "https://pictureresolve.com");
 export const indexable =
   process.env.ENABLE_INDEXING === "true" &&
   origin.protocol === "https:" &&
-  Boolean(process.env.SITE_URL);
+  origin.host === "pictureresolve.com";
 export function pageMeta(
   path: string,
   title: string,

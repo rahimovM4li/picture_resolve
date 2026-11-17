@@ -40,7 +40,9 @@ export function ProjectCard({
         </div>
         <div className="archive-card-caption">
           <Heading>{project.title}</Heading>
-          <span className="archive-card-format">{project.kind}</span>
+          <span className="archive-card-format">
+            {project.concept ? `Konzeptprojekt · ${project.kind}` : project.kind}
+          </span>
         </div>
         <p className="archive-card-credit">{project.attribution}</p>
       </Link>

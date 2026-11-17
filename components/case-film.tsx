@@ -9,7 +9,13 @@ const FilmDialog = dynamic(() =>
   import("./film").then((module) => module.FilmDialog),
 );
 
-export function CaseFilm({ project }: { project: Project }) {
+export function CaseFilm({
+  project,
+  onProjectPage = true,
+}: {
+  project: Project;
+  onProjectPage?: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const opener = useRef<HTMLButtonElement>(null);
   if (!project.video) return null;
@@ -29,7 +35,13 @@ export function CaseFilm({ project }: { project: Project }) {
         </a>
         <style>{".case-play:is(button){display:none}"}</style>
       </noscript>
-      {open && <FilmDialog project={project} onProjectPage onClose={close} />}
+      {open && (
+        <FilmDialog
+          project={project}
+          onProjectPage={onProjectPage}
+          onClose={close}
+        />
+      )}
     </>
   );
 }

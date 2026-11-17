@@ -1,3 +1,5 @@
+import type { ServiceSlug } from "./service-index";
+
 export interface Still {
   src: string;
   alt: string;
@@ -17,7 +19,11 @@ export interface Project {
   stills: Still[];
   source: string;
   review: "draft";
-  video?: { src: string; compactSrc?: string; duration: string; captions?: string };
+  services?: ServiceSlug[];
+  seoTitle?: string;
+  seoDescription?: string;
+  concept?: boolean;
+  video?: { src: string; compactSrc?: string; poster?: string; duration: string; captions?: string };
 }
 const base = "/assets/projects/";
 export const projects: Project[] = [
@@ -167,6 +173,68 @@ export const projects: Project[] = [
         alt: "Ausschnitt der Panoramafotografie mit den beiden Fassaden, den beleuchteten Fenstern und ihren Spiegelungen.",
         caption: "Bilddetail · Fassaden am Wasser",
       },
+    ],
+  },
+  {
+    slug: "vom-entwurf-zum-einzelstueck",
+    title: "Vom Entwurf zum Einzelstück",
+    titleAccent: "Einzelstück",
+    kind: "Imagefilm",
+    attribution: "Picture Resolve · Filmidee",
+    type: "film",
+    meta: "Werkstattstudie",
+    review: "draft",
+    concept: true,
+    services: ["imagefilme"],
+    summary: "Eine Skizze, eine Fräsbahn, ein fertiger Winkel. Der Weg eines Bauteils macht die Arbeit einer Werkstatt für ihre Kunden greifbar.",
+    description: "Wie erklärt ein Betrieb einem Einkäufer, was in einem einzelnen Teil steckt? Die Kamera folgt dem Winkel vom Bleistiftstrich bis zur letzten Kante. Im Gespräch mit Kunden lässt sich an dieser Folge zeigen, welche Arbeitsschritte sie beauftragen. Das kurze animierte Storyboard skizziert den geplanten Film.",
+    source: "/assets/konzepte/entwurf.webp",
+    cover: { src: "/assets/konzepte/entwurf.webp", alt: "Eine Hand zeichnet einen Montagewinkel auf Papier. Daneben liegt ein Messschieber.", caption: "Die Zeichnung auf der Werkbank" },
+    stills: [
+      { src: "/assets/konzepte/fraesbahn.webp", alt: "Ein Fräskopf zieht seine Bahn durch einen eingespannten Aluminiumwinkel.", caption: "Die Kontur entsteht" },
+      { src: "/assets/konzepte/einzelstueck.webp", alt: "Eine Hand hält den fertigen Winkel mit seinen beiden Bohrungen ins Licht.", caption: "Das fertige Bauteil" },
+    ],
+    video: { src: "/assets/konzepte/einzelstueck.mp4", poster: "/assets/konzepte/entwurf.webp", duration: "00:09" },
+  },
+  {
+    slug: "deine-erste-schicht",
+    title: "Deine erste Schicht",
+    titleAccent: "erste Schicht",
+    kind: "Recruitingfilm",
+    attribution: "Picture Resolve · Filmidee",
+    type: "film",
+    meta: "Ausbildungswerkstatt",
+    review: "draft",
+    concept: true,
+    services: ["recruitingfilme"],
+    summary: "Wer zeigt mir, wie das geht? In der Ausbildungswerkstatt begleitet eine Ausbilderin den ersten Handgriff ihrer neuen Kollegin.",
+    description: "Die Filmidee beantwortet eine Frage aus dem Bewerbungsgespräch. Vom Ankommen über die Einweisung bis zur ersten eigenen Messung erleben Interessierte, wie die Einarbeitung in einer Werkstatt aussehen kann. Das animierte Storyboard zeigt drei Szenen für eine Ausbildungsanzeige oder die Karriereseite.",
+    source: "/assets/konzepte/schichtbeginn.webp",
+    cover: { src: "/assets/konzepte/schichtbeginn.webp", alt: "Auszubildende und Ausbilderin begrüßen sich an einer Werkbank vor dem Fenster.", caption: "Ankommen an der Werkbank" },
+    stills: [
+      { src: "/assets/konzepte/einrichtung.webp", alt: "Die Ausbilderin erklärt der neuen Kollegin die Spannvorrichtung am Bohrständer.", caption: "Gemeinsam einrichten" },
+      { src: "/assets/konzepte/messung.webp", alt: "Die Auszubildende setzt ihren Messschieber an einem Werkstück an.", caption: "Die erste eigene Messung" },
+    ],
+    video: { src: "/assets/konzepte/schicht.mp4", poster: "/assets/konzepte/schichtbeginn.webp", duration: "00:09" },
+  },
+  {
+    slug: "ein-produkt-drei-einstellungen",
+    title: "Ein Produkt, drei Einstellungen",
+    titleAccent: "Einstellungen",
+    kind: "Produktstudie",
+    attribution: "Picture Resolve · Filmidee",
+    type: "archive",
+    meta: "Drei Ansichten",
+    review: "draft",
+    concept: true,
+    services: ["imagefilme"],
+    summary: "Wie gießt diese Kanne? Eine Totale zeigt die Form, ein Detail den Ausguss und eine Anwendung den Wasserstrahl.",
+    description: "Eine Produktseite soll verständlich machen, was die lange Tülle beim Aufgießen leistet. Die Bilderfolge beginnt mit der ganzen Emaillekanne, rückt an ihre Spitze heran und zeigt schließlich den dünnen Strahl im Kaffeefilter. So lässt sich eine Produkteigenschaft in drei Einstellungen erklären.",
+    source: "/assets/konzepte/kanne.webp",
+    cover: { src: "/assets/konzepte/kanne.webp", alt: "Eine ockerfarbene Emaillekanne mit geschwungener Tülle auf einer Steinplatte.", caption: "Die Form" },
+    stills: [
+      { src: "/assets/konzepte/ausguss.webp", alt: "Seitliche Nahaufnahme der schmalen emaillierten Tülle im Streiflicht.", caption: "Das Detail" },
+      { src: "/assets/konzepte/aufguss.webp", alt: "Wasser fließt aus der Kanne in einen weißen Kaffeefilter.", caption: "Die Anwendung" },
     ],
   },
 ];

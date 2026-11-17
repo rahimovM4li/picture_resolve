@@ -1,15 +1,20 @@
 import { Frame } from "@/components/ui";
-import { testimonials } from "@/content/site";
+import type { homePage } from "@/content/editorial";
 
-export function StudioReference() {
+export function StudioReference({
+  entries,
+}: {
+  entries: typeof homePage.testimonials;
+}) {
+  const testimonials = entries.filter((t) => t.review === "approved");
   if (!testimonials.length) return null;
   return (
     <section className="studio-reference" aria-label="Kundenstimme">
       <div className="wrap home-quote-pair">
         <div className="home-quote-photo" data-clip>
           <Frame
-            src="/assets/projects/hopp-portraet.webp"
-            alt="Schwarzweißporträt aus der Düsseldorfer Werkstatt HOPP"
+            src={testimonials[0].image}
+            alt={testimonials[0].alt}
             sizes="(max-width: 700px) 90vw, 37vw"
           />
         </div>

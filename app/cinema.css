@@ -41,6 +41,12 @@ html.lenis.lenis-smooth {
   margin: -0.09em -0.025em -0.11em;
 }
 
+.cine-word[data-long],
+.cine-word[data-long] .cine-glyph {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .cine-glyph {
   display: inline-block;
 }

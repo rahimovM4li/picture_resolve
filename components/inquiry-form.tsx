@@ -15,10 +15,10 @@ import {
 import { inquiryCopy } from "@/content/inquiry";
 import {
   readInquiry,
-  submitInquiry,
   validateInquiry,
   type Inquiry,
   type InquiryErrors,
+  type InquiryResponse,
 } from "@/lib/inquiry";
 
 const subscribe = () => () => {};
@@ -130,26 +130,27 @@ function Field({
   );
 }
 
-export function InquiryForm() {
+export function InquiryForm({
+  submitLabel,
+  privacyText,
+}: {
+  submitLabel: string;
+  privacyText: string;
+}) {
   const ready = useSyncExternalStore(subscribe, inBrowser, onServer);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const previewRef = useRef<HTMLHeadingElement>(null);
-  const editingRef = useRef(false);
+  const confirmationRef = useRef<HTMLHeadingElement>(null);
+  const requestId = useRef<string | undefined>(undefined);
   const busy = useRef(false);
   const [pending, setPending] = useState(false);
   const [errors, setErrors] = useState<InquiryErrors>({});
   const [problem, setProblem] = useState("");
-  const [preview, setPreview] = useState<Inquiry | null>(null);
-  const [phone, setPhone] = useState("");
+  const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
-    if (preview) previewRef.current?.focus();
-    else if (editingRef.current) {
-      formRef.current?.querySelector<HTMLInputElement>("#name")?.focus();
-      editingRef.current = false;
-    }
-  }, [preview]);
+    if (accepted) confirmationRef.current?.focus();
+  }, [accepted]);
 
   const control = (name: keyof Inquiry, required = true) => ({
     id: name,
@@ -181,12 +182,23 @@ export function InquiryForm() {
     setPending(true);
     setErrors({});
     try {
-      const result = await submitInquiry(values);
+      requestId.current ??= crypto.randomUUID();
+      const website =
+        formRef.current?.querySelector<HTMLInputElement>('[name="website"]')
+          ?.value ?? "";
+      const response = await fetch("/api/inquiry/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, id: requestId.current, website }),
+      });
+      const result = (await response.json()) as InquiryResponse;
       if (result.status === "invalid") applyErrors(result.errors);
-      else setPreview(result.inquiry);
+      else if (result.status === "accepted" && response.ok) setAccepted(true);
+      else if ("message" in result) setProblem(result.message);
+      else throw new Error();
     } catch {
       setProblem(
-        "Die Vorschau konnte nicht erstellt werden. Ihre Angaben sind erhalten. Versuchen Sie es erneut oder kontaktieren Sie uns direkt per E-Mail.",
+        "Der Versandstatus konnte nicht abgerufen werden. Ihre Angaben sind erhalten. Prüfen Sie die Verbindung und versuchen Sie es erneut.",
       );
     } finally {
       busy.current = false;
@@ -207,22 +219,24 @@ export function InquiryForm() {
     }
   }
 
-  const serviceLabel = inquiryCopy.services.find(
-    (option) => option.value === preview?.service,
-  )?.label;
   return (
     <>
       <form
         ref={formRef}
         className="inquiry-form"
-        hidden={Boolean(preview)}
+        hidden={accepted}
         onSubmit={handleSubmit}
         onChange={handleCorrection}
         noValidate
-        aria-label="Projektanfrage vorbereiten"
+        aria-label="Projektanfrage"
+        aria-busy={pending}
       >
         <fieldset className="inquiry-fields" disabled={!ready || pending}>
           <legend className="inquiry-sr">Angaben zur Projektanfrage</legend>
+          <label className="inquiry-sr" aria-hidden="true">
+            Diese Zeile freilassen
+            <input name="website" tabIndex={-1} autoComplete="off" />
+          </label>
           <Suspense fallback={<ServiceChoices error={errors.service} />}>
             <PrefilledServiceChoices error={errors.service} />
           </Suspense>
@@ -235,7 +249,11 @@ export function InquiryForm() {
                 maxLength={150}
               />
             </Field>
-            <Field name="company" label="Unternehmen (optional)">
+            <Field
+              name="company"
+              label="Unternehmen (optional)"
+              error={errors.company}
+            >
               <input
                 {...control("company", false)}
                 autoComplete="organization"
@@ -252,16 +270,13 @@ export function InquiryForm() {
                 maxLength={254}
               />
             </Field>
-            <Field name="phone" label="Telefon (optional)">
+            <Field name="phone" label="Telefon (optional)" error={errors.phone}>
               <input
-                id="phone"
-                name="phone"
+                {...control("phone", false)}
                 type="tel"
                 autoComplete="tel"
                 placeholder="Telefon (optional)"
                 maxLength={60}
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
               />
             </Field>
           </div>
@@ -288,7 +303,7 @@ export function InquiryForm() {
             <div className="inquiry-privacy">
               <input {...control("privacy")} type="checkbox" />
               <label htmlFor="privacy">
-                Ich habe die{" "}
+                {privacyText}{" "}
                 <Link
                   href="/datenschutz/"
                   target="_blank"
@@ -299,8 +314,7 @@ export function InquiryForm() {
                     {" "}
                     (öffnet in einem neuen Tab)
                   </span>
-                </Link>{" "}
-                gelesen.
+                </Link>
               </label>
             </div>
             {errors.privacy && (
@@ -309,67 +323,28 @@ export function InquiryForm() {
               </p>
             )}
             <div aria-live="polite" className="inquiry-feedback">
-              {pending && "Vorschau wird vorbereitet …"}
+              {pending && "Ihre Anfrage wird gesendet …"}
               {problem}
             </div>
             <button className="inquiry-submit" type="submit">
-              {pending ? "Wird vorbereitet …" : "Anfrage als Vorschau öffnen"}{" "}
-              <Arrow diagonal />
+              {pending ? "Wird gesendet …" : submitLabel} <Arrow diagonal />
             </button>
-            <p className="inquiry-demo">{inquiryCopy.demo}</p>
           </div>
         </fieldset>
       </form>
-      {preview && (
-        <div className="inquiry-preview">
+      {accepted && (
+        <section className="inquiry-preview" aria-labelledby="inquiry-sent">
           <span className="inquiry-check" aria-hidden="true">
             ✓
           </span>
-          <h2 ref={previewRef} tabIndex={-1}>
-            Ihre Anfrage im Überblick
+          <h2 ref={confirmationRef} id="inquiry-sent" tabIndex={-1}>
+            Ihre Anfrage wurde gesendet.
           </h2>
           <p>
-            Dies ist eine lokale Vorschau. Es wurde keine Anfrage versendet.
+            Vielen Dank für Ihr Filmbriefing. Das Studio antwortet Ihnen über
+            die angegebene E-Mail-Adresse.
           </p>
-          <dl>
-            <dt>Name</dt>
-            <dd>{preview.name}</dd>
-            <dt>E-Mail</dt>
-            <dd>{preview.email}</dd>
-            {preview.company && (
-              <>
-                <dt>Unternehmen</dt>
-                <dd>{preview.company}</dd>
-              </>
-            )}
-            {phone.trim() && (
-              <>
-                <dt>Telefon</dt>
-                <dd>{phone.trim()}</dd>
-              </>
-            )}
-            <dt>Leistung</dt>
-            <dd>{serviceLabel}</dd>
-            {preview.budget && (
-              <>
-                <dt>Budgetrahmen</dt>
-                <dd>{preview.budget}</dd>
-              </>
-            )}
-            <dt>Projektbeschreibung</dt>
-            <dd>{preview.description}</dd>
-          </dl>
-          <button
-            className="inquiry-submit"
-            type="button"
-            onClick={() => {
-              editingRef.current = true;
-              setPreview(null);
-            }}
-          >
-            Angaben bearbeiten <span aria-hidden="true">↗</span>
-          </button>
-        </div>
+        </section>
       )}
     </>
   );

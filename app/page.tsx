@@ -8,22 +8,35 @@ import { StudioReference } from "@/components/reference";
 import Image from "next/image";
 import Link from "@/components/site-link";
 import { Arrow, ContactBand, Frame } from "@/components/ui";
-import { homeCopy } from "@/content/home";
-import { homeEditorial } from "@/content/home-editorial";
+import type { homePage } from "@/content/editorial";
+import {
+  getPage,
+  getProjects,
+  getServices,
+  getSettings,
+} from "@/lib/public-content";
 import { ProjectCard } from "@/components/project-card";
-import { projects } from "@/content/projects";
-import { site } from "@/content/site";
+
 import { pageMeta, origin } from "@/lib/seo";
 import "./home-editorial.css";
 
-export const metadata = pageMeta(
-  "/",
-  homeCopy.seo.title,
-  homeCopy.seo.description,
-);
+export async function generateMetadata() {
+  const home = await getPage<typeof homePage>("home");
+  return pageMeta("/", home.seoTitle, home.seoDescription, home.image);
+}
 
-export default function Home() {
-  const words = homeEditorial.manifesto.split(" ");
+export default async function Home() {
+  const [home, allProjects, services, site] = await Promise.all([
+    getPage<typeof homePage>("home"),
+    getProjects(),
+    getServices(),
+    getSettings(),
+  ]);
+  const projects = home.featuredSlugs.flatMap((slug) =>
+    allProjects.filter((p) => p.slug === slug),
+  );
+  const reel = allProjects.find((p) => p.slug === home.showreelSlug && p.video);
+  const words = home.manifesto.trim().split(/\s+/);
   return (
     <>
       <script
@@ -35,11 +48,11 @@ export default function Home() {
             name: site.name,
             url: origin.href,
             email: site.email,
-            logo: new URL("/assets/brand/signet-rot.webp", origin).href,
-          }),
+            logo: new URL(site.logo, origin).href,
+          }).replace(/</g, "\\u003c"),
         }}
       />
-      <Hero />
+      <Hero home={home} project={reel} />
       <HomeEditorialMotion>
         <section className="home-statement wrap" aria-label="Picture Resolve">
           <p className="home-kicker">Picture Resolve</p>
@@ -50,7 +63,8 @@ export default function Home() {
                 style={
                   {
                     "--word-start":
-                      ((80 * i) / (words.length - 1)).toFixed(2) + "%",
+                      ((80 * i) / Math.max(1, words.length - 1)).toFixed(2) +
+                      "%",
                   } as CSSProperties
                 }
               >
@@ -68,36 +82,38 @@ export default function Home() {
               </p>
               <CineTitle
                 as="h2"
-                lead={homeEditorial.services.lead}
-                accent={homeEditorial.services.accent}
+                lead={home.serviceHeading.lead}
+                accent={home.serviceHeading.accent}
               />
             </div>
             <div className="home-service-grid">
-              {site.services.map((service, index) => (
-                <Link
-                  key={service.slug}
-                  data-clip
-                  data-tilt="4"
-                  className={"home-service-card home-service-" + service.slug}
-                  href={"/leistungen/" + service.slug + "/"}
-                >
-                  <div className="home-service-image">
-                    <Frame
-                      src={homeEditorial.services.images[service.slug]}
-                      alt=""
-                      sizes="(max-width: 700px) 152vw, 80vw"
-                    />
-                  </div>
-                  <div className="home-service-body">
-                    <span className="home-service-index">0{index + 1}</span>
-                    <h3>{service.title}</h3>
-                    <p>{service.summary}</p>
-                    <span className="home-card-action">
-                      Mehr erfahren <Arrow diagonal />
-                    </span>
-                  </div>
-                </Link>
-              ))}
+              {home.serviceSlugs
+                .flatMap((slug) => services.filter((s) => s.slug === slug))
+                .map((service, index) => (
+                  <Link
+                    key={service.slug}
+                    data-clip
+                    data-tilt="4"
+                    className={"home-service-card home-service-" + service.slug}
+                    href={"/leistungen/" + service.slug + "/"}
+                  >
+                    <div className="home-service-image">
+                      <Frame
+                        src={service.image}
+                        alt=""
+                        sizes="(max-width: 700px) 152vw, 80vw"
+                      />
+                    </div>
+                    <div className="home-service-body">
+                      <span className="home-service-index">0{index + 1}</span>
+                      <h3>{service.name}</h3>
+                      <p>{service.intro}</p>
+                      <span className="home-card-action">
+                        Mehr erfahren <Arrow diagonal />
+                      </span>
+                    </div>
+                  </Link>
+                ))}
             </div>
           </div>
         </section>
@@ -110,8 +126,8 @@ export default function Home() {
                 </p>
                 <CineTitle
                   as="h2"
-                  lead={homeEditorial.work.lead}
-                  accent={homeEditorial.work.accent}
+                  lead={home.work.lead}
+                  accent={home.work.accent}
                 />
               </div>
               <Link className="home-link" href="/projekte/">
@@ -139,25 +155,27 @@ export default function Home() {
                 </p>
                 <CineTitle
                   as="h2"
-                  lead={homeEditorial.process.lead}
-                  accent={homeEditorial.process.accent}
+                  lead={home.processHeading.lead}
+                  accent={home.processHeading.accent}
                 />
               </div>
               <Link className="home-link" href="/ueber-uns/">
                 Unser Studio <Arrow diagonal />
               </Link>
             </div>
-            <HomeProcess />
+            <HomeProcess stages={home.steps} />
           </div>
         </section>
-        <FilmWalkthrough />
+        {allProjects.some(
+          (p) => home.walkthrough.href === `/projekte/${p.slug}/`,
+        ) && <FilmWalkthrough filmWalkthrough={home.walkthrough} />}
         <section className="studio-partners" aria-label="Zusammenarbeit">
           <p className="home-kicker">Zusammenarbeit</p>
           <div className="partner-strip" aria-hidden="true">
             {[0, 1, 2].map((copy) => (
               <Image
                 key={copy}
-                src="/assets/brand/zusammenarbeit.webp"
+                src={home.partnersImage}
                 width={2295}
                 height={122}
                 alt=""
@@ -167,16 +185,20 @@ export default function Home() {
           </div>
           <Image
             className="partner-still"
-            src="/assets/brand/zusammenarbeit-ruhig.webp"
+            src={home.partnersStill}
             width={1191}
             height={280}
-            alt="Deutscher Sparkassenverlag, Mercedes-Benz, Bosch, Xotic Moves, HOPP, Carglass und Zahnimpuls"
+            alt={home.partnersAlt}
             unoptimized
           />
         </section>
-        <StudioReference />
+        <StudioReference entries={home.testimonials} />
       </HomeEditorialMotion>
-      <ContactBand />
+      <ContactBand
+        contact={site.contact}
+        lead={home.contactHeading}
+        accent={home.contactAccent}
+      />
     </>
   );
 }

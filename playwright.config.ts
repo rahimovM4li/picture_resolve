@@ -29,7 +29,7 @@ export default defineConfig({
   webServer: externalServer
     ? undefined
     : {
-        command: "npx --no-install serve out --listen 4173",
+        command: "node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 4173",
         url: baseURL,
         timeout: 25_000,
         reuseExistingServer: !process.env.CI,

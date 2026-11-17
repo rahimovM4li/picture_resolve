@@ -1,11 +1,20 @@
 import Link from "@/components/site-link";
 import { LegalIndex } from "@/components/legal-index";
 import { Arrow } from "@/components/ui";
-import { legalPages, type LegalSlug } from "@/content/studio";
+import type { LegalPageContent, LegalSlug } from "@/content/studio";
+import { getPage } from "@/lib/public-content";
+import { pageMeta } from "@/lib/seo";
+
+export async function legalMeta(slug: LegalSlug) {
+  const entry = await getPage<
+    LegalPageContent & { seoTitle: string; seoDescription: string }
+  >(slug);
+  return pageMeta("/" + slug, entry.seoTitle, entry.seoDescription);
+}
 import "@/app/secondary.css";
 
-export function LegalText({ slug }: { slug: LegalSlug }) {
-  const legal = legalPages[slug];
+export async function LegalText({ slug }: { slug: LegalSlug }) {
+  const legal = await getPage<LegalPageContent>(slug);
   return (
     <article className="sub-legal">
       <header className="sub-legal-cover">
@@ -31,8 +40,8 @@ export function LegalText({ slug }: { slug: LegalSlug }) {
                 <h2 data-cine-reveal>{title}</h2>
                 {paragraphs.map((p) => (
                   <p key={p}>
-                    {p === "info@pictureresolve.de" ? (
-                      <a href="mailto:info@pictureresolve.de">{p}</a>
+                    {/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p) ? (
+                      <a href={"mailto:" + p}>{p}</a>
                     ) : (
                       p
                     )}

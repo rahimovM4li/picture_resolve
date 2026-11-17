@@ -9,6 +9,41 @@
   background: var(--service-bg);
   font-family: var(--sans);
 }
+.service-example-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.3rem;
+  margin-top: 1.4rem;
+}
+.service-example-links .case-play,
+.service-inquiry-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-height: 44px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.7rem 1.15rem;
+  border-radius: 99px;
+  font: 700 0.92rem/1.35 var(--sans);
+  background: var(--service-paper);
+  color: #151515;
+}
+.service-example-links .case-play span {
+  font-weight: 450;
+}
+.service-feature .service-inquiry-link {
+  margin-top: 1.35rem;
+  background: #a52520;
+  color: #fff;
+}
+.service-feature .service-caption {
+  margin: 0 0 1.2rem;
+  color: #fff;
+  letter-spacing: 0.14em;
+}
 .service-block {
   padding: 8rem 2.5rem;
 }

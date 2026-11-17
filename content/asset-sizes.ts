@@ -9,7 +9,10 @@ interface StaticImage {
 }
 
 // Each entry describes encoded, local files. Widths never exceed the source master.
+import conceptSizes from "./concept-sizes.json";
+
 export const mediaSizes: Record<string, StaticImage | undefined> = {
+  ...conceptSizes,
   "/assets/images/studio-fotograf-banner.webp": { portraitPreview: "UklGRpYAAABXRUJQVlA4IIoAAAAwBACdASoOABgAPuFcp0yopSOiMAgBEBwJaQAD5MoN8uAB25plmGq6dwAA/vV1yfUx/KvZ7yeShOzy2mVmvy0Y2QF9Z4+tCLfRK8OUXez9lA0VsB/zXoXvcLq+h5/H2K0fqUPACIf5Op2HG/2Dc/9oifzSg/4d3bfimkDw4Cky0H9U4DbmvmAAAAA=", portraitAvif: [400, 800, 1182], preview: "UklGRlgAAABXRUJQVlA4IEwAAABwAwCdASoUAAoAPt1kqU2opaQiMAgBEBuJaQABHus7s75AfgAA/v6HieEje32Hdsf3+YnXL5fR2qihin4iXdqF6WPbXzMoiLGdgAAA", width: 1920, height: 985, widths: [400, 800, 1280, 1920, 2880, 3840] },
   "/assets/images/duesseldorf-skyline.webp": { portraitPreview: "UklGRmQAAABXRUJQVlA4IFgAAADQAwCdASoOABgAPuFep0yopSOiMAgBEBwJaQAAXfCEdh7tYKr9fDAA/vRTJs+bso+4cAH2Nf2J4iPWSweW5r4n2yVbEIAM2J0B4BuooWpeElTkmUIAAAAA", portraitAvif: [400, 547], preview: "UklGRlAAAABXRUJQVlA4IEQAAABQAwCdASoUAAsAPt1cpkyopSOiMAgBEBuJaV/2ADc1ul5gAAD+8QAgPg2829wApeQ57QC0FL8b2MFv8GlC9BKOsogAAA==", width: 1600, height: 912, widths: [400, 800, 1200, 1600] },
   "/assets/images/raman-kamera.webp": { portraitPreview: "UklGRowAAABXRUJQVlA4IIAAAADQAwCdASoOABgALqlwuFwjKKioiICoS0gAHxRg4U+W0EPhll4DP4AA/vpidL87t1bTio7UXwGGrcqyXP1H7uvHxuZjrjxg454eJM1LTzkJ86PTGNq6YBWCc6Pik8PeJkzFGHTs8sGIzxtShUqJb6xqjoa8idLiXeixE49sAAAAAA==", preview: "UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASoUAAwAPt1kqU2opaQiMAgBEBuJaQAD4SIN/XZGUD7Sqm4AAP72h6x7LigOCMEcYdcIPCDwpnugVq7taDzHM+r4Md84CpSH2gAAAA==", width: 1920, height: 1154, widths: [400, 800, 1280, 1920, 2880, 3840], portrait: [480, 800, 1200, 1433], portraitAvif: [480, 800, 960, 1200, 1433] },

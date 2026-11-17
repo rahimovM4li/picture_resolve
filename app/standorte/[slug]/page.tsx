@@ -1,16 +1,14 @@
 import { notFound } from "next/navigation";
 import { StudioStory } from "@/components/StudioStory";
-import { locations } from "@/content/studio";
+import { getCities, getProjects } from "@/lib/public-content";
+import { JsonLd } from "@/components/json-ld";
 import { pageMeta } from "@/lib/seo";
 
 type Params = { params: Promise<{ slug: string }> };
-export const dynamicParams = false;
-export const generateStaticParams = () =>
-  locations.map(({ slug }) => ({ slug }));
 
 async function findLocation(params: Params["params"]) {
   const { slug } = await params;
-  return locations.find((entry) => entry.slug === slug) ?? notFound();
+  return (await getCities()).find((entry) => entry.slug === slug) ?? notFound();
 }
 
 export async function generateMetadata({ params }: Params) {
@@ -24,5 +22,24 @@ export async function generateMetadata({ params }: Params) {
 }
 
 export default async function LocationPage({ params }: Params) {
-  return <StudioStory story={await findLocation(params)} regional />;
+  const [story, projects] = await Promise.all([
+    findLocation(params),
+    getProjects(),
+  ]);
+  return (
+    <>
+      <JsonLd
+        type="Service"
+        name={story.title.join(" ")}
+        path={`/standorte/${story.slug}/`}
+        description={story.lead}
+        image={story.image}
+        area={story.city}
+      />
+      <StudioStory
+        story={story}
+        project={projects.find((p) => p.slug === story.projectSlug)}
+      />
+    </>
+  );
 }
