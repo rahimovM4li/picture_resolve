@@ -31,9 +31,9 @@ export const homePage = {
   showreelSlug: "kamerastudie",
   featuredSlugs: [
     "kamerastudie",
+    "hopp",
     "vom-entwurf-zum-einzelstueck",
     "deine-erste-schicht",
-    "hopp",
     "ein-produkt-drei-einstellungen",
   ],
   serviceSlugs: ["imagefilme", "recruitingfilme"],

@@ -44,7 +44,7 @@ export default async function ContactPage() {
             <p className="inquiry-lead">{page.intro}</p>
           </div>
         </div>
-        <div className="inquiry-panel">
+        <div className="inquiry-panel" id="anfrage" tabIndex={-1}>
           <InquiryForm
             demo={customerDemo}
             submitLabel={page.submitLabel}

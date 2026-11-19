@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { Hero } from "@/components/hero";
+import { CtaLabel } from "@/components/cta-label";
 import { FilmWalkthrough } from "@/components/film-walkthrough";
 import { CineTitle } from "@/components/cine-title";
 import { HomeEditorialMotion } from "@/components/home-editorial-motion";
@@ -92,6 +93,7 @@ export default async function Home() {
                 .map((service, index) => (
                   <Link
                     key={service.slug}
+                    data-cta="card"
                     data-clip
                     data-tilt="4"
                     className={"home-service-card home-service-" + service.slug}
@@ -109,7 +111,7 @@ export default async function Home() {
                       <h3>{service.name}</h3>
                       <p>{service.intro}</p>
                       <span className="home-card-action">
-                        Mehr erfahren <Arrow diagonal />
+                        <CtaLabel>Mehr erfahren</CtaLabel> <Arrow diagonal />
                       </span>
                     </div>
                   </Link>
@@ -130,8 +132,8 @@ export default async function Home() {
                   accent={home.work.accent}
                 />
               </div>
-              <Link className="home-link" href="/projekte/">
-                Alle Projekte <Arrow diagonal />
+              <Link className="home-link" href="/projekte/" data-cta>
+                <CtaLabel>Alle Projekte</CtaLabel> <Arrow diagonal />
               </Link>
             </div>
             <div className="home-film-grid">
@@ -159,8 +161,8 @@ export default async function Home() {
                   accent={home.processHeading.accent}
                 />
               </div>
-              <Link className="home-link" href="/ueber-uns/">
-                Unser Studio <Arrow diagonal />
+              <Link className="home-link" href="/ueber-uns/" data-cta>
+                <CtaLabel>Unser Studio</CtaLabel> <Arrow diagonal />
               </Link>
             </div>
             <HomeProcess stages={home.steps} />

@@ -1,5 +1,7 @@
 "use client";
 
+import { CtaLabel } from "./cta-label";
+
 import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { Play } from "@/components/ui";
@@ -26,8 +28,8 @@ export function CaseFilm({
   }
   return (
     <>
-      <button className="case-play" ref={opener} onClick={() => setOpen(true)}>
-        <Play /> Film abspielen <span>{project.video.duration}</span>
+      <button className="case-play" ref={opener} onClick={() => setOpen(true)} data-cta>
+        <Play /> <CtaLabel>Film abspielen</CtaLabel> <span className="case-play-duration">{project.video.duration}</span>
       </button>
       <noscript>
         <a className="case-play" href={project.video.src}>

@@ -19,7 +19,7 @@ test("curated home selection and complete archive link to published projects", a
   for (const route of ["/", "/projekte/"]) {
     await page.goto(route);
     const cards = page.locator("main a.archive-card");
-    const expected = route === "/" ? [0,5,6,1,7].map(i => projectPaths[i]) : projectPaths;
+    const expected = route === "/" ? [0,1,5,6,7].map(i => projectPaths[i]) : projectPaths;
     await expect(cards).toHaveCount(expected.length);
     const entries = await cards.evaluateAll((links) => links.map((link) => ({
       path: new URL((link as HTMLAnchorElement).href).pathname.replace(/\/$/, ""),

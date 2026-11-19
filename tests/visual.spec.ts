@@ -12,11 +12,24 @@ for (const viewport of screens) {
     await page.setViewportSize(viewport);
     await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "light" });
     await page.goto("/");
+    const reelFrames = page.locator(".reel-cell:visible img");
+    await expect(reelFrames).toHaveCount(viewport.width < 768 ? 1 : 3);
+    await reelFrames.evaluateAll(async (images) => {
+      await Promise.all(images.map((image) => (image as HTMLImageElement).decode()));
+    });
     await page.evaluate(async () => {
       await document.fonts.ready;
       await Promise.all([...document.images].filter((image) => image.loading !== "lazy").map((image) => image.decode().catch(() => undefined)));
     });
     await expect(page).toHaveScreenshot(`home-${viewport.width}.png`, { animations: "disabled", maxDiffPixelRatio: 0.015 });
+    const photos = page.locator(".home-film-image");
+    const wide = (await photos.nth(0).boundingBox())!;
+    const portrait = (await photos.nth(1).boundingBox())!;
+    expect(wide.width).toBeGreaterThan(wide.height);
+    expect(portrait.height).toBeGreaterThan(portrait.width);
+    expect(portrait.width).toBeLessThan(wide.width);
+    if (viewport.width <= 700) expect(portrait.y).toBeGreaterThan(wide.y + wide.height);
+    else expect(portrait.x).toBeGreaterThan(wide.x + wide.width);
   });
 }
 

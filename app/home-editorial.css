@@ -188,7 +188,7 @@
 }
 .home-film-grid {
   display: grid;
-  grid-template-columns: 1.23fr 0.88fr;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.84fr);
   align-items: start;
   gap: clamp(25px, 4.3vw, 80px);
 }
@@ -199,12 +199,20 @@
   display: block;
 }
 .home-film-image {
-  aspect-ratio: 1.56;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #262724;
 }
 .home-film:nth-child(even) .home-film-image {
-  aspect-ratio: 1.25;
+  aspect-ratio: 4 / 5;
+}
+.home-film .archive-card-caption {
+  display: block;
+}
+.home-film .archive-card-format {
+  display: block;
+  margin-top: 0.5rem;
+  text-align: left;
 }
 .home-film-image img {
   width: 100%;
@@ -451,10 +459,8 @@
   }
   .home-film:nth-child(even) {
     margin-top: 0;
-  }
-  .home-film-image,
-  .home-film:nth-child(even) .home-film-image {
-    aspect-ratio: 1.54;
+    width: 77%;
+    justify-self: end;
   }
   .home-stage-copy {
     grid-template-columns: 20px 1fr;
@@ -575,18 +581,17 @@
   }
   [data-portfolio-pin] .home-film-grid {
     display: flex;
-    align-items: center;
-    gap: clamp(28px, 3.5vw, 64px);
+    align-items: flex-start;
+    gap: clamp(28px, 4.5vw, 84px);
   }
   [data-portfolio-pin] .home-film {
     flex: none;
-    width: clamp(332px, 44vw, 920px);
+    width: min(53vw, 94svh);
     margin: 0;
   }
-  [data-portfolio-pin] .home-film .home-film-image {
-    position: relative;
-    aspect-ratio: 16/10;
-    max-height: 66svh;
+  [data-portfolio-pin] .home-film:nth-child(even) {
+    width: min(26vw, 43svh);
+    margin-top: min(6vw, 8svh);
   }
   [data-portfolio-pin] .home-film-image img {
     position: absolute;

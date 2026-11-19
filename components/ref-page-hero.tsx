@@ -1,4 +1,5 @@
 import { Frame, Arrow } from "./ui";
+import { CtaLabel } from "./cta-label";
 import { CineTitle } from "./cine-title";
 import Link from "./site-link";
 
@@ -70,9 +71,9 @@ export function ReferenceCta({
         </p>
         <CineTitle className="ref-cta-title" lead={title} as="h2" />
         <div className="ref-cta-actions" data-reveal>
-          <Link className="ref-cta-link" href={href} data-cine-magnetic>
+          <Link className="ref-cta-link" href={href} data-cta="inquiry" data-cine-magnetic>
             <span>
-              {label}
+              <CtaLabel>{label}</CtaLabel>
               <Arrow diagonal />
             </span>
           </Link>

@@ -2,6 +2,7 @@
 
 import Link from "@/components/site-link";
 import { Arrow } from "@/components/ui";
+import { CtaLabel } from "./cta-label";
 import { useSearchParams } from "next/navigation";
 import {
   Suspense,
@@ -329,8 +330,8 @@ export function InquiryForm({
               {problem}
             </div>
             {demo && <p>Testformular der Kundenvorschau. Bitte verwenden Sie Beispieldaten. Es wird keine E-Mail verschickt.</p>}
-            <button className="inquiry-submit" type="submit">
-              {pending ? (demo ? "Wird geprüft …" : "Wird gesendet …") : (demo ? "Testanfrage prüfen" : submitLabel)} <Arrow diagonal />
+            <button className="inquiry-submit" type="submit" data-cta>
+              <CtaLabel>{pending ? (demo ? "Wird geprüft …" : "Wird gesendet …") : (demo ? "Testanfrage prüfen" : submitLabel)}</CtaLabel> <Arrow diagonal />
             </button>
           </div>
         </fieldset>

@@ -1,4 +1,5 @@
 import Link from "@/components/site-link";
+import { CtaLabel } from "./cta-label";
 import { CineTitle } from "@/components/cine-title";
 import { ReferenceCta, ReferenceHero } from "@/components/ref-page-hero";
 import { Arrow, Frame } from "@/components/ui";
@@ -78,13 +79,14 @@ export function ServiceStory({
               )}
               <Link
                 className="service-proof-link"
+                data-cta
                 href={`/projekte/${project.slug}/`}
               >
-                Projekt ansehen <Arrow diagonal />
+                <CtaLabel>Projekt ansehen</CtaLabel> <Arrow diagonal />
               </Link>
             </div>
-            <Link className="service-inquiry-link" href={inquiry}>
-              {service.inquiryLabel} <Arrow diagonal />
+            <Link className="service-inquiry-link" href={inquiry} data-cta="inquiry">
+              <CtaLabel>{service.inquiryLabel}</CtaLabel> <Arrow diagonal />
             </Link>
           </div>
         </section>

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "@/components/site-link";
+import { CtaLabel } from "@/components/cta-label";
 import { SceneBook } from "@/components/scene-book";
 import { ShotStage } from "@/components/shot-stage";
 import { CaseFilm } from "@/components/case-film";
@@ -117,8 +118,8 @@ export default async function ProjectPage({ params }: Props) {
           <p className="case-deck">{p.description}</p>
           {relatedServices.map((s) => (
             <p key={s.slug}>
-              <Link className="line-link" href={`/leistungen/${s.slug}/`}>
-                {s.name} <Arrow diagonal />
+              <Link className="line-link" href={`/leistungen/${s.slug}/`} data-cta>
+                <CtaLabel>{s.name}</CtaLabel> <Arrow diagonal />
               </Link>
             </p>
           ))}
@@ -147,7 +148,7 @@ export default async function ProjectPage({ params }: Props) {
         <aside className="wrap case-next">
           <i className="index-rule" data-cine-line aria-hidden="true" />
           <p className="eyebrow">Nächstes Projekt</p>
-          <Link href={"/projekte/" + related.slug + "/"}>
+          <Link href={"/projekte/" + related.slug + "/"} data-cta="card">
             {related.title}
             <Arrow diagonal />
           </Link>

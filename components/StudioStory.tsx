@@ -1,4 +1,5 @@
 import Link from "@/components/site-link";
+import { CtaLabel } from "./cta-label";
 import { SceneBook } from "@/components/scene-book";
 import type { Project } from "@/content/projects";
 import { Arrow } from "@/components/ui";
@@ -26,8 +27,8 @@ export function StudioStory({
         subject="region"
         chapter="Vor Ort"
       >
-        <Link className="sub-button" href={story.contact.href}>
-          {story.contact.label} <Arrow diagonal />
+        <Link className="sub-button" href={story.contact.href} data-cta="inquiry">
+          <CtaLabel>{story.contact.label}</CtaLabel> <Arrow diagonal />
         </Link>
       </StoryCover>
       <section className="sub-light" id="einblick">

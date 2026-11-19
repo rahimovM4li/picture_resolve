@@ -1,4 +1,5 @@
 import { CineTitle } from "./cine-title";
+import { CtaLabel } from "./cta-label";
 import Link from "@/components/site-link";
 import { mediaSizes } from "@/content/asset-sizes";
 import type { CSSProperties, ReactNode } from "react";
@@ -150,8 +151,8 @@ export function InquiryLink({
   href?: string;
 }) {
   return (
-    <Link className="button solid" href={href} data-cine-magnetic>
-      {children}
+    <Link className="button solid" href={href} data-cta="inquiry" data-cine-magnetic>
+      {typeof children === "string" ? <CtaLabel>{children}</CtaLabel> : children}
       <Arrow diagonal />
     </Link>
   );

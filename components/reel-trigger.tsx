@@ -1,14 +1,20 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Play } from "./ui";
+import { useRef, useState, type ReactNode } from "react";
 import Link from "./site-link";
+import { CtaLabel } from "./cta-label";
 import type { FilmDialog } from "./film";
 import type { Project } from "@/content/projects";
 
 const loadPlayer = () => import("./film");
 
-export function ReelTrigger({ project }: { project: Project }) {
+export function ReelTrigger({
+  project,
+  children,
+}: {
+  project: Project;
+  children: ReactNode;
+}) {
   const destination = `/projekte/${project.slug}/`;
   const [Player, setPlayer] = useState<typeof FilmDialog | null>(null);
   const [opening, setOpening] = useState(false);
@@ -42,19 +48,21 @@ export function ReelTrigger({ project }: { project: Project }) {
         <button
           type="button"
           ref={trigger}
+          data-cta
           data-cine-magnetic
+          aria-label={`${opening ? "Öffnet …" : "Studiofilm"} ${project.video?.duration} – Film ansehen`}
           aria-haspopup="dialog"
           aria-busy={opening || undefined}
           onPointerEnter={prepare}
           onFocus={prepare}
           onClick={open}
         >
-          <span className="reel-play">
-            <Play />
+          <span className="reel-strip" aria-hidden="true">
+            {children}
           </span>
           <span className="reel-label">
-            {opening ? "Film wird geöffnet …" : "Film ansehen"}
-            <small>{project.video?.duration} Min.</small>
+            <CtaLabel>{opening ? "Öffnet …" : "Studiofilm"}</CtaLabel>{" "}
+            <small>{project.video?.duration}</small>
           </span>
         </button>
         <noscript>

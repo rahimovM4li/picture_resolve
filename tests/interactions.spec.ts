@@ -176,6 +176,10 @@ test("native pause, resume and repeat control the reel without losing the film p
   await page.keyboard.press("Space");
   await expect(dialog).toHaveAttribute("data-playback", "paused");
   const pausedTime = await video.evaluate((node: HTMLVideoElement) => node.currentTime);
+  await expect(reel).toHaveCSS("animation-play-state", "paused");
+  await reel.evaluate(async (node) => {
+    await Promise.all(node.getAnimations().map((animation) => animation.ready));
+  });
   const pausedRotation = await rotation();
   const pausedTimecode = await timecode.textContent();
   await repeat.click();

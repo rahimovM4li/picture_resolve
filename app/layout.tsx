@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ScrollMotion } from "@/components/motion";
+import { CtaTransition } from "@/components/cta-transition";
 import { getServices, getSettings } from "@/lib/public-content";
 import { MediaRegistry } from "@/components/media-registry";
 import { previewSelection } from "@/lib/cms/read";
@@ -12,6 +13,7 @@ import "./font-subsets.css";
 import "./globals.css";
 import "./responsive.css";
 import "./cinema.css";
+import "./cta-motion.css";
 const serif = localFont({
   src: [
     {
@@ -111,6 +113,7 @@ export default async function RootLayout({
           </main>
           <Footer />
           <ScrollMotion />
+          <CtaTransition />
         </MediaRegistry>
       </body>
     </html>

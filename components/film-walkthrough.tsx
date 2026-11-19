@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import SiteLink from "@/components/site-link";
+import { CtaLabel } from "./cta-label";
 import { Arrow, Frame } from "@/components/ui";
 import type { homePage } from "@/content/editorial";
 import "@/app/walkthrough.css";
@@ -136,8 +137,8 @@ export function FilmWalkthrough({
               {filmWalkthrough.heading} <em>{filmWalkthrough.accent}</em>
             </h2>
           </div>
-          <SiteLink className="line-link" href={filmWalkthrough.href}>
-            Zum ganzen Film <Arrow diagonal />
+          <SiteLink className="line-link" href={filmWalkthrough.href} data-cta>
+            <CtaLabel>Zum ganzen Film</CtaLabel> <Arrow diagonal />
           </SiteLink>
         </header>
         <div className="walk-sequence" ref={sequenceRef}>

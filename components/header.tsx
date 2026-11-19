@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { ServicePageContent } from "@/content/services";
 import Link from "@/components/site-link";
 import { Arrow } from "@/components/ui";
+import { CtaLabel } from "./cta-label";
 import "@/app/navigation.css";
 
 type MenuLink = { label: string; href: string };
@@ -29,8 +30,8 @@ function Brand({ logo }: { logo: string }) {
 
 function Inquiry({ link }: { link: MenuLink }) {
   return (
-    <Link href={link.href} className="pr-header-inquiry">
-      {link.label} <Arrow diagonal />
+    <Link href={link.href} className="pr-header-inquiry" data-cta="inquiry">
+      <CtaLabel>{link.label}</CtaLabel> <Arrow diagonal />
     </Link>
   );
 }
@@ -61,7 +62,9 @@ export function Header({
         href: "/kontakt/?leistung=" + service.slug,
         label: service.inquiryLabel,
       }
-    : settings.contact;
+    : path === "/kontakt" && /^\/kontakt\/?$/.test(settings.contact.href)
+      ? { ...settings.contact, href: "#anfrage" }
+      : settings.contact;
   const menuItems = [
     ...settings.navigation,
     service ? contact : { href: "/kontakt/", label: "Kontakt" },
@@ -219,8 +222,8 @@ export function Header({
       </header>
       {service && !open && (
         <div className="pr-campaign-bar">
-          <Link href={contact.href} aria-label={contact.label}>
-            {service.inquiryShortLabel} <Arrow diagonal />
+          <Link href={contact.href} aria-label={contact.label} data-cta="inquiry">
+            <CtaLabel>{service.inquiryShortLabel}</CtaLabel> <Arrow diagonal />
           </Link>
         </div>
       )}
@@ -258,7 +261,7 @@ export function Header({
             <nav className="pr-menu-links" aria-label="Hauptnavigation">
               {menuItems.map((item, i) => (
                 <div className="pr-menu-mask" key={item.href}>
-                  <Link href={item.href} aria-current={current(item.href)}>
+                  <Link href={item.href} aria-current={current(item.href)} data-cta={item.href === contact.href || undefined}>
                     <span className="pr-menu-label">
                       <span className="pr-menu-number" aria-hidden="true">
                         {String(i + 1).padStart(2, "0")}

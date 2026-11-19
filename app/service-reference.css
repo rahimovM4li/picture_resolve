@@ -31,7 +31,7 @@
   background: var(--service-paper);
   color: #151515;
 }
-.service-example-links .case-play span {
+.service-example-links .case-play-duration {
   font-weight: 450;
 }
 .service-feature .service-inquiry-link {
