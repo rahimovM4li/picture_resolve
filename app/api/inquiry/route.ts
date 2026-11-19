@@ -4,7 +4,7 @@ import {
   validateInquiry,
   type InquiryResponse,
 } from "@/lib/inquiry";
-import { reserveDelivery, finishDelivery } from "@/lib/inquiry-ledger";
+import { customerDemo } from "@/lib/demo";
 import { createInquiryMailer, definitelyRejected } from "@/lib/inquiry-mail";
 
 export const runtime = "nodejs";
@@ -83,6 +83,8 @@ export async function POST(request: Request) {
   const errors = validateInquiry(values);
   if (Object.keys(errors).length)
     return reply({ status: "invalid", errors }, 422);
+  if (customerDemo) return reply({ status: "demo" });
+  const { reserveDelivery, finishDelivery } = await import("@/lib/inquiry-ledger");
 
   // Only use client IP from a header overwritten by the operator's trusted reverse proxy.
   const clientHeader = process.env.INQUIRY_CLIENT_IP_HEADER;

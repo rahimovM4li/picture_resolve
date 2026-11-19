@@ -3,6 +3,7 @@ import { InquiryForm } from "@/components/inquiry-form";
 import type { contactPage } from "@/content/inquiry";
 import { getPage, getSettings } from "@/lib/public-content";
 import { pageMeta } from "@/lib/seo";
+import { customerDemo } from "@/lib/demo";
 import "../contact.css";
 
 export async function generateMetadata() {
@@ -45,6 +46,7 @@ export default async function ContactPage() {
         </div>
         <div className="inquiry-panel">
           <InquiryForm
+            demo={customerDemo}
             submitLabel={page.submitLabel}
             privacyText={page.privacyText}
           />

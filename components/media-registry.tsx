@@ -1,9 +1,23 @@
 import { ImageProvider, type ImageInfo } from "./uploaded-image";
 import { readCollection } from "@/lib/cms/read";
-import { getMediaInfo } from "@/lib/cms/media";
+import { customerDemo } from "@/lib/demo";
 import type { ReactNode } from "react";
 
 export async function MediaRegistry({ children }: { children: ReactNode }) {
+  if (customerDemo) {
+    const { readDemo } = await import("@/lib/cms/demo-store");
+    const media = (await readDemo())?.media ?? [];
+    return (
+      <ImageProvider
+        sizes={Object.fromEntries(
+          media.filter((m) => m.type === "image").map((m) => [m.src, m]),
+        )}
+      >
+        {children}
+      </ImageProvider>
+    );
+  }
+  const { getMediaInfo } = await import("@/lib/cms/media");
   const documents = await Promise.all(
     (["settings", "pages", "projects", "services", "cities"] as const).map(
       (c) => readCollection(c),

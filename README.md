@@ -8,6 +8,16 @@ Die [Vorschau](http://127.0.0.1:4281/) und die [Redaktion](http://127.0.0.1:4281
 
 ## Neue Installation
 
+### Kundendemo auf Vercel
+
+Die [Demo-Redaktion](https://pictureresolve.vercel.app/redaktion/) öffnet sich mit dem Vorschauzugang. Jeder Browser startet mit den Beispieldaten und erhält beim Speichern einen eigenen Teststand. Entwurf, Vorschau und Veröffentlichung verwenden den normalen Editor. Bilder und kurze Videodateien bis 4 MiB lassen sich über die Mediathek hochladen. Die Website zeigt veröffentlichte Änderungen in diesem Browser. „Demo neu starten“ stellt die Beispiele wieder her. Teststände liegen für höchstens acht Stunden im temporären Vercel Runtime Cache und können bei einer Cache-Räumung früher verfallen. Das Kontaktformular bestätigt den Test lokal auf der Website. Es verschickt keine E-Mail.
+
+Der Vercel-Modus ist in `vercel.json` aktiviert. Für einen neuen Vorschauzugang den SHA-256-Hexdigest der UTF-8-Zeichenfolge `Benutzername:Passwort` mit einem langen, zufälligen Passwort als `DEMO_AUTH_SHA256` hinterlegen und neu deployen. Das Passwort separat an den Kunden übergeben.
+
+### Studio-Server
+
+Für Docker auf dem VPS die SMTP-Zugangsdaten und Absenderadressen in `.env.local` hinterlegen. Mit `docker compose --env-file .env.local up -d --build` starten. Der Host-Reverse-Proxy erreicht die Website auf `127.0.0.1:4281`. Das benannte Volume `studio-data` enthält Redaktion, Medien und Anfragejournal. Den ersten Zugang richtet `docker compose exec studio node scripts/cms-account.mjs admin studio-admin` ein. Die CLI gibt den Pfad zum privaten Zugangsdokument aus. Die Domainumschaltung erfolgt nach der Kundenfreigabe.
+
 Node.js 22.20 oder kompatible neuere Version mit `node:sqlite`, npm und ein persistentes lokales Volume bereitstellen. Im Projektverzeichnis ausführen:
 
 ```powershell

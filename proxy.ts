@@ -1,4 +1,22 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { createHash, timingSafeEqual } from "node:crypto";
+import { customerDemo } from "./lib/demo";
+
+function hasDemoAccess(request: NextRequest) {
+  const expected = process.env.DEMO_AUTH_SHA256;
+  const header = request.headers.get("authorization");
+  if (
+    !expected ||
+    !/^[a-f0-9]{64}$/.test(expected) ||
+    !header?.startsWith("Basic ")
+  )
+    return false;
+  const credentials = Buffer.from(header.slice(6), "base64");
+  return timingSafeEqual(
+    createHash("sha256").update(credentials).digest(),
+    Buffer.from(expected, "hex"),
+  );
+}
 
 // Quellen und fachliche Zuordnung stehen im URL-Inventar und im Redirect-Plan.
 const legacy = new Map([
@@ -13,6 +31,20 @@ const legacy = new Map([
 
 export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
+  if (customerDemo && path !== "/robots.txt" && !hasDemoAccess(request)) {
+    return new NextResponse(
+      "Bitte mit dem Zugang für die Kundenvorschau anmelden.",
+      {
+        status: 401,
+        headers: {
+          "WWW-Authenticate":
+            'Basic realm="Picture Resolve Kundenvorschau", charset="UTF-8"',
+          "Cache-Control": "private, no-store",
+          "X-Robots-Tag": "noindex, nofollow, noarchive",
+        },
+      },
+    );
+  }
   // The host-facing reverse proxy preserves Host and overwrites X-Forwarded-Proto.
   const destination = new URL(request.url);
   const host = request.headers.get("host");
@@ -34,11 +66,15 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(destination, 301);
   }
   const result = NextResponse.next();
+  if (customerDemo) {
+    result.headers.set("Cache-Control", "private, no-store");
+    result.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
+  }
   if (request.cookies.has("pr_cms_preview"))
     result.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
   return result;
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|medien|assets|redaktion).*)"],
+  matcher: ["/:path*"],
 };

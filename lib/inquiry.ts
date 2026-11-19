@@ -31,7 +31,7 @@ export interface Inquiry {
 export type InquiryErrors = Partial<Record<keyof Inquiry, string>>;
 export type InquiryResponse =
   | { status: "invalid"; errors: InquiryErrors }
-  | { status: "accepted" }
+  | { status: "accepted" | "demo" }
   | { status: "pending" | "failed"; message: string };
 
 export function parseInquiry(data: Record<string, unknown>): Inquiry {

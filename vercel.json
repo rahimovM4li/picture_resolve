@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "regions": ["fra1"],
+  "env": {
+    "PICTURE_RESOLVE_DEMO": "1",
+    "DEMO_AUTH_SHA256": "062d4ef1ba4485cee284442957390c47d475e3d973457de6a2a2b1fd5d5fb379"
+  },
+  "build": {
+    "env": {
+      "PICTURE_RESOLVE_DEMO": "1"
+    }
+  }
+}

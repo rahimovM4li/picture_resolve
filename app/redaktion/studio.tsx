@@ -13,7 +13,7 @@ import {
   docStatus,
   fieldGroups,
 } from "./content-list";
-import { Thumbnail, UploadContext, UploadForm } from "./media-picker";
+import { Thumbnail, UploadContext, UploadForm, UploadLimitMiB } from "./media-picker";
 import SiteLink from "@/components/site-link";
 import Image from "next/image";
 import { Field } from "./fields";
@@ -31,7 +31,7 @@ const noopSubscribe = () => () => {};
 const hydrated = () => true;
 const server = () => false;
 
-async function request(action: string, data: unknown = {}) {
+async function sendRequest(action: string, data: unknown = {}) {
   const upload = data instanceof FormData;
   const response = await fetch("/api/cms/" + action + "/", {
     method: "POST",
@@ -51,7 +51,7 @@ export function Login() {
     setBusy(true);
     setError("");
     try {
-      await request("login", Object.fromEntries(new FormData(e.currentTarget)));
+      await sendRequest("login", Object.fromEntries(new FormData(e.currentTarget)));
       location.reload();
     } catch (err) {
       setError((err as Error).message);
@@ -106,14 +106,20 @@ function slugFrom(text: string) {
     .replace(/^-|-$/g, "");
 }
 export function Editor({
+  demo = false,
   actor,
   initial,
   selection,
 }: {
+  demo?: boolean;
   actor: User;
   initial: EditorState;
   selection?: string;
 }) {
+  function request(action: string, data: unknown = {}) {
+    const send = () => sendRequest(action, data);
+    return demo && navigator.locks ? navigator.locks.request("pr-demo-edit", send) : send();
+  }
   const ready = useSyncExternalStore(noopSubscribe, hydrated, server);
   const [state, setState] = useState(initial);
   const selected = initial.docs.find(
@@ -262,7 +268,7 @@ export function Editor({
       state.templates[active.collection])
     : {};
   return (
-    <UploadContext.Provider value={upload}>
+    <UploadLimitMiB.Provider value={demo ? 4 : 64}><UploadContext.Provider value={upload}>
       <section inert={!ready} className="cms-workspace">
         <aside className="cms-sidebar">
           <div className="cms-identity">
@@ -320,7 +326,7 @@ export function Editor({
               <button
                 disabled={busy}
                 onClick={() => {
-                  if (mayLeave())
+                  if (mayLeave() && (!demo || window.confirm("Eigene Demo-Inhalte verwerfen und mit den Beispielen neu starten?")))
                     void perform(async () => {
                       await request("logout");
                       setActive(null);
@@ -328,11 +334,12 @@ export function Editor({
                     });
                 }}
               >
-                Abmelden
+                {demo ? "Demo neu starten" : "Abmelden"}
               </button>
             </div>
           </header>
           <div className="cms-content">
+            {demo && <p className="cms-help">Ihr Teststand gilt bis zu acht Stunden in diesem Browser. Mit „Veröffentlichen“ sehen Sie Ihre Änderungen auf der Demo-Website.</p>}
             <p role="status" className="cms-message">
               {message}
             </p>
@@ -749,6 +756,6 @@ export function Editor({
           </div>
         </div>
       </section>
-    </UploadContext.Provider>
+    </UploadContext.Provider></UploadLimitMiB.Provider>
   );
 }

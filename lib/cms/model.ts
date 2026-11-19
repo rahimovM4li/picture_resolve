@@ -3,6 +3,7 @@ import { statSync } from "node:fs";
 import { resolve } from "node:path";
 import { database } from "./accounts.mjs";
 import { seedDocuments } from "./seed";
+import { customerDemo } from "../demo";
 import {
   CmsError,
   type CmsDoc,
@@ -186,6 +187,12 @@ function safeLocal(value: string) {
     !value.split(/[/?#]/).includes("..")
   );
 }
+// Vercel serves the public directory from the CDN, outside function bundles.
+const demoAssets = new Set<string>();
+if (customerDemo) JSON.stringify(seedDocuments, (_key, value) => {
+  if (typeof value === "string" && value.startsWith("/assets/")) demoAssets.add(value);
+  return value;
+});
 function mediaUrl(value: string, kind: "video" | "image" | "captions") {
   const ext = {
     video: /\.(?:mp4|webm)$/i,
@@ -196,9 +203,9 @@ function mediaUrl(value: string, kind: "video" | "image" | "captions") {
     safeLocal(value) &&
     /^\/assets\/[\w./-]+$/.test(value) &&
     ext.test(value) &&
-    statSync(resolve("public", "." + value), {
+    (customerDemo ? demoAssets.has(value) : statSync(resolve("public", "." + value), {
       throwIfNoEntry: false,
-    })?.isFile()
+    })?.isFile())
   )
     return;
   if (

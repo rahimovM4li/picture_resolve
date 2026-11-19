@@ -1,0 +1,19 @@
+services:
+  studio:
+    build:
+      context: .
+      args:
+        ENABLE_INDEXING: ${ENABLE_INDEXING:-false}
+    env_file: .env.local
+    environment:
+      CMS_DATA_DIR: /data
+      INQUIRY_DATA_DIR: /data
+      PICTURE_RESOLVE_DEMO: "0"
+    volumes:
+      - studio-data:/data
+    ports:
+      - "127.0.0.1:4281:3000"
+    restart: unless-stopped
+
+volumes:
+  studio-data:

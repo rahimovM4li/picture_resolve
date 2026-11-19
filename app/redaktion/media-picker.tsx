@@ -14,6 +14,7 @@ import type { MediaChoice } from "@/lib/cms/types";
 export const UploadContext = createContext<
   ((form: FormData) => Promise<MediaChoice>) | null
 >(null);
+export const UploadLimitMiB = createContext(64);
 export const mediaName = (m: MediaChoice) => m.name.replace(/^Bestand · /, "");
 export function Thumbnail({ src }: { src: string }) {
   if (!src.startsWith("/assets/") && !src.startsWith("/medien/")) return null;
@@ -40,6 +41,7 @@ export function UploadForm({
   onPending?: (pending: boolean) => void;
 }) {
   const upload = useContext(UploadContext)!;
+  const limit = useContext(UploadLimitMiB);
   const [file, setFile] = useState<File>();
   const [url, setUrl] = useState("");
   const [focus, setFocus] = useState([50, 50]);
@@ -51,6 +53,10 @@ export function UploadForm({
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (busy) return;
+    if (file && file.size > limit * 1024 * 1024) {
+      setError("Bitte eine Datei mit höchstens " + limit + " MiB auswählen.");
+      return;
+    }
     const form = e.currentTarget;
     setBusy(true);
     onPending?.(true);
@@ -76,7 +82,7 @@ export function UploadForm({
   return (
     <form className="cms-upload" onSubmit={submit}>
       <label>
-        Datei · bis 64 MiB
+        Datei · bis {limit} MiB
         <input
           name="file"
           type="file"

@@ -131,10 +131,12 @@ function Field({
 }
 
 export function InquiryForm({
+  demo = false,
   submitLabel,
   privacyText,
 }: {
   submitLabel: string;
+  demo?: boolean;
   privacyText: string;
 }) {
   const ready = useSyncExternalStore(subscribe, inBrowser, onServer);
@@ -193,7 +195,7 @@ export function InquiryForm({
       });
       const result = (await response.json()) as InquiryResponse;
       if (result.status === "invalid") applyErrors(result.errors);
-      else if (result.status === "accepted" && response.ok) setAccepted(true);
+      else if (result.status === (demo ? "demo" : "accepted") && response.ok) setAccepted(true);
       else if ("message" in result) setProblem(result.message);
       else throw new Error();
     } catch {
@@ -323,11 +325,12 @@ export function InquiryForm({
               </p>
             )}
             <div aria-live="polite" className="inquiry-feedback">
-              {pending && "Ihre Anfrage wird gesendet …"}
+              {pending && (demo ? "Ihre Testanfrage wird geprüft …" : "Ihre Anfrage wird gesendet …")}
               {problem}
             </div>
+            {demo && <p>Testformular der Kundenvorschau. Bitte verwenden Sie Beispieldaten. Es wird keine E-Mail verschickt.</p>}
             <button className="inquiry-submit" type="submit">
-              {pending ? "Wird gesendet …" : submitLabel} <Arrow diagonal />
+              {pending ? (demo ? "Wird geprüft …" : "Wird gesendet …") : (demo ? "Testanfrage prüfen" : submitLabel)} <Arrow diagonal />
             </button>
           </div>
         </fieldset>
@@ -338,11 +341,10 @@ export function InquiryForm({
             ✓
           </span>
           <h2 ref={confirmationRef} id="inquiry-sent" tabIndex={-1}>
-            Ihre Anfrage wurde gesendet.
+            {demo ? "Ihre Testanfrage wurde geprüft." : "Ihre Anfrage wurde gesendet."}
           </h2>
           <p>
-            Vielen Dank für Ihr Filmbriefing. Das Studio antwortet Ihnen über
-            die angegebene E-Mail-Adresse.
+            {demo ? "Der Formularablauf ist abgeschlossen. In der Kundenvorschau erfolgt kein Versand." : "Vielen Dank für Ihr Filmbriefing. Das Studio antwortet Ihnen über die angegebene E-Mail-Adresse."}
           </p>
         </section>
       )}

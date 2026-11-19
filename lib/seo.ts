@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { customerDemo } from "./demo";
 
 export const origin = new URL(process.env.SITE_URL || "https://pictureresolve.com");
 export const indexable =
+  !customerDemo &&
   process.env.ENABLE_INDEXING === "true" &&
   origin.protocol === "https:" &&
   origin.host === "pictureresolve.com";
