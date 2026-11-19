@@ -8,11 +8,20 @@ export const metadata = {
   title: "Redaktion · Picture Resolve",
   robots: { index: false, follow: false },
 };
-export default async function Redaktion() {
+export default async function Redaktion({
+  searchParams,
+}: {
+  searchParams: Promise<{ eintrag?: string }>;
+}) {
   const user = await currentUser();
+  const { eintrag } = await searchParams;
   return (
     <div className="cms-studio">
-      {user ? <Editor actor={user} initial={editorState(user)} /> : <Login />}
+      {user ? (
+        <Editor actor={user} initial={editorState(user)} selection={eintrag} />
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }

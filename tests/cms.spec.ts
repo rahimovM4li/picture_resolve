@@ -3,6 +3,7 @@ import {
   test,
   type APIRequestContext,
   type Page,
+  type Locator,
 } from "@playwright/test";
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -32,6 +33,12 @@ async function call(
   expect(response.status(), body.error).toBe(expected);
   return body;
 }
+async function chooseMedia(picker: Locator, src: string) {
+  await picker
+    .getByRole("button", { name: /^(Bild|Film) (wechseln|auswählen)$/ })
+    .click();
+  await picker.getByRole("dialog").locator(`button[data-src="${src}"]`).click();
+}
 async function signIn(page: Page, name: string, password: string) {
   await page.goto("/redaktion/");
   await page.getByLabel("Benutzername", { exact: true }).fill(name);
@@ -44,6 +51,112 @@ async function signIn(page: Page, name: string, password: string) {
 function adminCredentials() {
   return readFileSync(loginFile!, "utf8").trim().split(/\r?\n/);
 }
+test("Startseite: Bild im Editor hochladen und den neuen Titel in Bewegung prüfen", async ({
+  page,
+  browser,
+}) => {
+  test.skip(
+    process.env.CMS_PILOT === "1",
+    "Benötigt die vollständige Startseite.",
+  );
+  const [name, password] = adminCredentials();
+  await signIn(page, name, password);
+  await page.getByRole("button", { name: "Seiten", exact: true }).click();
+  await page.getByRole("searchbox").fill("Start");
+  await page.getByRole("button", { name: "Startseite", exact: true }).click();
+  const heading = page
+    .getByRole("group", { name: "Hauptüberschrift", exact: true })
+    .getByRole("textbox")
+    .first();
+  const original = await heading.inputValue();
+  await heading.fill("Werkstattgeschichten aus Düsseldorf");
+  const picker = page.locator("#cms-medien > .cms-picker").first();
+  const originalImage = await picker.locator("input").inputValue();
+  const altField = page
+    .locator("#cms-medien")
+    .getByRole("textbox", { name: "Alternativtext", exact: true });
+  const originalAlt = await altField.inputValue();
+  await picker.getByRole("button", { name: "Bild wechseln" }).click();
+  const dialog = picker.getByRole("dialog");
+  await dialog.getByRole("button", { name: "Datei hochladen" }).click();
+  await dialog
+    .getByLabel("Datei · bis 64 MiB")
+    .setInputFiles(
+      join(process.cwd(), "public/assets/projects/hopp-portraet.webp"),
+    );
+  const alt = "Porträt aus der Werkstatt im Hochformat";
+  await dialog
+    .getByLabel("Alternativtext (bei Bildern erforderlich)")
+    .fill(alt);
+  await dialog
+    .getByLabel("Quelle und Nutzungsrecht")
+    .fill("Studio · lokaler Bedienungstest");
+  await dialog.getByRole("button", { name: "Hochladen", exact: true }).click();
+  await expect(dialog).toBeHidden();
+  await expect(altField).toHaveValue(alt);
+  const uploaded = await picker.locator("input").inputValue();
+  const visitor = await browser.newContext({
+    viewport: { width: 1440, height: 900 },
+    reducedMotion: "no-preference",
+  });
+  const site = await visitor.newPage();
+  try {
+    await page.getByRole("button", { name: "Vorschau öffnen" }).click();
+    await expect(page.locator("h1")).toContainText("Werkstattgeschichten");
+    await site.goto(origin);
+    await expect(site.locator("h1")).not.toContainText("Werkstattgeschichten");
+    await page
+      .getByRole("button", { name: "Entwurfsvorschau beenden" })
+      .click();
+    await page
+      .getByRole("button", { name: "Veröffentlichen", exact: true })
+      .click();
+    await expect(page.getByRole("status")).toContainText("Veröffentlicht");
+    await site.setViewportSize({ width: 390, height: 844 });
+    await site.reload({ waitUntil: "domcontentloaded" });
+    const glyph = site.locator("h1 .cine-glyph").first();
+    await expect(glyph).toHaveText("Werkstattgeschichten");
+    const photo = site.locator(".premiere-frame img");
+    await expect(photo).toHaveAttribute("alt", alt);
+    const motion = await site.evaluate(async () => {
+      const word = document.querySelector("h1 .cine-glyph")!,
+        image = document.querySelector(".premiere-frame img")!;
+      const letters = new Set<string>(),
+        photos = new Set<string>();
+      for (let i = 0; i < 65; i++) {
+        await new Promise(requestAnimationFrame);
+        letters.add(getComputedStyle(word).transform);
+        photos.add(getComputedStyle(image).transform);
+      }
+      return [letters.size, photos.size];
+    });
+    expect(motion[0]).toBeGreaterThan(1);
+    expect(motion[1]).toBeGreaterThan(1);
+    expect(
+      await photo.evaluate((img: HTMLImageElement) => img.currentSrc),
+    ).toContain("portrait-");
+    await site.emulateMedia({ reducedMotion: "reduce" });
+    for (const width of [360, 390, 768, 1440]) {
+      await site.setViewportSize({ width, height: 900 });
+      await expect(glyph).toBeVisible();
+      const rect = await glyph.boundingBox();
+      expect(rect!.x).toBeGreaterThanOrEqual(-1);
+      expect(rect!.x + rect!.width).toBeLessThanOrEqual(width + 1);
+      expect(await glyph.evaluate((el) => el.getAnimations().length)).toBe(0);
+    }
+  } finally {
+    await visitor.close();
+    await page.goto("/redaktion/?eintrag=pages%2Fhome");
+    await heading.fill(original);
+    await chooseMedia(picker, originalImage);
+    await altField.fill(originalAlt);
+    await page
+      .getByRole("button", { name: "Veröffentlichen", exact: true })
+      .click();
+    await expect(page.getByRole("status")).toContainText("Veröffentlicht");
+    await call(page.request, "delete-medium", { id: uploaded.split("/")[2] });
+  }
+});
 const suffix = () => randomBytes(5).toString("hex");
 
 test("Projekt im CMS mit Medien, Vorschau, Veröffentlichung, Konflikt und Entfernung", async ({
@@ -86,6 +199,7 @@ test("Projekt im CMS mit Medien, Vorschau, Veröffentlichung, Konflikt und Entfe
     .fill("Picture Resolve, ausschließlich lokaler Redaktionstest.");
   await page.getByRole("button", { name: "Hochladen", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("Medium hochgeladen");
+  await page.locator(".cms-media-list li").first().locator("summary").click();
   const src = await page
     .locator(".cms-media-list li")
     .first()
@@ -104,6 +218,7 @@ test("Projekt im CMS mit Medien, Vorschau, Veröffentlichung, Konflikt und Entfe
   await expect(page.locator(".cms-media-list li").first()).toContainText(
     "einzelstueck.mp4",
   );
+  await page.locator(".cms-media-list li").first().locator("summary").click();
   const videoSrc = await page
     .locator(".cms-media-list li")
     .first()
@@ -131,22 +246,23 @@ test("Projekt im CMS mit Medien, Vorschau, Veröffentlichung, Konflikt und Entfe
   await fields
     .getByRole("combobox", { name: "Medientyp", exact: true })
     .selectOption("film");
-  await fields
-    .getByRole("group", { name: "Titelmotiv", exact: true })
-    .getByLabel("Mediendatei aus Mediathek")
-    .selectOption(src);
-  await fields
-    .getByRole("group", { name: "Galerie", exact: true })
-    .getByLabel("Mediendatei aus Mediathek")
-    .selectOption(src);
-  await fields
-    .getByRole("group", { name: "Film", exact: true })
-    .getByLabel("Mediendatei aus Mediathek")
-    .selectOption(videoSrc);
-  await fields
-    .getByRole("group", { name: "Film", exact: true })
-    .getByLabel("Filmposter aus Mediathek")
-    .selectOption(src);
+  const picker = (group: string, index = 0) =>
+    fields
+      .getByRole("group", { name: group, exact: true })
+      .locator(".cms-picker")
+      .nth(index);
+  await chooseMedia(picker("Titelmotiv"), src);
+  await chooseMedia(picker("Galerie"), src);
+  await chooseMedia(picker("Film"), videoSrc);
+  await chooseMedia(
+    fields
+      .getByRole("group", { name: "Film", exact: true })
+      .locator(".cms-picker")
+      .filter({
+        has: page.locator(".cms-field-label", { hasText: /^Filmposter$/ }),
+      }),
+    src,
+  );
   await page.getByRole("button", { name: "Entwurf speichern" }).click();
   await expect(page.getByRole("status")).toContainText("Entwurf gespeichert");
   const url = "/projekte/" + slug + "/";
@@ -157,7 +273,9 @@ test("Projekt im CMS mit Medien, Vorschau, Veröffentlichung, Konflikt und Entfe
     "Präzision",
   );
   await page.getByRole("button", { name: "Entwurfsvorschau beenden" }).click();
-  await page.getByRole("button", { name: projectTitle, exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: projectTitle, exact: true }),
+  ).toBeVisible();
   await page
     .getByRole("button", { name: "Veröffentlichen", exact: true })
     .click();
@@ -190,10 +308,7 @@ test("Projekt im CMS mit Medien, Vorschau, Veröffentlichung, Konflikt und Entfe
     .getByRole("textbox", { name: "Bildunterschrift", exact: true })
     .fill("Am Rad");
   await gallery.getByRole("button", { name: "Galerie ergänzen" }).click();
-  await gallery
-    .getByLabel("Mediendatei", { exact: true })
-    .nth(1)
-    .fill("/assets/konzepte/messung.webp");
+  await chooseMedia(picker("Galerie", 1), "/assets/konzepte/messung.webp");
   await gallery
     .getByRole("textbox", { name: "Alternativtext", exact: true })
     .nth(1)
@@ -204,16 +319,14 @@ test("Projekt im CMS mit Medien, Vorschau, Veröffentlichung, Konflikt und Entfe
     .fill("Vermessung");
   await gallery.getByRole("button", { name: "Galerie 2 nach oben" }).click();
   const cover = fields.getByRole("group", { name: "Titelmotiv", exact: true });
-  await cover
-    .getByLabel("Mediendatei", { exact: true })
-    .fill("/assets/konzepte/entwurf.webp");
+  await chooseMedia(
+    cover.locator(".cms-picker"),
+    "/assets/konzepte/entwurf.webp",
+  );
   await cover
     .getByRole("textbox", { name: "Alternativtext", exact: true })
     .fill("Neues Werkstattmotiv");
-  await fields
-    .getByRole("group", { name: "Film", exact: true })
-    .getByLabel("Mediendatei", { exact: true })
-    .fill("/assets/konzepte/schicht.mp4");
+  await chooseMedia(picker("Film"), "/assets/konzepte/schicht.mp4");
   // Duplicate publication is idempotent; a stale version cannot replace a newer draft.
   const saved = await editor.post(origin + "/api/cms/delete-medium/", {
     headers: { Origin: "https://ungültig.example" },
@@ -369,14 +482,14 @@ test("Stadt, Seitentitel und Button vom Entwurf über die öffentliche Fassung b
     .getByRole("textbox")
     .first()
     .fill(data.paragraphs[0]);
-  await fields
-    .getByRole("combobox", { name: "Bild aus Mediathek", exact: true })
-    .last()
-    .selectOption(city.data.image);
-  await fields
-    .getByRole("group", { name: "Detailmotiv" })
-    .getByRole("combobox", { name: "Bild aus Mediathek" })
-    .selectOption(city.data.detail.image);
+  await chooseMedia(
+    fields.locator(".cms-group > .cms-picker").first(),
+    city.data.image,
+  );
+  await chooseMedia(
+    fields.getByRole("group", { name: "Detailmotiv" }).locator(".cms-picker"),
+    city.data.detail.image,
+  );
   await fields
     .getByRole("textbox", { name: "Alternativtext", exact: true })
     .last()
@@ -443,7 +556,7 @@ test("Stadt, Seitentitel und Button vom Entwurf über die öffentliche Fassung b
   await page.getByRole("button", { name: "Seiten", exact: true }).click();
   await page
     .getByRole("button", {
-      name: doc.data.title.replace(/\s+/g, " "),
+      name: "Kontakt",
       exact: true,
     })
     .click();

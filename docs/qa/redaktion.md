@@ -25,6 +25,12 @@ Die drei Regressionstests bestanden zusätzlich am laufenden Produktionsbuild au
 
 Im abschließenden Durchlauf bestanden die drei Fälle in 15 Sekunden. Der Test veröffentlichte ein Projekt mit hochkantem Titelmotiv und dem langen Titel „Präzision in der Werkzeugmaschinenfertigung – vom Rohling zum Laufrad“ samt Testkennung. Alle sichtbaren Titelwörter lagen bei 360 CSS-Pixeln innerhalb des Viewports. Nach dem Austausch durch ein querformatiges Motiv wurde der Einworttitel „Rad“ veröffentlicht, der neue Film abgespielt und das Projekt entfernt.
 
+## Überarbeitete Redaktion am 19. November 2026
+
+Der zusätzliche Browserfall hat auf der Startseite „Werkstattgeschichten aus Düsseldorf“ eingetragen und ein eigenes Hochformatfoto direkt am Bildfeld hochgeladen. Der Alternativtext kam mit dem Foto in den Entwurf. Der Test öffnete die echte Seitenvorschau und kehrte in denselben Eintrag zurück. Ein zweiter Browser sah die neue Fassung nach der Veröffentlichung. Bei 390 Pixeln maß der Test über mehrere Animationsbilder veränderte Transformationen von Schrift und Foto. Der Browser lud den Hochformatzuschnitt. Bei reduzierter Bewegung ruhte die Titelanimation. Das lange erste Titelwort lag bei 360, 390, 768 und 1440 Pixeln innerhalb des sichtbaren Bereichs. Der Test stellte anschließend die Ausgangsfassung in der isolierten Testdatenbank wieder her.
+
+Die Projektliste, der Editor und die geöffnete Bildauswahl wurden zusätzlich mit axe in Chrome geprüft. Der Escape-Test bestätigte die Fokusrückgabe von der Bildauswahl zur Schaltfläche „Bild wechseln“. Die Schreibtisch- und Telefonansichten stammen aus simulierten Browserprofilen. [Projektliste](screenshots/redaktion-projekte-desktop.jpg) · [Telefonansicht](screenshots/redaktion-projekte-mobil.jpg) · [Bildauswahl](screenshots/redaktion-bildauswahl.jpg)
+
 ## Wiederholung
 
 Die Browserfälle verändern veröffentlichte Testdaten. Dafür einen separaten gestarteten Next.js-Stand, einen eigenen `CMS_DATA_DIR` und ein dafür erzeugtes Administrationskonto verwenden. `CMS_QA_ACCOUNT_FILE` verweist auf das lokale Zugangsdokument des Testkontos. Darin stehen Benutzername und Passwort auf getrennten Zeilen. `QA_BASE_URL` gibt die URL dieser Instanz an. Anschließend aus dem Repository `npx playwright test tests/cms.spec.ts --workers=1` starten. Der Pilottest verwendet zusätzlich `CMS_PILOT=1` sowohl am neuen Server als auch am Testrunner.

@@ -32,7 +32,10 @@ export type Medium = {
   height: number;
   preview: string;
 };
-export type MediaChoice = Pick<Medium, "id" | "src" | "name" | "type" | "alt">;
+export type MediaChoice = Pick<
+  Medium,
+  "id" | "src" | "name" | "type" | "alt"
+> & { thumbnail?: string };
 export class CmsError extends Error {
   constructor(
     message: string,

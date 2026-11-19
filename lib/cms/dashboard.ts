@@ -3,6 +3,7 @@ import { listMedia } from "./media";
 import { documents, template, projectTemplate } from "./model";
 import type { User, Fields, MediaChoice } from "./types";
 import { seedDocuments } from "./seed";
+import { mediaSizes } from "@/content/asset-sizes";
 
 function existingMedia() {
   const media = new Map<string, MediaChoice>();
@@ -19,6 +20,12 @@ function existingMedia() {
         media.set(input, {
           id: input,
           src: input,
+          thumbnail:
+            input.endsWith(".webp") &&
+            mediaSizes[input]?.widths.includes(400) &&
+            mediaSizes[input]?.width !== 400
+              ? input.replace(/\.webp$/, "-400.webp")
+              : undefined,
           name: "Bestand · " + input.split("/").at(-1),
           alt,
           type: /\.(mp4|webm)$/.test(input) ? "video" : "image",

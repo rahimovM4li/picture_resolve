@@ -75,10 +75,12 @@ export async function POST(
       return json({ ok: true });
     }
     if (action === "end-preview") {
-      (await cookies()).delete("pr_cms_preview");
+      const jar = await cookies();
+      const selected = jar.get("pr_cms_preview")?.value;
+      jar.delete("pr_cms_preview");
       return new Response(null, {
         status: 303,
-        headers: { Location: "/redaktion/", "Cache-Control": "no-store" },
+        headers: { Location: selected ? "/redaktion/?eintrag=" + encodeURIComponent(selected) : "/redaktion/", "Cache-Control": "no-store" },
       });
     }
     if (action === "upload") {
@@ -89,13 +91,14 @@ export async function POST(
       }).formData();
       const file = form.get("file");
       if (!(file instanceof File)) throw new CmsError("Datei fehlt.");
-      await storeMedium(
+      const medium = await storeMedium(
         file,
         String(form.get("alt") || ""),
         String(form.get("rights") || ""),
         Number(form.get("focusX") ?? 50),
         Number(form.get("focusY") ?? 50),
       );
+      return json({ state: editorState(actor), medium });
     } else {
       const body = await formJson(req);
       if (action === "account") {

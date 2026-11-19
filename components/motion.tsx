@@ -259,6 +259,7 @@ function desktopScenes(gsap: typeof Gsap) {
 
 export function ScrollMotion() {
   useEffect(() => {
+    if (document.querySelector(".cms-studio")) return;
     let teardown: (() => void) | undefined;
     let generation = 0;
     const preference = matchMedia("(prefers-reduced-motion: no-preference)");

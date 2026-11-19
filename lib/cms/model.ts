@@ -1,3 +1,4 @@
+import { fieldLabel } from "./field-labels";
 import { statSync } from "node:fs";
 import { resolve } from "node:path";
 import { database } from "./accounts.mjs";
@@ -337,7 +338,7 @@ function validate(doc: CmsDoc, all: CmsDoc[]) {
             : ["name", "email", "logo"];
   for (const field of required)
     if (typeof data[field] !== "string" || !data[field].trim())
-      throw new CmsError("Pflichtfeld fehlt: " + field);
+      throw new CmsError("Pflichtfeld fehlt: " + fieldLabel(field));
   if (["projects", "cities", "services"].includes(collection)) {
     if (
       !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(data.slug)) ||
