@@ -1,5 +1,11 @@
 # Übergabe zur Kundenkorrektur
 
+## Kundendemo online öffnen
+
+Die [Website](https://pictureresolve.vercel.app/) und die [Redaktion](https://pictureresolve.vercel.app/redaktion/) verwenden denselben Vorschauzugang. Das private Zugangsdokument liegt auf diesem Rechner unter `.local/vercel-demo/zugang.txt`. In der Redaktion unter **Seiten → Startseite** eine eigene Überschrift eintragen und über **Bild wechseln → Datei hochladen** ein Foto bis 4 MiB einsetzen. **Vorschau öffnen** zeigt den Entwurf. Nach **Veröffentlichen** zeigt auch ein neuer Tab im selben Browser die Änderung. **Demo neu starten** stellt die Beispiele wieder her.
+
+Der persönliche Teststand ist für bis zu acht Stunden verfügbar. Das Kontaktformular zeigt eine Testbestätigung. Für die dauerhaften Inhalte und das echte Postfach ist der Studio-Server vorgesehen.
+
 ## Auf diesem Rechner öffnen
 
 | Aufgabe | Zugang |
